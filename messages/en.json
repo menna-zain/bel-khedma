@@ -1,0 +1,79 @@
+{
+  "LandingPage": {
+    "title": "Bel-Khedma ",
+    "description": "All Your Services in One Place",
+    "btn": "Try Now",
+   "benefits": {
+      "title": "Why Choose Us?",
+      "item1_title": "Easy & Fast",
+      "item1_description": "Book any service in minutes with a tap.",
+      "item2_title": "Safe & Trusted",
+      "item2_description": "All providers are verified and reliable.",
+      "item3_title": "Multiple Services",
+      "item3_description": "Everything you need in one app.",
+      "item4_title": "Secure Payment",
+      "item4_description": "Convenient and safe."
+    },
+    "about": {
+  "title": "Bel-Khedma – Connecting the Community with Exceptional Services",
+  "description": "At the heart of Madinah, BalKhedma offers a platform that brings together volunteers and users to provide delivery services, guided tours, and transportation with ease and convenience."
+},
+"join": {
+  "title": "Join Us!",
+  "description": "Whether you are a user in need of a service or a volunteer eager to give back, join our community and be part of a positive change.",
+  "btn": "Join Now"
+}
+
+  },
+  
+
+
+    "Navbar" :{
+  "serviceName": "bel-khedma",
+  "login": "Login",
+  "language": "Arabic"
+},
+
+  "loginPage": {
+    "title": "Welcome to Our community",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot Password?",
+    "login": "Login",
+    "noAccount": "Don’t have an account?",
+    "register": "Register",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Invalid email",
+    "passwordRequired": "Password is required",
+    "passwordPattern": "Minimum eight characters, at least one letter and one number"
+  },
+
+  "registerPage": {
+  "title": "Welcome to Our Project",
+  "name": "Full Name",
+  "email": "Email Address",
+  "password": "Password",
+  "passwordConfirm": "Confirm Password",
+  "register": "Register",
+  "loading": "Loading...",
+  "somethingWentWrong": "Something went wrong, please try again",
+  "nameRequired": "Name is required",
+  "nameMin": "Name must be at least 3 characters",
+  "nameMax": "Name must be less than 40 characters",
+  "emailRequired": "Email is required",
+  "emailInvalid": "Please enter a valid email address",
+  "passwordRequired": "Password is required",
+  "passwordPattern": "Password must be 10 to 15 characters long and include an uppercase letter, a lowercase letter, a number, and a special character",
+  "passwordConfirmRequired": "Password confirmation is required",
+  "passwordsMustMatch": "Passwords do not match",
+  "haveAccount": "Already have an account?",
+  "login": "Log in",
+  "chooseRole": "Choose account type",
+  "volunteer": "Volunteer",
+  "beneficiary": "Beneficiary"
+}
+
+
+
+
+}
