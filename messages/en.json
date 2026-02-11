@@ -1,6 +1,6 @@
 {
   "LandingPage": {
-    "title": "Bel-Khedma ",
+    "title": "BilKhidma ",
     "description": "All Your Services in One Place",
     "btn": "Try Now",
    "benefits": {
@@ -15,7 +15,7 @@
       "item4_description": "Convenient and safe."
     },
     "about": {
-  "title": "Bel-Khedma – Connecting the Community with Exceptional Services",
+  "title": "BilKhidma – Connecting the Community with Exceptional Services",
   "description": "At the heart of Madinah, BalKhedma offers a platform that brings together volunteers and users to provide delivery services, guided tours, and transportation with ease and convenience."
 },
 "join": {
@@ -29,7 +29,7 @@
 
 
     "Navbar" :{
-  "serviceName": "bel-khedma",
+  "serviceName": "bilkhidma",
   "login": "Login",
   "language": "Arabic"
 },

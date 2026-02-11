@@ -169,7 +169,7 @@ export default function Login() {
           </span>
         </p>
 
-        {/* 🌍 Language Switch Button */}
+        {/* Language Switch Button */}
         <div
           className={`mt-4 flex ${direction === "rtl" ? "justify-end" : "justify-end"}`}
         >

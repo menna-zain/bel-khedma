@@ -14,7 +14,7 @@ type FormValues = {
   email: string;
   password: string;
   passwordConfirm: string;
-  role: "volunteer" | "beneficiary"; // جديد
+  role: "volunteer" | "beneficiary"; 
 };
 
 export default function Register() {
@@ -33,10 +33,10 @@ export default function Register() {
     email: "",
     password: "",
     passwordConfirm: "",
-    role: "beneficiary", // القيمة الافتراضية
+    role: "beneficiary", 
   };
 
-  // 🔁 Language Switch
+  //  Language Switch
   const changeLanguage = () => {
     const newLocale = locale === "ar" ? "en" : "ar";
     const newPath = pathname.replace(`/${locale}`, "");
@@ -80,7 +80,7 @@ export default function Register() {
     passwordConfirm: Yup.string()
       .required(t("passwordConfirmRequired"))
       .oneOf([Yup.ref("password")], t("passwordsMustMatch")),
-    role: Yup.string().required("اختر نوع الحساب"), // يمكن بعدين تعمله ترجمة
+    role: Yup.string().required("اختر نوع الحساب"), 
   });
 
   const { handleSubmit, handleChange, handleBlur, touched, values, errors } =
