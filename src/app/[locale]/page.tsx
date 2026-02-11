@@ -8,7 +8,7 @@ import Navbar from "@/components/Navbar";
 import { FiUsers, FiLayers, FiCreditCard } from "react-icons/fi";
 import { MdCardGiftcard } from "react-icons/md";
 import Image from "next/image";
-import aboutIllustration from "@/../public/imgs/volenteer.jpg.jpeg"; // اختاري أي صورة مناسبة
+import aboutIllustration from "@/../public/imgs/volenteer.jpg.jpeg"; 
 
 export default function Home() {
   const t = useTranslations("LandingPage");
