@@ -2,17 +2,18 @@
 
 import { useSelector } from "react-redux";
 import { GlobalState } from "@/redux/store";
-import { useTranslations } from "next-intl";
-import { useLocale } from "next-intl";
 import Navbar from "@/components/Navbar";
 import { FiUsers, FiLayers, FiCreditCard } from "react-icons/fi";
 import { MdCardGiftcard } from "react-icons/md";
 import Image from "next/image";
-import aboutIllustration from "@/../public/imgs/volenteer.jpg.jpeg"; 
+import aboutIllustration from "@/../public/imgs/volenteer.jpg.jpeg";
 
+import { useLocale, useTranslations } from "next-intl";
 export default function Home() {
   const t = useTranslations("LandingPage");
   const locale = useLocale() as "en" | "ar";
+
+  const isRTL = locale === "ar";
   const token = useSelector((store: GlobalState) => store.user.token);
 
   const benefits = [
@@ -58,31 +59,45 @@ export default function Home() {
       </main>
 
       {/* About */}
+      <section className="py-16 px-6 md:px-20 bg-gray-50 dark:bg-gray-900">
+        <div
+          className={`flex flex-col md:items-center gap-10 p-8 my-16 shadow-xl rounded-2xl border border-emerald-600
+    ${isRTL ? "md:flex-row" : "md:flex-row-reverse"}`}
+        >
+          {/* imgs */}
+          <div
+            className={`md:w-1/2 flex 
+      ${isRTL ? "justify-start" : "justify-end"}`}
+          >
+            <div className="relative w-60 h-60 md:w-96 md:h-96 rounded-lg shadow-2xl overflow-hidden">
+              <Image
+                src={aboutIllustration}
+                alt={t("about.title")}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
 
-      <section className="py-16 px-6 md:px-20 bg-gray-50 dark:bg-gray-900 ">
+          {/* text */}
+          <div className="md:w-1/2 px-5">
+            <h2
+              className={`text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4
+        ${isRTL ? "text-end" : "text-start"}`}
+            >
+              {t("about.title")}
+            </h2>
 
-<div className=" flex flex-col md:flex-row items-center gap-10 p-8 my-16 shadow-xl rounded-2xl border border-emerald-600">
-        <div className="md:w-1/2 flex justify-start ">
-          <div className="relative w-60 h-60 md:w-96 md:h-96 rounded-lg shadow-2xl overflow-hidden">
-            <Image
-              src={aboutIllustration}
-              alt={t("about.title")}
-              className="w-full h-full object-cover"
-            />
+            <p
+              className={`text-gray-700 dark:text-gray-300 text-lg leading-relaxed
+        ${isRTL ? "text-end" : "text-start"}`}
+            >
+              {t("about.description")}
+            </p>
           </div>
         </div>
-        <div className="md:w-1/2">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4 text-end">
-            {t("about.title")}
-          </h2>
-          <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed text-end">
-            {t("about.description")}
-          </p>
-        </div>
-</div>
       </section>
 
-      {/* Benefits */}
+      {/* why us section */}
       <section className="py-24  md:px-20 bg-white dark:bg-gray-900">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-16 text-center">
           {t("benefits.title")}
