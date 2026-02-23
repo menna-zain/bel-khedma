@@ -25,55 +25,9 @@
 }
 
   },
-  
-
-
-    "Navbar" :{
+      "Navbar" :{
   "serviceName": "bilkhidmah",
   "login": "Login",
   "language": "Arabic"
-},
-
-  "loginPage": {
-    "title": "Welcome to Our community",
-    "email": "Email",
-    "password": "Password",
-    "forgotPassword": "Forgot Password?",
-    "login": "Login",
-    "noAccount": "Don’t have an account?",
-    "register": "Register",
-    "emailRequired": "Email is required",
-    "emailInvalid": "Invalid email",
-    "passwordRequired": "Password is required",
-    "passwordPattern": "Minimum eight characters, at least one letter and one number"
-  },
-
-  "registerPage": {
-  "title": "Welcome to Our community",
-  "name": "Full Name",
-  "email": "Email Address",
-  "password": "Password",
-  "passwordConfirm": "Confirm Password",
-  "register": "Register",
-  "loading": "Loading...",
-  "somethingWentWrong": "Something went wrong, please try again",
-  "nameRequired": "Name is required",
-  "nameMin": "Name must be at least 3 characters",
-  "nameMax": "Name must be less than 40 characters",
-  "emailRequired": "Email is required",
-  "emailInvalid": "Please enter a valid email address",
-  "passwordRequired": "Password is required",
-  "passwordPattern": "Password must be 10 to 15 characters long and include an uppercase letter, a lowercase letter, a number, and a special character",
-  "passwordConfirmRequired": "Password confirmation is required",
-  "passwordsMustMatch": "Passwords do not match",
-  "haveAccount": "Already have an account?",
-  "login": "Log in",
-  "chooseRole": "Choose account type",
-  "volunteer": "Volunteer",
-  "beneficiary": "Beneficiary"
 }
-
-
-
-
 }

@@ -29,44 +29,5 @@
     "serviceName": "بالخدمة",
     "login": "تسجيل الدخول",
     "language": "عربي"
-  },
-
-  "loginPage": {
-    "title": "مرحباً بك في مجتمعنا",
-    "email": "البريد الإلكتروني",
-    "password": "كلمة المرور",
-    "forgotPassword": "نسيت كلمة المرور؟",
-    "login": "تسجيل الدخول",
-    "noAccount": "ليس لديك حساب؟",
-    "register": "سجل الآن",
-    "emailRequired": "البريد الإلكتروني مطلوب",
-    "emailInvalid": "البريد الإلكتروني غير صحيح",
-    "passwordRequired": "كلمة المرور مطلوبة",
-    "passwordPattern": "8 أحرف على الأقل، وحرف واحد ورقم على الأقل"
-  },
-
-  "registerPage": {
-    "title": "مرحبًا بك في مجتمعنا",
-    "name": "الاسم الكامل",
-    "email": "البريد الإلكتروني",
-    "password": "كلمة المرور",
-    "passwordConfirm": "تأكيد كلمة المرور",
-    "register": "تسجيل",
-    "loading": "جارٍ التحميل...",
-    "somethingWentWrong": "حدث خطأ ما، حاول مرة أخرى",
-    "nameRequired": "الاسم مطلوب",
-    "nameMin": "الاسم يجب أن يكون أكثر من 2 أحرف",
-    "nameMax": "الاسم يجب أن يكون أقل من 40 حرفًا",
-    "emailRequired": "البريد الإلكتروني مطلوب",
-    "emailInvalid": "أدخل بريدًا إلكترونيًا صالحًا",
-    "passwordRequired": "كلمة المرور مطلوبة",
-    "passwordPattern": "كلمة المرور يجب أن تكون من 10 إلى 15 حرف، وتحتوي على حرف كبير، حرف صغير، رقم، ورمز خاص",
-    "passwordConfirmRequired": "تأكيد كلمة المرور مطلوب",
-    "passwordsMustMatch": "كلمتا المرور غير متطابقتين",
-    "haveAccount": "هل لديك حساب؟",
-    "login": "تسجيل الدخول",
-    "chooseRole": "اختر نوع الحساب",
-    "volunteer": "متطوع",
-    "beneficiary": "مستفيد"
   }
 }
