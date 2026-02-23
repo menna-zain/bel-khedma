@@ -1,20 +1,19 @@
 "use client";
-
-import { useSelector } from "react-redux";
-import { GlobalState } from "@/redux/store";
 import Navbar from "@/components/Navbar";
 import { FiUsers, FiLayers, FiCreditCard } from "react-icons/fi";
 import { MdCardGiftcard } from "react-icons/md";
 import Image from "next/image";
 import aboutIllustration from "@/../public/imgs/volenteer.jpg.jpeg";
-
 import { useLocale, useTranslations } from "next-intl";
+
+
+
+
 export default function Home() {
   const t = useTranslations("LandingPage");
   const locale = useLocale() as "en" | "ar";
 
   const isRTL = locale === "ar";
-  const token = useSelector((store: GlobalState) => store.user.token);
 
   const benefits = [
     {
