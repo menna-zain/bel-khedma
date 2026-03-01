@@ -1,111 +1,62 @@
 "use client";
 
+import { useLocale } from "next-intl";
 import { useRouter, usePathname } from "next/navigation";
+import { useState } from "react";
+import { FiCheck, FiGlobe } from "react-icons/fi";
+import { RiArrowDropDownLine } from "react-icons/ri";
 
-type LanguageSwitcherProps = {
-  locale: "en" | "ar";
-};
 
-export default function LanguageSwitcher({ locale }: LanguageSwitcherProps) {
+export default function LanguageSwitcher() {
+  const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
 
-  const toggleLanguage = () => {
-    const newLocale = locale === "en" ? "ar" : "en";
-
-    // لو المسار يبدأ بدون لغة (مثلاً /landing) نعتبره عربي افتراضي
+  const changeLanguage = (newLocale: "en" | "ar") => {
     let pathWithoutLocale = pathname.replace(/^\/(en|ar)/, "");
     if (!pathWithoutLocale) pathWithoutLocale = "/";
 
-    // نضيف اللغة الجديدة في البداية
     router.push(`/${newLocale}${pathWithoutLocale}`);
+    setOpen(false);
   };
 
   return (
-    <button
-      onClick={toggleLanguage}
-      className="px-3 py-1 rounded bg-gray-600 hover:bg-gray-800 transition"
-    >
-      {locale === "en" ? "عربي" : "English"}
-    </button>
+    <div className="relative ">
+      {/* Button */}
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-gray-200 transition"
+      >
+        <FiGlobe size={18} />
+        <span className="text-xl">
+          {locale === "en" ? "Language" : "اللغة"}
+        </span>
+        <RiArrowDropDownLine size={30}  />
+      </button>
+
+      {/* Dropdown */}
+      {open && (
+        <div className="absolute mt-2 w-28 bg-white shadow-lg rounded-xl border border-gray-300 z-50 p-2">
+          <button
+            onClick={() => changeLanguage("en")}
+            className="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 transition text-sm"
+          >
+            English
+            {locale === "en" && <FiCheck size={16} />}
+          </button>
+
+          <button
+            onClick={() => changeLanguage("ar")}
+            className="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 transition text-sm"
+          >
+            عربي
+            {locale === "ar" && <FiCheck size={16} />}
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 
 
-
-
-
-
-
-
-// "use client";
-
-// import { useRouter, usePathname } from "next/navigation";
-
-// type LanguageSwitcherProps = {
-//   locale: "en" | "ar";
-// };
-
-// export default function LanguageSwitcher({ locale }: LanguageSwitcherProps) {
-//   const router = useRouter();
-//   const pathname = usePathname(); // المسار الحالي بدون الـ locale
-
-//   const toggleLanguage = () => {
-//     const newLocale = locale === "en" ? "ar" : "en";
-
-//     // نعيد توجيه للصفحة نفسها مع الـ locale الجديد
-//     router.push(`/${newLocale}${pathname}`);
-//   };
-
-//   return (
-//     <button
-//       onClick={toggleLanguage}
-//       className="px-3 py-1 rounded bg-gray-300 hover:bg-gray-400 transition"
-//     >
-//       {locale === "en" ? "عربي" : "English"}
-//     </button>
-//   );
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// 'use client';
-
-// import Link from 'next/link';
-// import {usePathname} from 'next/navigation';
-
-// type LanguageSwitcherProps = {
-//   locale: 'en' | 'ar';
-// };
-
-// export default function LanguageSwitcher({locale}: LanguageSwitcherProps) {
-//   const pathname = usePathname();
-
-//   const newLocale: 'en' | 'ar' = locale === 'ar' ? 'en' : 'ar';
-
-//   const newPath = `/${newLocale}${pathname.slice(3)}`;
-
-//   return (
-//     <Link href={newPath}>
-//       {newLocale === 'ar' ? 'عربي' : 'English'}
-//     </Link>
-//   );
-// }

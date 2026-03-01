@@ -17,25 +17,24 @@ export default function Navbar({ locale }: NavbarProps) {
 
   return (
     <nav
-      className={`flex items-center justify-between p-4 bg-gray-100 border-b border-gray-300`}
+      className={`flex items-center justify-between p-4 bg-gray-100 border-b border-gray-300 sticky top-0 left-0 w-full  shadow-md z-50`}
       dir={direction}
     >
       {/* اللوجو واسم الخدمة */}
       <div className="flex items-center gap-2">
-        {/* <img src="/logo.png" alt="Logo" className="w-10 h-10" /> */}
         <FaHandsHelping size={30} 
         className="text-emerald-600"/>
-        <span className="font-bold text-2xl text-black">{t("serviceName")}</span>
+        <span className="font-bold text-3xl text-black">{t("serviceName")}</span>
       </div>
 
       {/* أزرار اللغة وتسجيل الدخول */}
-      <div className="flex items-center gap-4">
-        <LanguageSwitcher locale={locale} />
-        <Link href="">
-          <button className="px-4 py-1 rounded bg-emerald-600 text-white hover:bg-emerald-700 transition">
+      <div className="flex items-center gap-4 ">
+        <Link href="/login">
+          <button className="px-4 py-1 rounded bg-emerald-600 text-white hover:bg-emerald-700 transition text-xl">
             {t("login")}
           </button>
         </Link>
+        <LanguageSwitcher />
       </div>
     </nav>
   );

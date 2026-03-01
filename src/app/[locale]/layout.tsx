@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Katibeh } from "next/font/google";
 import "./globals.css";
 import {NextIntlClientProvider} from 'next-intl';
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+
+const katibeh = Katibeh({
+  subsets: ["arabic"],
+  weight: "400",
+  display: 'swap',
+  variable: "--font-katibeh", // مهم لو هتستخدميه مع Tailwind
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "bilkhidmah",
@@ -25,7 +24,8 @@ export default function RootLayout({
   return (
     <html lang="">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      style={{ fontFamily:'Katibeh, sans-serif'}}
+        className={` ${katibeh.variable} antialiased`}
       >
            <NextIntlClientProvider>
            {children}
