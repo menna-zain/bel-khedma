@@ -29,7 +29,7 @@ export default function LanguageSwitcher() {
         className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-gray-200 transition"
       >
         <FiGlobe size={18} />
-        <span className="text-xl">
+        <span className="">
           {locale === "en" ? "Language" : "اللغة"}
         </span>
         <RiArrowDropDownLine size={30}  />

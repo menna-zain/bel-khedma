@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Katibeh } from "next/font/google";
+import { Cairo } from "next/font/google";
 import "./globals.css";
 import {NextIntlClientProvider} from 'next-intl';
 
-const katibeh = Katibeh({
+const cairo = Cairo({
   subsets: ["arabic"],
-  weight: "400",
+  weight:[ "200", "400",],
   display: 'swap',
-  variable: "--font-katibeh", // مهم لو هتستخدميه مع Tailwind
+  variable: "--font-cairo", // مهم لو هتستخدميه مع Tailwind
 });
 
 
@@ -24,8 +24,8 @@ export default function RootLayout({
   return (
     <html lang="">
       <body
-      style={{ fontFamily:'Katibeh, sans-serif'}}
-        className={` ${katibeh.variable} antialiased`}
+      style={{ fontFamily:'Cairo'}}
+        className={` ${cairo.variable} antialiased`}
       >
            <NextIntlClientProvider>
            {children}

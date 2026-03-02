@@ -15,22 +15,22 @@ export default function Home() {
 
   const benefits = [
     {
-      icon: <FiUsers className="text-emerald-500 text-4xl mb-4" />,
+      icon: <FiUsers className="text-emerald-700 text-4xl mb-4" />,
       title: t("benefits.item1_title"),
       description: t("benefits.item1_description"),
     },
     {
-      icon: <MdCardGiftcard className="text-emerald-500 text-4xl mb-4" />,
+      icon: <MdCardGiftcard className="text-emerald-700 text-4xl mb-4" />,
       title: t("benefits.item2_title"),
       description: t("benefits.item2_description"),
     },
     {
-      icon: <FiLayers className="text-emerald-500 text-4xl mb-4" />,
+      icon: <FiLayers className="text-emerald-700 text-4xl mb-4" />,
       title: t("benefits.item3_title"),
       description: t("benefits.item3_description"),
     },
     {
-      icon: <FiCreditCard className="text-emerald-500 text-4xl mb-4" />,
+      icon: <FiCreditCard className="text-emerald-700 text-4xl mb-4" />,
       title: t("benefits.item4_title"),
       description: t("benefits.item4_description"),
     },
@@ -49,12 +49,12 @@ export default function Home() {
         <div className="relative z-10 text-center text-white">
           <h1
             className="text-6xl font-bold mb-4 "
-            style={{ fontFamily: "Katibeh, sans-serif" }}
+            style={{ fontFamily: "Cairo, sans-serif" }}
           >
             {t("title")}
           </h1>
           <p className="text-4xl mb-6">{t("description")}</p>
-          <button className="px-6 py-2 text-xl bg-emerald-600 rounded hover:bg-emerald-700 transition">
+          <button className="px-6 py-2 text-xl bg-emerald-700 rounded hover:bg-emerald-800 transition">
             {t("btn")}
           </button>
         </div>
@@ -162,7 +162,7 @@ export default function Home() {
 
       {/* Join Us */}
       <section
-        className={`py-16 px-6 md:px-20 bg-emerald-600 text-white flex flex-col items-center text-center ${
+        className={`py-16 px-6 md:px-20 bg-emerald-700 text-white flex flex-col items-center text-center ${
           locale === "ar" ? "rtl" : "ltr"
         }`}
       >
@@ -173,7 +173,7 @@ export default function Home() {
           <p className="text-lg md:text-xl mb-6 max-w-2xl">
             {t("join.description")}
           </p>
-          <button className="px-6 py-3 bg-white text-emerald-600 font-semibold rounded hover:bg-gray-100 transition">
+          <button className="px-6 py-3 bg-white text-emerald-600 font-semibold rounded hover:bg-gray-200 transition">
             {t("join.btn")}
           </button>
         </div>

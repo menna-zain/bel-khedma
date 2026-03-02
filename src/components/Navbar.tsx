@@ -23,14 +23,14 @@ export default function Navbar({ locale }: NavbarProps) {
       {/* اللوجو واسم الخدمة */}
       <div className="flex items-center gap-2">
         <FaHandsHelping size={30} 
-        className="text-emerald-600"/>
-        <span className="font-bold text-3xl text-black">{t("serviceName")}</span>
+        className="text-emerald-700"/>
+        <span className="font-bold text-2xl text-black">{t("serviceName")}</span>
       </div>
 
       {/* أزرار اللغة وتسجيل الدخول */}
       <div className="flex items-center gap-4 ">
         <Link href="/login">
-          <button className="px-4 py-1 rounded bg-emerald-600 text-white hover:bg-emerald-700 transition text-xl">
+          <button className="px-4 py-1 rounded bg-emerald-700 text-white hover:bg-emerald-800 transition text-">
             {t("login")}
           </button>
         </Link>

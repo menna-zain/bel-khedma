@@ -30,7 +30,7 @@ export default function Login() {
     password: "",
   };
 
-  // 🔁 Language Switch
+  //  Language Switch
   const changeLanguage = () => {
     const newLocale = locale === "ar" ? "en" : "ar";
     const newPath = pathname.replace(`/${locale}`, "");
@@ -98,7 +98,7 @@ export default function Login() {
             <MdEmail
               className={`${
                 direction === "rtl" ? "ml-2" : "mr-2"
-              } text-emerald-600`}
+              } text-emerald-700`}
             />
             <input
               type="email"
@@ -119,7 +119,7 @@ export default function Login() {
             <FaLock
               className={`${
                 direction === "rtl" ? "ml-2" : "mr-2"
-              } text-emerald-600`}
+              } text-emerald-700`}
             />
             <input
               type="password"

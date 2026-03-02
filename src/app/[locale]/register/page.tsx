@@ -125,9 +125,9 @@ export default function Register() {
           
             {/* FName */}
             
-              <div className="flex items-center border border-emerald-200 rounded-md p-3 focus-within:border-emerald-600">
+              <div className="flex items-center border border-emerald-200 rounded-md p-3 focus-within:border-emerald-700">
                 <FaUser
-                  className={`${direction === "rtl" ? "ml-2" : "mr-2"} text-emerald-600`}
+                  className={`${direction === "rtl" ? "ml-2" : "mr-2"} text-emerald-700`}
                 />
                 <input
                   type="text"
@@ -144,9 +144,9 @@ export default function Register() {
               )}
         
             {/* LName */}
-              <div className="flex items-center border border-emerald-200 rounded-md p-3 focus-within:border-emerald-600">
+              <div className="flex items-center border border-emerald-200 rounded-md p-3 focus-within:border-emerald-700">
                 <FaUser
-                  className={`${direction === "rtl" ? "ml-2" : "mr-2"} text-emerald-600`}
+                  className={`${direction === "rtl" ? "ml-2" : "mr-2"} text-emerald-700`}
                 />
                 <input
                   type="text"
@@ -163,8 +163,8 @@ export default function Register() {
               )}
 
           {/* Email */}
-          <div className="flex items-center border border-emerald-200 rounded-md p-3 focus-within:border-emerald-600">
-            <MdEmail className={`${direction === "rtl" ? "ml-2" : "mr-2"} text-emerald-600`} />
+          <div className="flex items-center border border-emerald-200 rounded-md p-3 focus-within:border-emerald-700">
+            <MdEmail className={`${direction === "rtl" ? "ml-2" : "mr-2"} text-emerald-700`} />
             <input
               type="email"
               name="email"
@@ -180,8 +180,8 @@ export default function Register() {
           )}
 
           {/* Password */}
-          <div className="flex items-center border border-emerald-200 rounded-md p-3 focus-within:border-emerald-600">
-            <FaLock className={`${direction === "rtl" ? "ml-2" : "mr-2"} text-emerald-600`} />
+          <div className="flex items-center border border-emerald-200 rounded-md p-3 focus-within:border-emerald-700">
+            <FaLock className={`${direction === "rtl" ? "ml-2" : "mr-2"} text-emerald-700`} />
             <input
               type="password"
               name="password"
@@ -204,8 +204,8 @@ export default function Register() {
           </h3>
 
           {/* Street */}
-          <div className="flex items-center border border-emerald-200 rounded-md p-3 focus-within:border-emerald-600 mb-3">
-            <GiCrossroad className={`${direction === "rtl" ? "ml-2" : "mr-2"} text-emerald-600`} />
+          <div className="flex items-center border border-emerald-200 rounded-md p-3 focus-within:border-emerald-700 ">
+            <GiCrossroad className={`${direction === "rtl" ? "ml-2" : "mr-2"} text-emerald-700`} />
             <input
               type="text"
               name="CStreet"
@@ -221,9 +221,9 @@ export default function Register() {
           )}
 
           {/* Unit Number */}
-          <div className="flex items-center border border-emerald-200 rounded-md p-3 focus-within:border-emerald-600 mb-3">
+          <div className="flex items-center border border-emerald-200 rounded-md p-3 focus-within:border-emerald-700 ">
            
-<RiCommunityFill className={`${direction === "rtl" ? "ml-2" : "mr-2"} text-emerald-600`} />
+<RiCommunityFill className={`${direction === "rtl" ? "ml-2" : "mr-2"} text-emerald-700`} />
             <input
               type="text"
               name="CUnitNum"
@@ -236,8 +236,8 @@ export default function Register() {
           </div>
 
           {/* City */}
-          <div className="flex items-center border border-emerald-200 rounded-md p-3 focus-within:border-emerald-600 mb-3">
-           <BiSolidCity className={`${direction === "rtl" ? "ml-2" : "mr-2"} text-emerald-600`}/>
+          <div className="flex items-center border border-emerald-200 rounded-md p-3 focus-within:border-emerald-700">
+           <BiSolidCity className={`${direction === "rtl" ? "ml-2" : "mr-2"} text-emerald-700`}/>
 
             <input
               type="text"
@@ -251,9 +251,9 @@ export default function Register() {
           </div>
 
           {/* Additional Address */}
-          <div className="flex items-center border border-emerald-200 rounded-md p-3 focus-within:border-emerald-600">
+          <div className="flex items-center border border-emerald-200 rounded-md p-3 focus-within:border-emerald-700">
            
-<ImAddressBook className={`${direction === "rtl" ? "ml-2" : "mr-2"} text-emerald-600`}/>
+<ImAddressBook className={`${direction === "rtl" ? "ml-2" : "mr-2"} text-emerald-700`}/>
 
             <input
               type="text"
@@ -273,11 +273,12 @@ export default function Register() {
       <h3 className="text-2xl font-semibold  mb-4 text-emerald-800">
         {t("languages")}
       </h3>
-
+{/* check box */}
       <div className="flex gap-2 flex-wrap">
         {["Arabic", "English", "French", "Spanish", "German"].map((lang) => (
           <label key={lang} className="flex items-center gap-2">
             <input
+            className="accent-black"
               type="checkbox"
               name="language"
               value={lang}
@@ -297,7 +298,7 @@ export default function Register() {
                   } as any);
                 }
               }}
-              className="accent-emerald-600"
+              
             />
             <span className="text-gray-700">{t(lang.toLowerCase())}</span>
           </label>
@@ -324,7 +325,7 @@ export default function Register() {
         {isLoading ? t("loading") : t("register")}
       </button>
 
-      {errMsg && <p className="text-red-600 text-sm text-center mt-2">{errMsg}</p>}
+      {errMsg && <p className="text-red-700 text-sm text-center mt-2">{errMsg}</p>}
 
       {/* Login Link */}
       <p className="mt-6 text-center text-gray-600">
@@ -342,7 +343,7 @@ export default function Register() {
         <button
           type="button"
           onClick={changeLanguage}
-          className="text-sm text-emerald-700 hover:text-emerald-900 underline underline-offset-4 transition"
+          className="text-sm text-emerald-700 hover:text-emerald-800 underline underline-offset-4 transition"
         >
           {locale === "ar" ? "For English" : "للعربية"}
         </button>
