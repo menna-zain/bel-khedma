@@ -119,7 +119,7 @@ export default function Register() {
       <div className="flex flex-col md:flex-row gap-2 p-3">
         {/* ---------------- Personal Details ---------------- */}
         <div className="flex-1 flex flex-col w-1/2 gap-2 p-3 ">
-          <h3 className="text-2xl font-semibold mb-4 text-emerald-800">
+          <h3 className="text-xl font-semibold mb-4 text-emerald-800">
             {t("personaltyDetails")}
           </h3>
           
@@ -199,7 +199,7 @@ export default function Register() {
 
         {/* ---------------- Address Details ---------------- */}
         <div className="flex-1 flex flex-col w-1/2 gap-2 p-3">
-          <h3 className="text-2xl font-semibold mb-4 text-emerald-800">
+          <h3 className="text-xl font-semibold mb-4 text-emerald-800">
             {t("addressDetails")}
           </h3>
 
@@ -270,7 +270,7 @@ export default function Register() {
       </div>
 
       {/* ---------------- Languages ---------------- */}
-      <h3 className="text-2xl font-semibold  mb-4 text-emerald-800">
+      <h3 className="text-xl font-semibold  mb-4 text-emerald-800">
         {t("languages")}
       </h3>
 {/* check box */}
@@ -279,7 +279,7 @@ export default function Register() {
           <label key={lang} className="flex items-center gap-2">
             <input
             className="accent-black"
-              type="checkbox"
+              type="radio"
               name="language"
               value={lang}
               checked={values.language.includes(lang)}
