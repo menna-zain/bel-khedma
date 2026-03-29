@@ -83,7 +83,7 @@ export default function Home() {
           {/* text */}
           <div className="md:w-1/2 px-5">
             <h2
-              className={`text-3xl md:text-5xl font-bold text-gray-900  mb-4
+              className={`text-3xl md:text-4xl font-bold text-gray-900  mb-4
         ${isRTL ? "text-end" : "text-start"}`}
             >
               {t("about.title")}
@@ -133,7 +133,7 @@ export default function Home() {
       ${isRTL ? "text-end" : "text-start"}
         `}
           >
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900  mb-5 ">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900  mb-5 ">
               {t("benefits.title")}
             </h2>
             <p className={`text-gray-700  text-2xl  mb-5`}>
@@ -167,13 +167,13 @@ export default function Home() {
         }`}
       >
         <div className="my-8">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">
             {t("join.title")}
           </h2>
           <p className="text-lg md:text-xl mb-6 max-w-2xl">
             {t("join.description")}
           </p>
-          <button className="px-6 py-3 bg-white text-emerald-600 font-semibold rounded hover:bg-gray-200 transition">
+          <button className="px-6 py-3 bg-white text-emerald-600 font-semibold rounded hover:bg-gray-00 transition">
             {t("join.btn")}
           </button>
         </div>

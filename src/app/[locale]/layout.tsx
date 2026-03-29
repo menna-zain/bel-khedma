@@ -7,7 +7,7 @@ const cairo = Cairo({
   subsets: ["arabic"],
   weight:[ "200", "400",],
   display: 'swap',
-  variable: "--font-cairo", // مهم لو هتستخدميه مع Tailwind
+  variable: "--font-cairo", 
 });
 
 

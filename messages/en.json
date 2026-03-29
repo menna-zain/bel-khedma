@@ -74,11 +74,22 @@
   "unitNum": "Unit Number",
   "city": "City",
   "additionalAddress": "Additional Address",
-  "languages": "Languages You Speak",
+  "languages": "Language You Speak",
   "arabic": "Arabic",
   "english": "English",
   "french": "French",
   "spanish": "Spanish",
   "german": "German"
+},
+
+ "map": {
+  "search": "Search for a place...",
+  "btn": "Search",
+  "btnLoading": "Searching",
+  "yourLocation": "Your current location",
+  "startPoint": "Start point",
+  "endPoint": "End point",
+  "btnRoute": "Set route"
 }
+
 }

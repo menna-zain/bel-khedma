@@ -73,7 +73,7 @@
   "unitNum": "رقم الوحدة",
   "city": "المدينة",
   "additionalAddress": "تفاصيل إضافية",
-  "languages": "اللغات التي تتقنها",
+  "languages": "اللغة التي تتقنها",
   "arabic": "العربية",
   "english": "الإنجليزية",
   "french": "الفرنسية",
@@ -81,5 +81,16 @@
   "german": "الألمانية"
 
     
+  },
+  
+  "map": {
+    "search": "ابحث عن مكان...",
+    "btn": "بحث",
+    "btnLoading": "جارٍ البحث",
+    "yourLocation": "موقعك الحالي",
+    "startPoint" : "نقطة البداية",
+    "endPoint" : "نقطة النهاية",
+    "btnRoute" : "حدد المسار"
   }
+
 }
