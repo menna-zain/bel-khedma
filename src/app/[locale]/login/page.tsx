@@ -38,31 +38,106 @@ export default function Login() {
   };
 
   const onSubmit = async (values: FormValues) => {
-    setIsLoading(true);
-    setErrMsg("");
+  setIsLoading(true);
+  setErrMsg("");
 
-    try {
-      const res = await axios.post(
-        "https://bilkhidmah-api.vercel.app/api/v1/auth/login",
-        values,
-      );
+  try {
+    const res = await axios.post(
+      "https://bilkhidmah-api.vercel.app/api/v1/auth/login",
+      values
+    );
 
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("name", res.data.data.user.name);
-
-      router.push(`/${locale}`);
-    } catch (err: any) {
-      const apiErrors = err.response?.data?.errors;
-
-      if (apiErrors && apiErrors.length > 0) {
-        setErrMsg(apiErrors[0].msg);
-      } else {
-        setErrMsg(err.response?.data?.status || "Something went wrong");
-      }
-    } finally {
-      setIsLoading(false);
+    // خزن التوكن
+    const token = res.data.token; // تأكدي من اسم الحقل اللي بيرجّع التوكن
+    if (token) {
+      localStorage.setItem("token", token);
+      console.log("Token stored:", localStorage.getItem("token"));
     }
-  };
+
+    // خزن الرول
+    const role = res.data.role; // تأكدي من اسم الحقل اللي بيرجّع الرول
+    if (role) {
+      localStorage.setItem("role", role);
+      console.log("Role stored:", localStorage.getItem("role"));
+    }
+
+    router.push(`/${locale}/delivery`);
+  } catch (err: any) {
+    const apiErrors = err.response?.data?.errors;
+
+    if (apiErrors && apiErrors.length > 0) {
+      setErrMsg(apiErrors[0].msg);
+    } else {
+      setErrMsg(err.response?.data?.status || "Something went wrong");
+    }
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+//   const onSubmit = async (values: FormValues) => {
+//   setIsLoading(true);
+//   setErrMsg("");
+
+//   try {
+//     const res = await axios.post(
+//       "https://bilkhidmah-api.vercel.app/api/v1/auth/login",
+//       values,
+//     );
+
+//     console.log(res)
+
+//     // لو السيرفر بيرجع التوكن
+//     const token = res.data.token;
+// if (token) {
+//   localStorage.setItem("token", token);
+//   console.log("Token stored:", localStorage.getItem("token")); // هيطبعلك التوكن
+// }
+
+//     router.push(`/${locale}`);
+//   } catch (err: any) {
+//     const apiErrors = err.response?.data?.errors;
+
+//     if (apiErrors && apiErrors.length > 0) {
+//       setErrMsg(apiErrors[0].msg);
+//     } else {
+//       setErrMsg(err.response?.data?.status || "Something went wrong");
+//     }
+//   } finally {
+//     setIsLoading(false);
+//   }
+// };
+
+
+
+  // const onSubmit = async (values: FormValues) => {
+  //   setIsLoading(true);
+  //   setErrMsg("");
+
+  //   try {
+  //     const res = await axios.post(
+  //       "https://bilkhidmah-api.vercel.app/api/v1/auth/login",
+  //       values,
+  //     );
+
+  //     console.log(res);
+  //     console.log(res.data);
+
+  //     console.log("Before push");
+      
+  //     router.push(`/${locale}`);
+  //   } catch (err: any) {
+  //     const apiErrors = err.response?.data?.errors;
+
+  //     if (apiErrors && apiErrors.length > 0) {
+  //       setErrMsg(apiErrors[0].msg);
+  //     } else {
+  //       setErrMsg(err.response?.data?.status || "Something went wrong");
+  //     }
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   const validationSchema = Yup.object({
     email: Yup.string().email(t("emailInvalid")).required(t("emailRequired")),
