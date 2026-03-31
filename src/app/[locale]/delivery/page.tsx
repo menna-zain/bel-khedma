@@ -20,7 +20,7 @@ export default function delivery() {
   const [endSuggestions, setEndSuggestions] = useState<any[]>([]);
 
   // 🔹 states
-  const [position, setPosition] = useState<Position>([24.7136, 46.6753]);
+  const [position, setPosition] = useState<Position>([24.46861, 39.61417]);
 
   const [startQuery, setStartQuery] = useState("");
   const [endQuery, setEndQuery] = useState("");

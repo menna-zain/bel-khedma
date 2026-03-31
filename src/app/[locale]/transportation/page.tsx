@@ -34,11 +34,10 @@ export default function Transportation() {
   const t = useTranslations("map");
   const locale = useLocale() as "en" | "ar";
 
-  const [position, setPosition] = useState<Position>([24.7136, 46.6753]);
+  const [position, setPosition] = useState<Position>([24.46861, 39.61417]);
 
   const [selectedType, setSelectedType] = useState("");
   const [selectedCar, setSelectedCar] = useState("");
-  const [price, setPrice] = useState<number | null>(null);
   const [eta, setEta] = useState<number | null>(null); // ⏱ وقت الوصول
 
   const [startQuery, setStartQuery] = useState("");
@@ -127,12 +126,9 @@ export default function Transportation() {
 
       const distance = getDistance(start, end);
 
-      // 💰 السعر
-      const base = basePrices[selectedType] || 20;
-      const totalPrice = Math.round(base + distance * 5);
-      setPrice(totalPrice);
+      
 
-      // ⏱ ETA (سرعة تقريبية 40 كم/ساعة)
+      //  ETA (سرعة تقريبية 40 كم/ساعة)
       const speed = 40;
       const time = Math.round((distance / speed) * 60);
       setEta(time);
@@ -203,11 +199,6 @@ export default function Transportation() {
         {selectedCar && (
           <div className="text-center text-gray-700">
            The Car : <span className="font-bold">{selectedCar}</span>
-            <br />
-             The Price :{" "}
-            <span className="font-bold">
-              {price ? `${price} SAR` : "--"}
-            </span>
             <br />
              Arrrival Time{" "}
             <span className="font-bold">
