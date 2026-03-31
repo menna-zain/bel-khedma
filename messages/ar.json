@@ -32,6 +32,7 @@
     "language": "عربي"
   },
     "loginPage": {
+      "serviceName": "بالخدمة",
     "title": "مرحباً بك في مجتمعنا",
     "email": "البريد الإلكتروني",
     "password": "كلمة المرور",
@@ -46,6 +47,7 @@
   },
 
   "registerPage": {
+    "serviceName": "بالخدمة",
     "title": "مرحبًا بك في مجتمعنا",
      "personaltyDetails": "تفاصيل شخصية",
     "fname":"الاسم الاول",
@@ -82,6 +84,50 @@
 
     
   },
+  "vRegisterPage": {
+    "serviceName": "بالخدمة",
+    "title": "مرحبًا بك في مجتمعنا",
+     "personaltyDetails": "تفاصيل شخصية",
+    "fname":"الاسم الاول",
+    "lname": "الاسم الاخير",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "register": "تسجيل",
+    "loading": "جارٍ التحميل...",
+    "somethingWentWrong": "حدث خطأ ما، حاول مرة أخرى",
+    "nameRequired": "الاسم مطلوب",
+    "nameMin": "الاسم يجب أن يكون أكثر من 2 أحرف",
+    "nameMax": "الاسم يجب أن يكون أقل من 40 حرفًا",
+    "emailRequired": "البريد الإلكتروني مطلوب",
+    "emailInvalid": "أدخل بريدًا إلكترونيًا صالحًا",
+    "passwordRequired": "كلمة المرور مطلوبة",
+    "passwordPattern": "كلمة المرور يجب أن تكون من 10 إلى 15 حرف، وتحتوي على حرف كبير، حرف صغير، رقم، ورمز خاص",
+    "passwordConfirmRequired": "تأكيد كلمة المرور مطلوب",
+    "passwordsMustMatch": "كلمتا المرور غير متطابقتين",
+    "haveAccount": "هل لديك حساب؟",
+    "login": "تسجيل الدخول",
+    "chooseRole": "هل تريد التسجيل كمتطوع ؟",
+    "user": "العودة للتجسيل كمستخدم",
+  "addressDetails": "تفاصيل عنوانك",
+  "street": "اسم الشارع",
+  "unitNum": "رقم الوحدة",
+  "city": "المدينة",
+  "additionalAddress": "تفاصيل إضافية",
+  "languages": "اللغة التي تتقنها",
+  "volunteer info" : "بيانات اخري",
+  "Goal" : "الهدف",
+  "car color" : "لون السيارة",
+  "car plate" : "لوحة السيارة",
+  "mobile" : "رقم الهاتف",
+  "age" : "العمر",
+  "arabic": "العربية",
+  "english": "الإنجليزية",
+  "french": "الفرنسية",
+  "spanish": "الإسبانية",
+  "german": "الألمانية"
+
+    
+  },
   
   "map": {
     "search": "ابحث عن مكان...",
@@ -91,6 +137,16 @@
     "startPoint" : "نقطة البداية",
     "endPoint" : "نقطة النهاية",
     "btnRoute" : "حدد المسار"
+  },
+  "profileNav": {
+    "serviceName": "بالخدمة",
+    "delivery": "التوصيل",
+    "transportation": "النقل",
+    "tourGuidance": "دليل الرحلات",
+    "hotels": "الفنادق",
+    "restaurants": "المطاعم",
+    "logout": "تسجيل الخروج"
   }
+
 
 }

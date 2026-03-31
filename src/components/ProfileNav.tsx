@@ -1,29 +1,35 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useTranslations } from "next-intl";
-import { FaHandsHelping } from "react-icons/fa";
+import { FaHandsHelping, FaSignOutAlt } from "react-icons/fa";
 
 type NavbarProps = {
   locale: "en" | "ar";
 };
 
 export default function ProfileNav({ locale }: NavbarProps) {
-  const t = useTranslations("Navbar");
+  const t = useTranslations("profileNav");
+  const router = useRouter();
 
-  // تحديد اتجاه النصوص تلقائي حسب اللغة
   const direction = locale === "ar" ? "rtl" : "ltr";
 
-  // قائمة الروابط
   const navLinks = [
-    { name: "Delivery", href: "/delivery" },
-    { name: "Transportation", href: "/transportation" },
-    { name: "Tour Guidance", href: "/tour" },
-    // { name: "Guidance", href: "/guidance" },
-    { name: "Hotels", href: "/hotels" },
-    { name: "Restaurants", href: "/restaurants" },
+    { name: "delivery", href: "/delivery" },
+    { name: "transportation", href: "/transportation" },
+    { name: "tourGuidance", href: "/tour" },
+    { name: "hotels", href: "/hotels" },
+    { name: "restaurants", href: "/restaurants" },
   ];
+
+  // دالة تسجيل الخروج
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    router.push("/login");
+  };
 
   return (
     <nav
@@ -36,8 +42,8 @@ export default function ProfileNav({ locale }: NavbarProps) {
         <span className="font-bold text-2xl text-black">{t("serviceName")}</span>
       </div>
 
-      {/* روابط الصفحات  */}
-      <div className="flex items-center  gap-6">
+      {/* روابط الصفحات */}
+      <div className="flex items-center gap-6">
         <div className="flex gap-4">
           {navLinks.map((link) => (
             <Link
@@ -45,15 +51,22 @@ export default function ProfileNav({ locale }: NavbarProps) {
               href={link.href}
               className="text-gray-800 hover:text-emerald-700 font-semibold text-lg transition"
             >
-              {link.name}
+              {t(link.name)}
             </Link>
           ))}
         </div>
-        {/* LanguageSwitcher */}
       </div>
-      <div className="flex items-center justify-center gap-6">
-        
+
+      {/* أيقونات اللغة والخروج */}
+      <div className="flex items-center gap-4">
         <LanguageSwitcher />
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-1 text-red-600 hover:text-red-800 font-semibold"
+        >
+          <FaSignOutAlt size={20} />
+          <span>{t("logout")}</span>
+        </button>
       </div>
     </nav>
   );

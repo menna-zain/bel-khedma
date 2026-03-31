@@ -8,11 +8,16 @@ import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useTranslations, useLocale } from "next-intl";
+ import Link from "next/link";
+    // import LanguageSwitcher from "./LanguageSwitcher";
+
+    import { FaHandsHelping } from "react-icons/fa";
 
 type FormValues = {
   email: string;
   password: string;
 };
+
 
 export default function Login() {
   const t = useTranslations("loginPage");
@@ -156,12 +161,27 @@ export default function Login() {
       onSubmit,
       validationSchema,
     });
+     
+    
 
   return (
+    <>
+    <nav
+          className={`flex items-center justify-between p-4 bg-white border-b border-gray-300 sticky top-0 left-0 w-full  shadow-md z-50`}
+          dir={direction}
+        >
+          {/* اللوجو واسم الخدمة */}
+          <div className="flex items-center gap-2">
+            <FaHandsHelping size={30} 
+            className="text-emerald-700"/>
+            <span className="font-bold text-2xl text-black">{t("serviceName")}</span>
+          </div>
+        </nav>
     <div
       dir={direction}
       className="flex items-center justify-center min-h-screen bg-emerald-50"
     >
+       
       <div className="flex flex-col justify-center w-full sm:w-3/4 md:w-1/2 lg:w-1/3 p-8 bg-white shadow-xl rounded-2xl border border-emerald-100">
         <h2 className="text-3xl font-bold mb-6 text-center text-emerald-800">
           {t("title")}
@@ -258,5 +278,6 @@ export default function Login() {
         </div>
       </div>
     </div>
+    </>
   );
 }

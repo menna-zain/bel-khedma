@@ -82,7 +82,9 @@ export default function HotelDetails() {
     <>
       <ProfileNav locale={locale} />
 
-      <div className="p-4 space-y-4 rtl">
+      <div className="flex justify-center"> 
+
+      <div className="p-4 space-y-4 rtl w-1/2">
 
         {/* 🖼 صورة */}
         <img
@@ -90,10 +92,10 @@ export default function HotelDetails() {
           className="w-full h-60 object-cover rounded-md"
         />
 
-        {/* 🏨 بيانات */}
+        {/*  بيانات */}
         <h1 className="text-xl font-bold">{hotel.name}</h1>
 
-        <p className="text-gray-500">📍 {hotel.location}</p>
+        <p className="text-gray-500"> {hotel.location}</p>
 
         <p className="text-gray-600">{hotel.description}</p>
 
@@ -106,12 +108,12 @@ export default function HotelDetails() {
           {hotel.price} SAR / night
         </p>
 
-        {/* 🔘 زر الحجز */}
+        {/*  زر الحجز */}
         <button className="bg-emerald-700 text-white px-4 py-2 rounded w-full">
           Book Now
         </button>
 
-        {/* ⭐ إضافة ريفيو */}
+        {/*  إضافة ريفيو */}
         <div className="mt-4">
           <h2 className="font-bold mb-2">Add Review</h2>
 
@@ -135,13 +137,13 @@ export default function HotelDetails() {
 
           <button
             onClick={addReview}
-            className="bg-emerald-600 text-white px-3 py-1 rounded"
+            className="bg-emerald-600 text-white px-3 py-1 rounded ms-3"
           >
             Submit
           </button>
         </div>
 
-        {/* 📢 عرض الريفيوهات */}
+        {/*  عرض الريفيوهات */}
         <div>
           <h2 className="font-bold mt-4">Reviews</h2>
 
@@ -155,6 +157,8 @@ export default function HotelDetails() {
         </div>
 
       </div>
+      </div>
+
     </>
   );
 }

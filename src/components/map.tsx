@@ -42,7 +42,7 @@ export default function Map({
   useEffect(() => setEndPos(end || null), [end]);
 
   return (
-    <div className="flex gap-2  items-center justify-center mt-10">
+    <div className="flex gap-2  items-center justify-center mt-10 relative">
     <MapContainer center={markerPos} zoom={10} style={{ height: "500px", width: "90%"  }}>
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
