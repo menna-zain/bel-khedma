@@ -138,6 +138,12 @@
   "endPoint": "End point",
   "btnRoute": "Set route"
 },
+  "delivery": {
+    "startPoint" : "From",
+    "endPoint" : "To",
+    "btnRoute" : "Order",
+    "btnRouteLoading" : "Determining the destination..."
+  },
   "profileNav": {
     "serviceName": "bilkhidmah",
     "delivery": "Delivery",

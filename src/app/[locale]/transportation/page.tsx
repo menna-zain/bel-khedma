@@ -47,7 +47,7 @@ export default function Transportation() {
 
   const [loading, setLoading] = useState(false);
 
-  // 🚗 اختيار نوع عربية
+  //  اختيار نوع عربية
   const handleSelect = (type: string) => {
     setSelectedType(type);
 
@@ -64,7 +64,7 @@ export default function Transportation() {
     setSelectedCar(randomCar.model);
   };
 
-  // 📏 حساب المسافة
+  //  حساب المسافة
   const getDistance = (start: Position, end: Position) => {
     const R = 6371;
 

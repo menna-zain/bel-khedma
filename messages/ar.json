@@ -138,6 +138,12 @@
     "endPoint" : "نقطة النهاية",
     "btnRoute" : "حدد المسار"
   },
+  "delivery": {
+    "startPoint" : "من",
+    "endPoint" : "الي",
+    "btnRoute" : "اطلب",
+    "btnRouteLoading" : "جاري تحديد الوجهة"
+  },
   "profileNav": {
     "serviceName": "بالخدمة",
     "delivery": "التوصيل",

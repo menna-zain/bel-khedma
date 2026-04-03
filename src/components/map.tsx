@@ -33,57 +33,42 @@ export default function Map({
   start?: Position | null;
   end?: Position | null;
 }) {
-  const [markerPos, setMarkerPos] = useState(position);
   const [startPos, setStartPos] = useState<Position | null>(start || null);
   const [endPos, setEndPos] = useState<Position | null>(end || null);
 
-  useEffect(() => setMarkerPos(position), [position]);
   useEffect(() => setStartPos(start || null), [start]);
   useEffect(() => setEndPos(end || null), [end]);
 
   return (
-    <div className="flex gap-2  items-center justify-center mt-10 relative">
-    <MapContainer center={markerPos} zoom={10} style={{ height: "500px", width: "90%"  }}>
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+    <div className="flex gap-2 items-center justify-center mt-10 relative">
+      <MapContainer center={position} zoom={10} style={{ height: "500px", width: "90%" }}>
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-      <Marker
-        position={markerPos}
-        draggable
-        eventHandlers={{
-          dragend: (e) => {
-            setMarkerPos([e.target.getLatLng().lat, e.target.getLatLng().lng]);
-          },
-        }}
-      >
-        <Popup className="text-sm">
-          📍 Lat: {markerPos[0].toFixed(4)}, Lng: {markerPos[1].toFixed(4)}
-        </Popup>
-      </Marker>
+        {/* الماركر يظهر فقط بعد اختيار البداية أو النهاية */}
+        {startPos && (
+          <Marker position={startPos}>
+            <Popup className="text-sm bg-green-100 p-1 rounded">نقطة البداية</Popup>
+          </Marker>
+        )}
 
-      {startPos && (
-        <Marker position={startPos}>
-          <Popup className="text-sm bg-green-100 p-1 rounded">نقطة البداية</Popup>
-        </Marker>
-      )}
+        {endPos && (
+          <Marker position={endPos}>
+            <Popup className="text-sm bg-red-100 p-1 rounded">نقطة النهاية</Popup>
+          </Marker>
+        )}
 
-      {endPos && (
-        <Marker position={endPos}>
-          <Popup className="text-sm bg-red-100 p-1 rounded">نقطة النهاية</Popup>
-        </Marker>
-      )}
+        {/* الخط بين البداية والنهاية */}
+        {startPos && endPos && (
+          <RoutingMachine
+            start={{ lat: startPos[0], lng: startPos[1] }}
+            end={{ lat: endPos[0], lng: endPos[1] }}
+          />
+        )}
 
-      {startPos && endPos && (
-        <RoutingMachine
-          start={{ lat: startPos[0], lng: startPos[1] }}
-          end={{ lat: endPos[0], lng: endPos[1] }}
-        />
-      )}
-
-      <ChangeView center={markerPos} />
-    </MapContainer>
+        {/* تغيير المركز */}
+        <ChangeView center={position} />
+      </MapContainer>
     </div>
   );
 }
-
-
 

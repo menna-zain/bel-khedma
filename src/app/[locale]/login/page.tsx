@@ -8,16 +8,14 @@ import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useTranslations, useLocale } from "next-intl";
- import Link from "next/link";
-    // import LanguageSwitcher from "./LanguageSwitcher";
+import Link from "next/link";
 
-    import { FaHandsHelping } from "react-icons/fa";
+import { FaHandsHelping } from "react-icons/fa";
 
 type FormValues = {
   email: string;
   password: string;
 };
-
 
 export default function Login() {
   const t = useTranslations("loginPage");
@@ -43,77 +41,79 @@ export default function Login() {
   };
 
   const onSubmit = async (values: FormValues) => {
-  setIsLoading(true);
-  setErrMsg("");
+    setIsLoading(true);
+    setErrMsg("");
 
-  try {
-    const res = await axios.post(
-      "https://bilkhidmah-api.vercel.app/api/v1/auth/login",
-      values
-    );
+    try {
+      const res = await axios.post(
+        "https://bilkhidmah-api.vercel.app/api/v1/auth/login",
+        values,
+      );
 
-    // خزن التوكن
-    const token = res.data.token; // تأكدي من اسم الحقل اللي بيرجّع التوكن
-    if (token) {
-      localStorage.setItem("token", token);
-      console.log("Token stored:", localStorage.getItem("token"));
+      console.log("the res", res);
+      console.log("the data", res.data);
+      
+      // خزن التوكن
+      const token = res.data.token; 
+      if (token) {
+        localStorage.setItem("token", token);
+        console.log("Token stored:", localStorage.getItem("token"));
+      }
+
+      // خزن الرول
+      const role = res.data.role; 
+      if (role) {
+        localStorage.setItem("role", role);
+        console.log("Role stored:", localStorage.getItem("role"));
+      }
+
+      router.push(`/${locale}/delivery`);
+    } catch (err: any) {
+      const apiErrors = err.response?.data?.errors;
+
+      if (apiErrors && apiErrors.length > 0) {
+        setErrMsg(apiErrors[0].msg);
+      } else {
+        setErrMsg(err.response?.data?.data.status || "Something went wrong");
+        setErrMsg(err.response?.data?.status || "Something went wrong");
+      }
+    } finally {
+      setIsLoading(false);
     }
+  };
 
-    // خزن الرول
-    const role = res.data.role; // تأكدي من اسم الحقل اللي بيرجّع الرول
-    if (role) {
-      localStorage.setItem("role", role);
-      console.log("Role stored:", localStorage.getItem("role"));
-    }
+  //   const onSubmit = async (values: FormValues) => {
+  //   setIsLoading(true);
+  //   setErrMsg("");
 
-    router.push(`/${locale}/delivery`);
-  } catch (err: any) {
-    const apiErrors = err.response?.data?.errors;
+  //   try {
+  //     const res = await axios.post(
+  //       "https://bilkhidmah-api.vercel.app/api/v1/auth/login",
+  //       values,
+  //     );
 
-    if (apiErrors && apiErrors.length > 0) {
-      setErrMsg(apiErrors[0].msg);
-    } else {
-      setErrMsg(err.response?.data?.status || "Something went wrong");
-    }
-  } finally {
-    setIsLoading(false);
-  }
-};
+  //     console.log(res)
 
-//   const onSubmit = async (values: FormValues) => {
-//   setIsLoading(true);
-//   setErrMsg("");
+  //     // لو السيرفر بيرجع التوكن
+  //     const token = res.data.token;
+  // if (token) {
+  //   localStorage.setItem("token", token);
+  //   console.log("Token stored:", localStorage.getItem("token")); // هيطبعلك التوكن
+  // }
 
-//   try {
-//     const res = await axios.post(
-//       "https://bilkhidmah-api.vercel.app/api/v1/auth/login",
-//       values,
-//     );
+  //     router.push(`/${locale}`);
+  //   } catch (err: any) {
+  //     const apiErrors = err.response?.data?.errors;
 
-//     console.log(res)
-
-//     // لو السيرفر بيرجع التوكن
-//     const token = res.data.token;
-// if (token) {
-//   localStorage.setItem("token", token);
-//   console.log("Token stored:", localStorage.getItem("token")); // هيطبعلك التوكن
-// }
-
-//     router.push(`/${locale}`);
-//   } catch (err: any) {
-//     const apiErrors = err.response?.data?.errors;
-
-//     if (apiErrors && apiErrors.length > 0) {
-//       setErrMsg(apiErrors[0].msg);
-//     } else {
-//       setErrMsg(err.response?.data?.status || "Something went wrong");
-//     }
-//   } finally {
-//     setIsLoading(false);
-//   }
-// };
-
-
+  //     if (apiErrors && apiErrors.length > 0) {
+  //       setErrMsg(apiErrors[0].msg);
+  //     } else {
+  //       setErrMsg(err.response?.data?.status || "Something went wrong");
+  //     }
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   // const onSubmit = async (values: FormValues) => {
   //   setIsLoading(true);
@@ -129,7 +129,7 @@ export default function Login() {
   //     console.log(res.data);
 
   //     console.log("Before push");
-      
+
   //     router.push(`/${locale}`);
   //   } catch (err: any) {
   //     const apiErrors = err.response?.data?.errors;
@@ -147,12 +147,11 @@ export default function Login() {
   const validationSchema = Yup.object({
     email: Yup.string().email(t("emailInvalid")).required(t("emailRequired")),
     password: Yup.string()
-  .required(t("passwordRequired"))
-  .matches(
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^])[A-Za-z\d@$!%*?&#^]{10,15}$/,
-    t("passwordPattern")
-  ),
-
+      .required(t("passwordRequired"))
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^])[A-Za-z\d@$!%*?&#^]{10,15}$/,
+        t("passwordPattern"),
+      ),
   });
 
   const { handleSubmit, handleChange, handleBlur, touched, values, errors } =
@@ -161,123 +160,121 @@ export default function Login() {
       onSubmit,
       validationSchema,
     });
-     
-    
 
   return (
     <>
-    <nav
-          className={`flex items-center justify-between p-4 bg-white border-b border-gray-300 sticky top-0 left-0 w-full  shadow-md z-50`}
-          dir={direction}
-        >
-          {/* اللوجو واسم الخدمة */}
-          <div className="flex items-center gap-2">
-            <FaHandsHelping size={30} 
-            className="text-emerald-700"/>
-            <span className="font-bold text-2xl text-black">{t("serviceName")}</span>
-          </div>
-        </nav>
-    <div
-      dir={direction}
-      className="flex items-center justify-center min-h-screen bg-emerald-50"
-    >
-       
-      <div className="flex flex-col justify-center w-full sm:w-3/4 md:w-1/2 lg:w-1/3 p-8 bg-white shadow-xl rounded-2xl border border-emerald-100">
-        <h2 className="text-3xl font-bold mb-6 text-center text-emerald-800">
-          {t("title")}
-        </h2>
-
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          {/* Email */}
-          <div className="flex items-center border border-emerald-200 rounded-md p-3 focus-within:border-emerald-600">
-            <MdEmail
-              className={`${
-                direction === "rtl" ? "ml-2" : "mr-2"
-              } text-emerald-700`}
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder={t("email")}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.email}
-              className="w-full outline-none bg-transparent text-gray-700"
-            />
-          </div>
-          {touched.email && errors.email && (
-            <p className="text-red-500 text-sm">{errors.email}</p>
-          )}
-
-          {/* Password */}
-          <div className="flex items-center border border-emerald-200 rounded-md p-3 focus-within:border-emerald-600">
-            <FaLock
-              className={`${
-                direction === "rtl" ? "ml-2" : "mr-2"
-              } text-emerald-700`}
-            />
-            <input
-              type="password"
-              name="password"
-              placeholder={t("password")}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.password}
-              className="w-full outline-none bg-transparent text-gray-700"
-            />
-          </div>
-          {touched.password && errors.password && (
-            <p className="text-red-500 text-sm">{errors.password}</p>
-          )}
-
-          {/* Forgot password */}
-          <div
-            className={`${direction === "rtl" ? "text-left" : "text-right"} text-sm`}
-          >
-            <a className="text-emerald-700 hover:underline cursor-pointer">
-              {t("forgotPassword")}
-            </a>
-          </div>
-
-          {/* Login button */}
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full py-3 bg-emerald-700 text-white rounded-md hover:bg-emerald-800 transition font-medium shadow-md"
-          >
-            {isLoading ? "Loading..." : t("login")}
-          </button>
-
-          {errMsg && (
-            <p className="text-red-600 text-sm text-center mt-2">{errMsg}</p>
-          )}
-        </form>
-
-        {/* Register link */}
-        <p className="mt-6 text-center text-gray-600">
-          {t("noAccount")}{" "}
-          <span
-            onClick={() => router.push(`/${locale}/register`)}
-            className="text-yellow-600 font-semibold cursor-pointer hover:underline"
-          >
-            {t("register")}
+      <nav
+        className={`flex items-center justify-between p-4 bg-white border-b border-gray-300 sticky top-0 left-0 w-full  shadow-md z-50`}
+        dir={direction}
+      >
+        {/* اللوجو واسم الخدمة */}
+        <div className="flex items-center gap-2">
+          <FaHandsHelping size={30} className="text-emerald-700" />
+          <span className="font-bold text-2xl text-black">
+            {t("serviceName")}
           </span>
-        </p>
+        </div>
+      </nav>
+      <div
+        dir={direction}
+        className="flex items-center justify-center min-h-screen bg-emerald-50"
+      >
+        <div className="flex flex-col justify-center w-full sm:w-3/4 md:w-1/2 lg:w-1/3 p-8 bg-white shadow-xl rounded-2xl border border-emerald-100">
+          <h2 className="text-3xl font-bold mb-6 text-center text-emerald-800">
+            {t("title")}
+          </h2>
 
-        {/* Language Switch Button */}
-        <div
-          className={`mt-4 flex ${direction === "rtl" ? "justify-end" : "justify-end"}`}
-        >
-          <button
-            type="button"
-            onClick={changeLanguage}
-            className="text-sm text-emerald-700 hover:text-emerald-900 underline underline-offset-4 transition"
+          <form className="space-y-4" onSubmit={handleSubmit}>
+            {/* Email */}
+            <div className="flex items-center border border-emerald-200 rounded-md p-3 focus-within:border-emerald-600">
+              <MdEmail
+                className={`${
+                  direction === "rtl" ? "ml-2" : "mr-2"
+                } text-emerald-700`}
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder={t("email")}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.email}
+                className="w-full outline-none bg-transparent text-gray-700"
+              />
+            </div>
+            {touched.email && errors.email && (
+              <p className="text-red-500 text-sm">{errors.email}</p>
+            )}
+
+            {/* Password */}
+            <div className="flex items-center border border-emerald-200 rounded-md p-3 focus-within:border-emerald-600">
+              <FaLock
+                className={`${
+                  direction === "rtl" ? "ml-2" : "mr-2"
+                } text-emerald-700`}
+              />
+              <input
+                type="password"
+                name="password"
+                placeholder={t("password")}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.password}
+                className="w-full outline-none bg-transparent text-gray-700"
+              />
+            </div>
+            {touched.password && errors.password && (
+              <p className="text-red-500 text-sm">{errors.password}</p>
+            )}
+
+            {/* Forgot password */}
+            <div
+              className={`${direction === "rtl" ? "text-left" : "text-right"} text-sm`}
+            >
+              <a className="text-emerald-700 hover:underline cursor-pointer">
+                {t("forgotPassword")}
+              </a>
+            </div>
+
+            {/* Login button */}
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-3 bg-emerald-700 text-white rounded-md hover:bg-emerald-800 transition font-medium shadow-md"
+            >
+              {isLoading ? "Loading..." : t("login")}
+            </button>
+
+            {errMsg && (
+              <p className="text-red-600 text-sm text-center mt-2">{errMsg}</p>
+            )}
+          </form>
+
+          {/* Register link */}
+          <p className="mt-6 text-center text-gray-600">
+            {t("noAccount")}{" "}
+            <span
+              onClick={() => router.push(`/${locale}/register`)}
+              className="text-yellow-600 font-semibold cursor-pointer hover:underline"
+            >
+              {t("register")}
+            </span>
+          </p>
+
+          {/* Language Switch Button */}
+          <div
+            className={`mt-4 flex ${direction === "rtl" ? "justify-end" : "justify-end"}`}
           >
-            {locale === "ar" ? "For English" : "للعربية"}
-          </button>
+            <button
+              type="button"
+              onClick={changeLanguage}
+              className="text-sm text-emerald-700 hover:text-emerald-900 underline underline-offset-4 transition"
+            >
+              {locale === "ar" ? "For English" : "للعربية"}
+            </button>
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 }

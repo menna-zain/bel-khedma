@@ -2,24 +2,21 @@
 import ProfileNav from "@/components/ProfileNav";
 import { useLocale, useTranslations } from "next-intl";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import Map from "@/components/map";
+import { debounce } from "lodash";
 
 type Position = [number, number];
 
 export default function delivery() {
-  const t = useTranslations("map");
+  const t = useTranslations("delivery");
   const locale = useLocale() as "en" | "ar";
 
-  const isRTL = locale === "ar";
-
-  // 🔹 suggestions لكل input
   const [startSuggestions, setStartSuggestions] = useState<any[]>([]);
   const [endSuggestions, setEndSuggestions] = useState<any[]>([]);
 
-  // 🔹 states
   const [position, setPosition] = useState<Position>([24.46861, 39.61417]);
 
   const [startQuery, setStartQuery] = useState("");
@@ -29,13 +26,14 @@ export default function delivery() {
   const [endPos, setEndPos] = useState<Position | null>(null);
 
   const [loading, setLoading] = useState(false);
+  const [estimatedTime, setEstimatedTime] = useState<number | null>(null); // بالدقائق
 
-  // 🔍 جلب الاقتراحات
+  //  API suggestions
   const getSuggestions = async (
     value: string,
-    setter: React.Dispatch<React.SetStateAction<any[]>>
+    setter: React.Dispatch<React.SetStateAction<any[]>>,
   ) => {
-    if (!value) {
+    if (!value || value.length < 3) {
       setter([]);
       return;
     }
@@ -51,9 +49,9 @@ export default function delivery() {
             limit: 5,
           },
           headers: {
-  "Accept-Language": locale, // ar أو en
-}
-        }
+            "Accept-Language": locale,
+          },
+        },
       );
       setter(res.data);
     } catch (err) {
@@ -61,51 +59,90 @@ export default function delivery() {
     }
   };
 
-  // 🔹 تحويل الاسم لإحداثيات
-  const getCoords = async (query: string): Promise<Position | null> => {
-    if (!query) return null;
+  //  Debounce (مهم جدًا)
+  const debouncedStart = useMemo(
+    () =>
+      debounce((value: string) => {
+        getSuggestions(value, setStartSuggestions);
+      }, 500),
+    [],
+  );
 
-    try {
-      const res = await axios.get(
-        "https://nominatim.openstreetmap.org/search",
-        {
-          params: { q: query, format: "json" },
-        }
-      );
+  const debouncedEnd = useMemo(
+    () =>
+      debounce((value: string) => {
+        getSuggestions(value, setEndSuggestions);
+      }, 500),
+    [],
+  );
 
-      if (res.data.length > 0) {
-        return [
-          parseFloat(res.data[0].lat),
-          parseFloat(res.data[0].lon),
-        ];
-      }
-
-      return null;
-    } catch (err) {
-      console.error(err);
-      return null;
-    }
-  };
-
-  // 🔹 تحديد المسار
+  //  تحديد المسار وإرسال البيانات
   const handleRoute = async () => {
-    if (!startQuery || !endQuery)
-      return toast.error("أدخل البداية والنهاية");
+    if (!startPos || !endPos) {
+      return toast.error("اختار الأماكن من القائمة");
+    }
 
     setLoading(true);
 
-    const start = await getCoords(startQuery);
-    const end = await getCoords(endQuery);
+    try {
+      // عرض المسار على الخريطة
+      setPosition(startPos);
 
-    setLoading(false);
+      // حساب الوقت التقريبي (المسافة الجوية)
+      const toRad = (x: number) => (x * Math.PI) / 180;
+      const R = 6371; // نصف قطر الأرض بالكيلومتر
+      const dLat = toRad(endPos[0] - startPos[0]);
+      const dLon = toRad(endPos[1] - startPos[1]);
+      const lat1 = toRad(startPos[0]);
+      const lat2 = toRad(endPos[0]);
 
-    if (start && end) {
-      setStartPos(start);
-      setEndPos(end);
-      setPosition(start);
-      toast.success("تم تحديد المسار!");
-    } else {
-      toast.error("من فضلك أدخل أماكن صحيحة");
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.sin(dLon / 2) *
+          Math.sin(dLon / 2) *
+          Math.cos(lat1) *
+          Math.cos(lat2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const distanceKm = R * c;
+
+      const averageSpeed = 40; // سرعة افتراضية بالكيلو متر / ساعة
+      const timeHours = distanceKm / averageSpeed;
+      const timeMinutes = Math.round(timeHours * 60); // بالدقائق
+      setEstimatedTime(timeMinutes);
+
+      // تجهيز البيانات
+      const dataToSend = {
+        PLat: startPos[0],
+        PLong: startPos[1],
+        DLat: endPos[0],
+        DLong: endPos[1],
+        averageTime: timeMinutes,
+      };
+
+      console.log("Data to send:", dataToSend);
+
+      // قراءة التوكن من localStorage
+      const token = localStorage.getItem("token"); // حسب الاسم اللي عندك
+
+      // إرسال البيانات للباك اند مع التوكن
+      const res = await axios.post(
+        "https://bilkhidmah-api.vercel.app/api/v1/delivery",
+        dataToSend,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // إضافة التوكن
+          },
+        },
+      );
+
+      console.log("Response from server:", res.data); // <-- هنا هيتطبع الرد من السيرفر
+
+      toast.success("تم تحديد المسار ");
+    } catch (err) {
+      console.error(err);
+      toast.error("حدث خطأ أثناء إرسال البيانات");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -114,20 +151,23 @@ export default function delivery() {
       <ProfileNav locale={locale} />
 
       <div className="p-4 space-y-4 rtl mb-5">
-        <Toaster position="top-right" reverseOrder={false} />
+        <Toaster position="top-right" />
 
-        {/* 🔹 inputs */}
+        {/*  Inputs */}
         <div className="flex gap-2 items-center justify-center mt-5 flex-wrap">
-
-          {/* 🔹 Start */}
+          {/* Start */}
           <div className="relative border border-emerald-200 rounded-md p-3 focus-within:border-emerald-600 w-full sm:w-1/3">
             <input
               type="text"
               placeholder={t("startPoint")}
               value={startQuery}
               onChange={(e) => {
-                setStartQuery(e.target.value);
-                getSuggestions(e.target.value, setStartSuggestions);
+                const value = e.target.value;
+                setStartQuery(value);
+                debouncedStart(value);
+              }}
+              onBlur={() => {
+                setTimeout(() => setStartSuggestions([]), 100);
               }}
               className="w-full outline-none bg-transparent text-gray-700"
             />
@@ -140,10 +180,7 @@ export default function delivery() {
                     className="p-2 hover:bg-gray-100 cursor-pointer text-sm"
                     onClick={() => {
                       setStartQuery(item.display_name);
-                      setStartPos([
-                        parseFloat(item.lat),
-                        parseFloat(item.lon),
-                      ]);
+                      setStartPos([parseFloat(item.lat), parseFloat(item.lon)]);
                       setStartSuggestions([]);
                     }}
                   >
@@ -154,15 +191,19 @@ export default function delivery() {
             )}
           </div>
 
-          {/* 🔹 End */}
+          {/* End */}
           <div className="relative border border-emerald-200 rounded-md p-3 focus-within:border-emerald-600 w-full sm:w-1/3">
             <input
               type="text"
               placeholder={t("endPoint")}
               value={endQuery}
               onChange={(e) => {
-                setEndQuery(e.target.value);
-                getSuggestions(e.target.value, setEndSuggestions);
+                const value = e.target.value;
+                setEndQuery(value);
+                debouncedEnd(value);
+              }}
+              onBlur={() => {
+                setTimeout(() => setEndSuggestions([]), 100);
               }}
               className="w-full outline-none bg-transparent text-gray-700"
             />
@@ -175,10 +216,7 @@ export default function delivery() {
                     className="p-2 hover:bg-gray-100 cursor-pointer text-sm"
                     onClick={() => {
                       setEndQuery(item.display_name);
-                      setEndPos([
-                        parseFloat(item.lat),
-                        parseFloat(item.lon),
-                      ]);
+                      setEndPos([parseFloat(item.lat), parseFloat(item.lon)]);
                       setEndSuggestions([]);
                     }}
                   >
@@ -188,18 +226,25 @@ export default function delivery() {
               </div>
             )}
           </div>
-
-          {/* 🔹 Button */}
+          {/*  Button */}
           <button
             onClick={handleRoute}
             disabled={loading}
             className="bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-2 rounded disabled:opacity-50"
           >
-            {loading ? "جارٍ تحديد المسار..." : t("btnRoute")}
+            {loading ? t("btnRouteLoading") : t("btnRoute")}
           </button>
         </div>
 
-        {/* 🔹 Map */}
+        {/*  Estimated Time */}
+        {estimatedTime !== null && (
+          <div className="text-center mt-2 text-gray-700">
+            Time : {(estimatedTime / 60).toFixed(1)} ساعة (~{estimatedTime}{" "}
+            دقيقة)
+          </div>
+        )}
+
+        {/*  Map */}
         <Map position={position} start={startPos} end={endPos} />
       </div>
     </div>
