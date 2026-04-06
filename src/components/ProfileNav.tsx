@@ -5,6 +5,11 @@ import { useRouter } from "next/navigation";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useTranslations } from "next-intl";
 import { FaHandsHelping, FaSignOutAlt } from "react-icons/fa";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { FiCheck, FiGlobe } from "react-icons/fi";
+import { RiArrowDropDownLine } from "react-icons/ri";
+import { MdAccountCircle } from "react-icons/md";
 
 type NavbarProps = {
   locale: "en" | "ar";
@@ -15,6 +20,9 @@ export default function ProfileNav({ locale }: NavbarProps) {
   const router = useRouter();
 
   const direction = locale === "ar" ? "rtl" : "ltr";
+
+  // profile
+  const [open, setOpen] = useState(false);
 
   const navLinks = [
     { name: "delivery", href: "/delivery" },
@@ -39,7 +47,9 @@ export default function ProfileNav({ locale }: NavbarProps) {
       {/* اللوجو واسم الخدمة */}
       <div className="flex items-center gap-2">
         <FaHandsHelping size={30} className="text-emerald-700" />
-        <span className="font-bold text-2xl text-black">{t("serviceName")}</span>
+        <span className="font-bold text-2xl text-black">
+          {t("serviceName")}
+        </span>
       </div>
 
       {/* روابط الصفحات */}
@@ -58,15 +68,48 @@ export default function ProfileNav({ locale }: NavbarProps) {
       </div>
 
       {/* أيقونات اللغة والخروج */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center ">
         <LanguageSwitcher />
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-1 text-red-600 hover:text-red-800 font-semibold"
-        >
-          <FaSignOutAlt size={20} />
-          <span>{t("logout")}</span>
-        </button>
+
+        {/* profile */}
+        <div className="relative ">
+          {/* Button */}
+          <button
+            onClick={() => setOpen(!open)}
+            className="flex items-center  px-2 py-1 rounded-lg hover:bg-gray-200 transition"
+          >
+            <MdAccountCircle size={32} />
+          </button>
+
+          {/* Dropdown */}
+          {open && (
+            <div
+              className={`absolute mt-2  bg-white shadow-lg rounded-xl border border-gray-300 z-[5000] p-2 
+  ${locale === "ar" ? "left-0 w-38" : "right-0 w-28"}`}
+            >
+              <button
+                onClick={() => {router.push("/requests"); setOpen(false); }}
+                className="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 transition text-sm"
+              >
+                {t("requests")}
+              </button>
+
+              <button
+                // onClick={() =>}
+                className="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 transition text-sm"
+              >
+                {t("profile")}
+              </button>
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-1 text-red-600 hover:text-red-800 font-semibold justify-between w-full px-4 py-2 hover:bg-gray-100 transition text-sm"
+              >
+                {/* <FaSignOutAlt size={20} /> */}
+                <span>{t("logout")}</span>
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </nav>
   );
