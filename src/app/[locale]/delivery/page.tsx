@@ -236,13 +236,21 @@ export default function delivery() {
           </button>
         </div>
 
-        {/*  Estimated Time */}
-        {estimatedTime !== null && (
-          <div className="text-center mt-2 text-gray-700">
-            Time : {(estimatedTime / 60).toFixed(1)} ساعة (~{estimatedTime}{" "}
-            دقيقة)
-          </div>
-        )}
+        {/* Estimated Time */}
+{estimatedTime !== null && (
+  <div className="text-center mt-2 text-gray-700">
+    Time:{" "}
+    {estimatedTime < 60
+      ? `${estimatedTime} min`
+      : `${Math.floor(estimatedTime / 60)} hr${
+          Math.floor(estimatedTime / 60) > 1 ? "s" : ""
+        }${
+          estimatedTime % 60 !== 0
+            ? ` ${estimatedTime % 60} min`
+            : ""
+        }`}
+  </div>
+)}
 
         {/*  Map */}
         <Map position={position} start={startPos} end={endPos} />
