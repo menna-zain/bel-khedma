@@ -66,7 +66,7 @@ export default function HotelDetails() {
 
       <div className="p-4 space-y-4 rtl w-1/2">
 
-        {/* 🖼 صورة */}
+        {/*  صورة */}
         <img
           src={hotel.image}
           className="w-full h-60 object-cover rounded-md"

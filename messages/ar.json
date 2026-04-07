@@ -161,6 +161,17 @@
     "requests": "الطلبات",
     "profile": "بيانات المستخدم",
     "logout": "تسجيل الخروج"
+  },
+  "volunteer": {
+     "serviceName": "بالخدمة",
+    "welcome": "مرحبا بعودتك",
+    "progress": "الهدف",
+    "requests": "الطلبات",
+    "profile": "بيانات المستخدم",
+    "from": "من",
+    "logout": "تسجيل الخروج",
+     "delivery": "الاهداف",
+    "transportation": "الطلبات"
   }
 
 

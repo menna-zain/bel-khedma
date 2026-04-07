@@ -53,13 +53,13 @@ export default function HotelsPage() {
   const locale = useLocale() as "en" | "ar";
   const router = useRouter();
 
-  // 🔽 states الفلترة
+  //  states الفلترة
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [rating, setRating] = useState("");
   const [city, setCity] = useState("");
 
-  // ⭐ النجوم
+  //  النجوم
   const renderStars = (rating: number) => {
     return (
       <div className="flex gap-1 mt-1">
@@ -78,7 +78,7 @@ export default function HotelsPage() {
     );
   };
 
-  // 🔥 الفلترة
+  //  الفلترة
   const filteredHotels = hotels.filter((hotel) => {
     return (
       (!minPrice || hotel.price >= Number(minPrice)) &&
@@ -130,7 +130,7 @@ export default function HotelsPage() {
           />
         </div>
 
-        {/* 🏨 قائمة الفنادق */}
+        {/*  قائمة الفنادق */}
         <div className="flex flex-col items-center gap-4">
 
           {filteredHotels.length > 0 ? (

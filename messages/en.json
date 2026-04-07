@@ -154,16 +154,13 @@
   "volunteer": {
      "serviceName": "bilkhidmah",
     "welcome": "Welcome back",
-    "motivation": "You are making a difference",
-    "progress": "Progress",
-    "today": "Today Activity",
-    "todayHours": "You worked {hours} hours today",
-    "addActivity": "Add Activity",
-    "activities": "Activities",
-    "achievements": "Achievements",
+    "progress": " Your Target",
+   "from":"From",
     "requests": "Requests",
     "profile": "Profile",
-    "logout": "Logout"
+    "logout": "Logout",
+    "delivery": "Targets",
+    "transportation": "Requests"
   },
   "profileNav": {
     "serviceName": "bilkhidmah",
