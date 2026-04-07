@@ -144,6 +144,13 @@
     "btnRoute" : "اطلب",
     "btnRouteLoading" : "جاري تحديد الوجهة"
   },
+  "transportation": {
+    "selectCar" : "اختر نوع السيارة",
+    "startPoint" : "من",
+    "endPoint" : "الي",
+    "btnRoute" : "اطلب",
+    "btnRouteLoading" : "جاري تحديد الوجهة"
+  },
   "profileNav": {
     "serviceName": "بالخدمة",
     "delivery": "التوصيل",

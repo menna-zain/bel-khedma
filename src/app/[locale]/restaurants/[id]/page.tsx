@@ -1,16 +1,10 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useState } from "react";
 import ProfileNav from "@/components/ProfileNav";
 import { Star } from "lucide-react";
 import { useLocale } from "next-intl";
 
-type Review = {
-  name: string;
-  comment: string;
-  rating: number;
-};
 
 const restaurants = [
   {
@@ -36,13 +30,7 @@ export default function RestaurantDetails() {
   const locale = useLocale() as "en" | "ar";
 
   const restaurant = restaurants.find((r) => r.id === Number(id));
-  const [reviews, setReviews] = useState<Review[]>([
-    { name: "Ali", comment: "Excellent food!", rating: 5 },
-    { name: "Sara", comment: "Good, but pricey", rating: 4 },
-  ]);
-
-  const [comment, setComment] = useState("");
-  const [rate, setRate] = useState(5);
+ 
 
   if (!restaurant) return <p>Restaurant not found</p>;
 
@@ -58,11 +46,6 @@ export default function RestaurantDetails() {
     </div>
   );
 
-  const addReview = () => {
-    if (!comment) return;
-    setReviews([...reviews, { name: "User", comment, rating: rate }]);
-    setComment("");
-  };
 
   return (
     <>
@@ -82,45 +65,6 @@ export default function RestaurantDetails() {
         <button className="bg-emerald-700 text-white px-4 py-2 rounded w-full">
           Book Table
         </button>
-
-        {/* Add review */}
-        <div className="mt-4">
-          <h2 className="font-bold mb-2">Add Review</h2>
-          <input
-            type="text"
-            placeholder="Write comment..."
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            className="border w-full p-2 rounded mb-2"
-          />
-          <select
-            value={rate}
-            onChange={(e) => setRate(Number(e.target.value))}
-            className="border p-2 rounded mb-2"
-          >
-            <option value={5}>5</option>
-            <option value={4}>4</option>
-            <option value={3}>3</option>
-          </select>
-          <button
-            onClick={addReview}
-            className="bg-emerald-600 text-white px-3 py-1 rounded ms-3"
-          >
-            Submit
-          </button>
-        </div>
-
-        {/* Reviews */}
-        <div>
-          <h2 className="font-bold mt-4">Reviews</h2>
-          {reviews.map((r, i) => (
-            <div key={i} className="border p-2 rounded mt-2">
-              <p className="font-semibold">{r.name}</p>
-              {renderStars(r.rating)}
-              <p className="text-sm">{r.comment}</p>
-            </div>
-          ))}
-        </div>
       </div>
       </div>
     </>

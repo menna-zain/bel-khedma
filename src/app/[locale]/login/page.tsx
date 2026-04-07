@@ -62,12 +62,22 @@ export default function Login() {
 
       // خزن الرول
       const role = res.data.role; 
-      if (role) {
-        localStorage.setItem("role", role);
-        console.log("Role stored:", localStorage.getItem("role"));
-      }
+      
 
-      router.push(`/${locale}/delivery`);
+
+if (role) {
+  localStorage.setItem("role", role);
+  console.log("Role stored:", role);
+
+  if (role === "customer") {
+    router.push(`/${locale}/delivery`);
+  } else if (role === "volunteer") {
+    router.push(`/${locale}/target`);
+  } else {
+    router.push(`/${locale}`);
+  }
+}
+      
     } catch (err: any) {
       const apiErrors = err.response?.data?.errors;
 
@@ -81,68 +91,6 @@ export default function Login() {
       setIsLoading(false);
     }
   };
-
-  //   const onSubmit = async (values: FormValues) => {
-  //   setIsLoading(true);
-  //   setErrMsg("");
-
-  //   try {
-  //     const res = await axios.post(
-  //       "https://bilkhidmah-api.vercel.app/api/v1/auth/login",
-  //       values,
-  //     );
-
-  //     console.log(res)
-
-  //     // لو السيرفر بيرجع التوكن
-  //     const token = res.data.token;
-  // if (token) {
-  //   localStorage.setItem("token", token);
-  //   console.log("Token stored:", localStorage.getItem("token")); // هيطبعلك التوكن
-  // }
-
-  //     router.push(`/${locale}`);
-  //   } catch (err: any) {
-  //     const apiErrors = err.response?.data?.errors;
-
-  //     if (apiErrors && apiErrors.length > 0) {
-  //       setErrMsg(apiErrors[0].msg);
-  //     } else {
-  //       setErrMsg(err.response?.data?.status || "Something went wrong");
-  //     }
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  // const onSubmit = async (values: FormValues) => {
-  //   setIsLoading(true);
-  //   setErrMsg("");
-
-  //   try {
-  //     const res = await axios.post(
-  //       "https://bilkhidmah-api.vercel.app/api/v1/auth/login",
-  //       values,
-  //     );
-
-  //     console.log(res);
-  //     console.log(res.data);
-
-  //     console.log("Before push");
-
-  //     router.push(`/${locale}`);
-  //   } catch (err: any) {
-  //     const apiErrors = err.response?.data?.errors;
-
-  //     if (apiErrors && apiErrors.length > 0) {
-  //       setErrMsg(apiErrors[0].msg);
-  //     } else {
-  //       setErrMsg(err.response?.data?.status || "Something went wrong");
-  //     }
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
 
   const validationSchema = Yup.object({
     email: Yup.string().email(t("emailInvalid")).required(t("emailRequired")),

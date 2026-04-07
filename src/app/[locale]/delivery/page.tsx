@@ -14,10 +14,11 @@ export default function delivery() {
   const t = useTranslations("delivery");
   const locale = useLocale() as "en" | "ar";
 
+  const [position, setPosition] = useState<Position>([24.46861, 39.61417]);
+  
   const [startSuggestions, setStartSuggestions] = useState<any[]>([]);
   const [endSuggestions, setEndSuggestions] = useState<any[]>([]);
 
-  const [position, setPosition] = useState<Position>([24.46861, 39.61417]);
 
   const [startQuery, setStartQuery] = useState("");
   const [endQuery, setEndQuery] = useState("");
