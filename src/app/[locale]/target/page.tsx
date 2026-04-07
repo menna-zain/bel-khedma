@@ -119,20 +119,19 @@ export default function VolunteerHome() {
 
       <div className="p-6 space-y-6 flex flex-col items-center justify-center">
         {/* Welcome */}
-        <div className="p-4 w-1/2">
-          <h1 className="text-2xl text-center font-bold text-emerald-700">
+        <div className="p-4 w-1/2 mt-16">
+          <h1 className="text-6xl text-center font-bold text-emerald-700 ">
             {t("welcome")}
           </h1>
         </div>
 
         <div className="flex gap-5 w-full justify-center">
           {/* Progress */}
-          <div className="bg-white p-4 rounded-2xl shadow w-1/2">
-            <h2 className="font-semibold mb-2 ">{t("progress")}</h2>
+          <div className="bg-white p-4  w-1/2">
             <div className="mb-2 text-center">
               <div className="flex flex-col gap-3">
-                <span className="text-6xl">{formatHours(completedHours)}</span>{" "}
-                <span className="text-lg font-bold">{t("from")}</span>{" "}
+                <span className="text-9xl">{formatHours(completedHours)}</span>{" "}
+                <span className="text-2xl font-bold">{t("from")}</span>{" "}
                 <span className="text-6xl">{formatHours(targetHours)}</span>{" "}
           
               </div>
