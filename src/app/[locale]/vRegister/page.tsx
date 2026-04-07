@@ -406,7 +406,7 @@ export default function vRegister() {
                     type="text"
                     name="VCarPlate"
                     placeholder={t("car plate")}
-                    value={values.VGoal}
+                    value={values.VCarPlate}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="w-full outline-none bg-transparent text-gray-700"
