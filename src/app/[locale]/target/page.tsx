@@ -78,7 +78,7 @@ export default function VolunteerHome() {
               className={`absolute mt-2  bg-white shadow-lg rounded-xl border border-gray-300 z-[5000] p-2 
           ${locale === "ar" ? "left-0 w-38" : "right-0 w-28"}`}
             >
-              <button
+              {/* <button
                 onClick={() => {
                   router.push("/requests");
                   setOpen(false);
@@ -86,7 +86,7 @@ export default function VolunteerHome() {
                 className="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 transition text-sm"
               >
                 {t("requests")}
-              </button>
+              </button> */}
 
               <button
                 // onClick={() =>}

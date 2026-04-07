@@ -80,6 +80,7 @@ export default function vRegister() {
       ssn: Number(values.ssn),
       mobile: Number(values.mobile),
       VGoal: Number(values.VGoal),
+      VCarPlate: Number(values.VCarPlate),
     };
 
     try {
