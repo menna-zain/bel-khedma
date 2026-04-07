@@ -29,7 +29,7 @@ type FormValues = {
   VGoal: string;
   VCarColor: string;
   VCarPlate: string;
-  language: string[];
+  languages: string[];
 };
 
 export default function vRegister() {
@@ -59,7 +59,7 @@ export default function vRegister() {
     VGoal: "", // بدل 0
     VCarColor: "",
     VCarPlate: "",
-    language: [],
+    languages: [],
   };
 
   //  Language Switch
@@ -77,10 +77,10 @@ export default function vRegister() {
     const payload = {
       ...values,
       age: Number(values.age),
-      ssn: Number(values.ssn),
-      mobile: Number(values.mobile),
+      // ssn: Number(values.ssn),
+      // mobile: Number(values.mobile),
       VGoal: Number(values.VGoal),
-      VCarPlate: Number(values.VCarPlate),
+      // VCarPlate: Number(values.VCarPlate),
     };
 
     try {
@@ -95,7 +95,7 @@ export default function vRegister() {
       if (apiErrors && apiErrors.length > 0) {
         setErrMsg(apiErrors[0].msg);
       } else {
-        setErrMsg(err.response?.data?.status || t("somethingWentWrong"));
+        setErrMsg(err.response?.data?.message || t("somethingWentWrong"));
       }
     } finally {
       setIsLoading(false);
@@ -429,15 +429,15 @@ export default function vRegister() {
                     <input
                       type="checkbox"
                       className="accent-emerald-600"
-                      checked={values.language.includes(lang)}
+                      checked={values.languages.includes(lang)}
                       onChange={() => {
-                        if (values.language.includes(lang)) {
+                        if (values.languages.includes(lang)) {
                           setFieldValue(
-                            "language",
-                            values.language.filter((l) => l !== lang),
+                            "languages",
+                            values.languages.filter((l) => l !== lang),
                           );
                         } else {
-                          setFieldValue("language", [...values.language, lang]);
+                          setFieldValue("languages", [...values.languages, lang]);
                         }
                       }}
                     />
@@ -475,6 +475,11 @@ export default function vRegister() {
             <button className="w-full py-3 bg-emerald-700 text-white rounded-md">
               {isLoading ? "Loading..." : "Register"}
             </button>
+            {errMsg && (
+  <p className="mt-2 text-sm text-red-500 text-center">
+    {errMsg}
+  </p>
+)}
           </form>
         </div>
       </div>
