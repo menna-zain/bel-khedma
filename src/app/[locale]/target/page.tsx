@@ -6,6 +6,7 @@ import { useState } from "react";
 import { FaHandsHelping } from "react-icons/fa";
 import { MdAccountCircle } from "react-icons/md";
 import Link from "next/link";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 interface Activity {
   id: number;
@@ -89,6 +90,8 @@ export default function VolunteerHome() {
         
 
         {/* profile */}
+        <div className="flex items-center ">
+          <LanguageSwitcher />
         <div className="relative">
           <button
             onClick={() => setOpen(!open)}
@@ -114,6 +117,7 @@ export default function VolunteerHome() {
               </button>
             </div>
           )}
+        </div>
         </div>
       </nav>
 
