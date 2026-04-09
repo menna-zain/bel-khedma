@@ -33,20 +33,10 @@ export default function VolunteerHome() {
     { name: "transportation", href: "/vRequests" },
   ];
   const completedHours = activities.reduce((acc, a) => acc + a.hours, 0);
-  const progress = Math.min((completedHours / targetHours) * 100, 100);
 
   const [open, setOpen] = useState(false);
 
-  const addActivity = () => {
-    const newActivity: Activity = {
-      id: Date.now(),
-      title: "New Activity",
-      hours: 1,
-      date: new Date().toISOString().split("T")[0],
-    };
-    setActivities([newActivity, ...activities]);
-  };
-
+ 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");

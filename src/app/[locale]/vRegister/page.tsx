@@ -77,10 +77,7 @@ export default function vRegister() {
     const payload = {
       ...values,
       age: Number(values.age),
-      // ssn: Number(values.ssn),
-      // mobile: Number(values.mobile),
       VGoal: Number(values.VGoal),
-      // VCarPlate: Number(values.VCarPlate),
     };
 
     try {

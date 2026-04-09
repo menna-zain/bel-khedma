@@ -1,4 +1,5 @@
 "use client";
+
 import ProfileNav from "@/components/ProfileNav";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -15,10 +16,9 @@ export default function delivery() {
   const locale = useLocale() as "en" | "ar";
 
   const [position, setPosition] = useState<Position>([24.46861, 39.61417]);
-  
+
   const [startSuggestions, setStartSuggestions] = useState<any[]>([]);
   const [endSuggestions, setEndSuggestions] = useState<any[]>([]);
-
 
   const [startQuery, setStartQuery] = useState("");
   const [endQuery, setEndQuery] = useState("");
@@ -27,12 +27,40 @@ export default function delivery() {
   const [endPos, setEndPos] = useState<Position | null>(null);
 
   const [loading, setLoading] = useState(false);
-  const [estimatedTime, setEstimatedTime] = useState<number | null>(null); // بالدقائق
+  const [estimatedTime, setEstimatedTime] = useState<number | null>(null);
 
-  //  API suggestions
+  // 🔥 تحويل النص لإحداثيات
+  const getCoordsFromText = async (query: string): Promise<Position | null> => {
+    try {
+      const res = await axios.get(
+        "https://nominatim.openstreetmap.org/search",
+        {
+          params: {
+            q: query,
+            format: "json",
+            limit: 1,
+          },
+        }
+      );
+
+      if (res.data.length > 0) {
+        return [
+          parseFloat(res.data[0].lat),
+          parseFloat(res.data[0].lon),
+        ];
+      }
+
+      return null;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  };
+
+  // 🔥 suggestions
   const getSuggestions = async (
     value: string,
-    setter: React.Dispatch<React.SetStateAction<any[]>>,
+    setter: React.Dispatch<React.SetStateAction<any[]>>
   ) => {
     if (!value || value.length < 3) {
       setter([]);
@@ -52,7 +80,7 @@ export default function delivery() {
           headers: {
             "Accept-Language": locale,
           },
-        },
+        }
       );
       setter(res.data);
     } catch (err) {
@@ -60,42 +88,49 @@ export default function delivery() {
     }
   };
 
-  //  Debounce (مهم جدًا)
   const debouncedStart = useMemo(
-    () =>
-      debounce((value: string) => {
-        getSuggestions(value, setStartSuggestions);
-      }, 500),
-    [],
+    () => debounce((value: string) => getSuggestions(value, setStartSuggestions), 500),
+    []
   );
 
   const debouncedEnd = useMemo(
-    () =>
-      debounce((value: string) => {
-        getSuggestions(value, setEndSuggestions);
-      }, 500),
-    [],
+    () => debounce((value: string) => getSuggestions(value, setEndSuggestions), 500),
+    []
   );
 
-  //  تحديد المسار وإرسال البيانات
+  // 🔥 main function
   const handleRoute = async () => {
-    if (!startPos || !endPos) {
-      return toast.error("اختار الأماكن من القائمة");
-    }
-
     setLoading(true);
 
     try {
-      // عرض المسار على الخريطة
-      setPosition(startPos);
+      let finalStart = startPos;
+      let finalEnd = endPos;
 
-      // حساب الوقت التقريبي (المسافة الجوية)
+      // لو المستخدم ما اختارش من القائمة
+      if (!finalStart && startQuery) {
+        finalStart = await getCoordsFromText(startQuery);
+      }
+
+      if (!finalEnd && endQuery) {
+        finalEnd = await getCoordsFromText(endQuery);
+      }
+
+      if (!finalStart || !finalEnd) {
+        setLoading(false);
+        return toast.error("مش قادر أحدد المكان، حاول تكتب بشكل أوضح");
+      }
+
+      setStartPos(finalStart);
+      setEndPos(finalEnd);
+      setPosition(finalStart);
+
+      // 🔥 حساب الوقت
       const toRad = (x: number) => (x * Math.PI) / 180;
-      const R = 6371; // نصف قطر الأرض بالكيلومتر
-      const dLat = toRad(endPos[0] - startPos[0]);
-      const dLon = toRad(endPos[1] - startPos[1]);
-      const lat1 = toRad(startPos[0]);
-      const lat2 = toRad(endPos[0]);
+      const R = 6371;
+      const dLat = toRad(finalEnd[0] - finalStart[0]);
+      const dLon = toRad(finalEnd[1] - finalStart[1]);
+      const lat1 = toRad(finalStart[0]);
+      const lat2 = toRad(finalEnd[0]);
 
       const a =
         Math.sin(dLat / 2) * Math.sin(dLat / 2) +
@@ -106,39 +141,34 @@ export default function delivery() {
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
       const distanceKm = R * c;
 
-      const averageSpeed = 40; // سرعة افتراضية بالكيلو متر / ساعة
-      const timeHours = distanceKm / averageSpeed;
-      const timeMinutes = Math.round(timeHours * 60); // بالدقائق
+      const averageSpeed = 40;
+      const timeMinutes = Math.round((distanceKm / averageSpeed) * 60);
+
       setEstimatedTime(timeMinutes);
 
-      // تجهيز البيانات
       const dataToSend = {
-        PLat: startPos[0],
-        PLong: startPos[1],
-        DLat: endPos[0],
-        DLong: endPos[1],
+        PLat: finalStart[0],
+        PLong: finalStart[1],
+        DLat: finalEnd[0],
+        DLong: finalEnd[1],
         averageTime: timeMinutes,
       };
 
-      console.log("Data to send:", dataToSend);
+      const token = localStorage.getItem("token");
 
-      // قراءة التوكن من localStorage
-      const token = localStorage.getItem("token"); // حسب الاسم اللي عندك
-
-      // إرسال البيانات للباك اند مع التوكن
       const res = await axios.post(
         "https://bilkhidmah-api.vercel.app/api/v1/delivery",
         dataToSend,
         {
           headers: {
-            Authorization: `Bearer ${token}`, // إضافة التوكن
+            Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
 
-      console.log("Response from server:", res.data); // <-- هنا هيتطبع الرد من السيرفر
+      console.log(res.data);
 
-      toast.success("تم تحديد المسار ");
+      toast.success("تم تحديد المسار");
     } catch (err) {
       console.error(err);
       toast.error("حدث خطأ أثناء إرسال البيانات");
@@ -154,7 +184,6 @@ export default function delivery() {
       <div className="p-4 space-y-4 rtl mb-5">
         <Toaster position="top-right" />
 
-        {/*  Inputs */}
         <div className="flex gap-2 items-center justify-center mt-5 flex-wrap">
           {/* Start */}
           <div className="relative border border-emerald-200 rounded-md p-3 focus-within:border-emerald-600 w-full sm:w-1/3">
@@ -227,7 +256,8 @@ export default function delivery() {
               </div>
             )}
           </div>
-          {/*  Button */}
+
+          {/* Button */}
           <button
             onClick={handleRoute}
             disabled={loading}
@@ -237,23 +267,22 @@ export default function delivery() {
           </button>
         </div>
 
-        {/* Estimated Time */}
-{estimatedTime !== null && (
-  <div className="text-center mt-2 text-gray-700">
-    Time:{" "}
-    {estimatedTime < 60
-      ? `${estimatedTime} min`
-      : `${Math.floor(estimatedTime / 60)} hr${
-          Math.floor(estimatedTime / 60) > 1 ? "s" : ""
-        }${
-          estimatedTime % 60 !== 0
-            ? ` ${estimatedTime % 60} min`
-            : ""
-        }`}
-  </div>
-)}
+        {/* Time */}
+        {estimatedTime !== null && (
+          <div className="text-center mt-2 text-gray-700">
+            Time:{" "}
+            {estimatedTime < 60
+              ? `${estimatedTime} min`
+              : `${Math.floor(estimatedTime / 60)} hr${
+                  Math.floor(estimatedTime / 60) > 1 ? "s" : ""
+                }${
+                  estimatedTime % 60 !== 0
+                    ? ` ${estimatedTime % 60} min`
+                    : ""
+                }`}
+          </div>
+        )}
 
-        {/*  Map */}
         <Map position={position} start={startPos} end={endPos} />
       </div>
     </div>
