@@ -79,7 +79,7 @@ export default function AddRestaurant() {
               name="name"
               placeholder={t("restaurantName")}
               onChange={handleChange}
-              className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition text-start"
+              className="w-full border border-gray-300 focus:border-emerald-700 outline-none p-3 rounded transition text-start"
               required
             />
 
@@ -90,7 +90,7 @@ export default function AddRestaurant() {
               max="5"
               placeholder={t("stars")}
               onChange={handleChange}
-              className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition text-start"
+              className="w-full border border-gray-300 focus:border-emerald-700 outline-none p-3 rounded transition text-start"
               required
             />
 
@@ -98,14 +98,14 @@ export default function AddRestaurant() {
               name="address"
               placeholder={t("address")}
               onChange={handleChange}
-              className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition text-start"
+              className="w-full border border-gray-300 focus:border-emerald-700 outline-none p-3 rounded transition text-start"
             />
 
             <input
               name="thumbnail"
               placeholder={t("thumbnail")}
               onChange={handleChange}
-              className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition text-start"
+              className="w-full border border-gray-300 focus:border-emerald-700 outline-none p-3 rounded transition text-start"
             />
 
             <button

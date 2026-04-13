@@ -81,7 +81,7 @@ export default function AddHotelPage() {
             name="name"
             placeholder={t("hotelName")}
             onChange={handleChange}
-            className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition text-start"
+            className="w-full border border-gray-300 focus:border-emerald-700 outline-none p-3 rounded transition text-start"
             required
           />
 
@@ -92,7 +92,7 @@ export default function AddHotelPage() {
             max="5"
             placeholder={t("stars")}
             onChange={handleChange}
-            className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition text-start"
+            className="w-full border border-gray-300 focus:border-emerald-700 outline-none p-3 rounded transition text-start"
             required
           />
 
@@ -100,28 +100,28 @@ export default function AddHotelPage() {
             name="summary"
             placeholder={t("summary")}
             onChange={handleChange}
-            className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition text-start"
+            className="w-full border border-gray-300 focus:border-emerald-700 outline-none p-3 rounded transition text-start"
           />
 
           <textarea
             name="description"
             placeholder={t("description")}
             onChange={handleChange}
-            className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded h-28 transition text-start"
+            className="w-full border border-gray-300 focus:border-emerald-700 outline-none p-3 rounded h-28 transition text-start"
           />
 
           <input
             name="thumbnail"
             placeholder={t("thumbnail")}
             onChange={handleChange}
-            className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition text-start"
+            className="w-full border border-gray-300 focus:border-emerald-700 outline-none p-3 rounded transition text-start"
           />
 
           <input
             name="address"
             placeholder={t("address")}
             onChange={handleChange}
-            className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition text-start"
+            className="w-full border border-gray-300 focus:border-emerald-700 outline-none p-3 rounded transition text-start"
           />
 
           <button
