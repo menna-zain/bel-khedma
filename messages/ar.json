@@ -5,7 +5,7 @@
     "btn": "جرب الآن",
     "benefits": {
       "title": "ليه تختارنا؟",
-      "description":"لأننا نؤمن أن الخدمة ليست مجرد توصيل أو جولة، بل تجربة متكاملة تُبنى على الثقة والالتزام. في “بالخدمة” نوفر لك الآتي",
+      "description": "لأننا نؤمن أن الخدمة ليست مجرد توصيل أو جولة، بل تجربة متكاملة تُبنى على الثقة والالتزام. في “بالخدمة” نوفر لك الآتي",
       "item1_title": "روح التعاون",
       "item1_description": "نؤمن بأهمية العمل الجماعي و نعززه من خلال منصتنا",
       "item2_title": "حوافز للمتطوعين",
@@ -31,8 +31,8 @@
     "login": "تسجيل الدخول",
     "language": "عربي"
   },
-    "loginPage": {
-      "serviceName": "بالخدمة",
+  "loginPage": {
+    "serviceName": "بالخدمة",
     "title": "مرحباً بك في مجتمعنا",
     "email": "البريد الإلكتروني",
     "password": "كلمة المرور",
@@ -49,8 +49,8 @@
   "registerPage": {
     "serviceName": "بالخدمة",
     "title": "مرحبًا بك في مجتمعنا",
-     "personaltyDetails": "تفاصيل شخصية",
-    "fname":"الاسم الاول",
+    "personaltyDetails": "تفاصيل شخصية",
+    "fname": "الاسم الاول",
     "lname": "الاسم الاخير",
     "email": "البريد الإلكتروني",
     "password": "كلمة المرور",
@@ -70,25 +70,23 @@
     "login": "تسجيل الدخول",
     "chooseRole": "هل تريد التسجيل كمتطوع ؟",
     "volunteer": "نعم",
-  "addressDetails": "تفاصيل عنوانك",
-  "street": "اسم الشارع",
-  "unitNum": "رقم الوحدة",
-  "city": "المدينة",
-  "additionalAddress": "تفاصيل إضافية",
-  "languages": "اللغة التي تتقنها",
-  "arabic": "العربية",
-  "english": "الإنجليزية",
-  "french": "الفرنسية",
-  "spanish": "الإسبانية",
-  "german": "الألمانية"
-
-    
+    "addressDetails": "تفاصيل عنوانك",
+    "street": "اسم الشارع",
+    "unitNum": "رقم الوحدة",
+    "city": "المدينة",
+    "additionalAddress": "تفاصيل إضافية",
+    "languages": "اللغة التي تتقنها",
+    "arabic": "العربية",
+    "english": "الإنجليزية",
+    "french": "الفرنسية",
+    "spanish": "الإسبانية",
+    "german": "الألمانية"
   },
   "vRegisterPage": {
     "serviceName": "بالخدمة",
     "title": "مرحبًا بك في مجتمعنا",
-     "personaltyDetails": "تفاصيل شخصية",
-    "fname":"الاسم الاول",
+    "personaltyDetails": "تفاصيل شخصية",
+    "fname": "الاسم الاول",
     "lname": "الاسم الاخير",
     "email": "البريد الإلكتروني",
     "password": "كلمة المرور",
@@ -108,48 +106,46 @@
     "login": "تسجيل الدخول",
     "chooseRole": "هل تريد التسجيل كمتطوع ؟",
     "user": "العودة للتجسيل كمستخدم",
-  "addressDetails": "تفاصيل عنوانك",
-  "street": "اسم الشارع",
-  "unitNum": "رقم الوحدة",
-  "city": "المدينة",
-  "additionalAddress": "تفاصيل إضافية",
-  "languages": "اللغة التي تتقنها",
-  "volunteer info" : "بيانات اخري",
-  "Goal" : "الهدف",
-  "car color" : "لون السيارة",
-  "car plate" : "لوحة السيارة",
-  "mobile" : "رقم الهاتف",
-  "age" : "العمر",
-  "arabic": "العربية",
-  "english": "الإنجليزية",
-  "french": "الفرنسية",
-  "spanish": "الإسبانية",
-  "german": "الألمانية"
-
-    
+    "addressDetails": "تفاصيل عنوانك",
+    "street": "اسم الشارع",
+    "unitNum": "رقم الوحدة",
+    "city": "المدينة",
+    "additionalAddress": "تفاصيل إضافية",
+    "languages": "اللغة التي تتقنها",
+    "volunteer info": "بيانات اخري",
+    "Goal": "الهدف",
+    "car color": "لون السيارة",
+    "car plate": "لوحة السيارة",
+    "mobile": "رقم الهاتف",
+    "age": "العمر",
+    "arabic": "العربية",
+    "english": "الإنجليزية",
+    "french": "الفرنسية",
+    "spanish": "الإسبانية",
+    "german": "الألمانية"
   },
-  
+
   "map": {
     "search": "ابحث عن مكان...",
     "btn": "بحث",
     "btnLoading": "جارٍ البحث",
     "yourLocation": "موقعك الحالي",
-    "startPoint" : "نقطة البداية",
-    "endPoint" : "نقطة النهاية",
-    "btnRoute" : "حدد المسار"
+    "startPoint": "نقطة البداية",
+    "endPoint": "نقطة النهاية",
+    "btnRoute": "حدد المسار"
   },
   "delivery": {
-    "startPoint" : "من",
-    "endPoint" : "الي",
-    "btnRoute" : "اطلب",
-    "btnRouteLoading" : "جاري تحديد الوجهة"
+    "startPoint": "من",
+    "endPoint": "الي",
+    "btnRoute": "اطلب",
+    "btnRouteLoading": "جاري تحديد الوجهة"
   },
   "transportation": {
-    "selectCar" : "اختر نوع السيارة",
-    "startPoint" : "من",
-    "endPoint" : "الي",
-    "btnRoute" : "اطلب",
-    "btnRouteLoading" : "جاري تحديد الوجهة"
+    "selectCar": "اختر نوع السيارة",
+    "startPoint": "من",
+    "endPoint": "الي",
+    "btnRoute": "اطلب",
+    "btnRouteLoading": "جاري تحديد الوجهة"
   },
   "profileNav": {
     "serviceName": "بالخدمة",
@@ -163,29 +159,38 @@
     "logout": "تسجيل الخروج"
   },
   "volunteer": {
-     "serviceName": "بالخدمة",
+    "serviceName": "بالخدمة",
     "welcome": "مرحبا بعودتك",
     "progress": "الهدف",
     "requests": "الطلبات",
     "profile": "بيانات المستخدم",
     "from": "من",
     "logout": "تسجيل الخروج",
-     "delivery": "الاهداف",
+    "delivery": "الاهداف",
     "transportation": "الطلبات"
   },
   "dashboard": {
     "serviceName": "بالخدمة",
+    "noHotelsYet": "لا يوجد فنادق حتى الآن",
     "hotels": "الفنادق",
     "rest": "المطاعم",
     "logout": "تسجيل الخروج",
     "search": "ابحث...",
     "view": "عرض",
     "edit": "تعديل",
-    "addHotel":"اضافة فندق",
-    "addReastaurant":" اضافة مطعم"
+    "addHotel": "اضافة فندق",
+    "delete": "حذف",
     
+    "addRestaurant": " اضافة مطعم",
+"restaurantName": "اسم المطعم",
+    "hotelName": "اسم الفندق",
+    "stars": "عدد النجوم (1-5)",
+    "summary": "ملخص قصير",
+    "description": "الوصف",
+    "thumbnail": "رابط الصورة",
+    "address": "العنوان",
+    "saving": "جاري الحفظ...",
+    "loading": "جاري التحميل...",
+  "noRestaurantsYet": "لا يوجد مطاعم حتى الآن"
   }
-
-
-
 }

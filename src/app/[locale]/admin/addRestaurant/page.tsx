@@ -7,11 +7,12 @@ import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 
 import { useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function AddRestaurant() {
   const router = useRouter();
   const locale = useLocale();
+  const t = useTranslations("dashboard");
 
   const [loading, setLoading] = useState(false);
 
@@ -23,7 +24,7 @@ export default function AddRestaurant() {
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
     setFormData((prev) => ({
       ...prev,
@@ -45,20 +46,13 @@ export default function AddRestaurant() {
           "https://images.unsplash.com/photo-1555992336-cbf7d0c0d6e2",
       };
 
-      console.log("RESTAURANT PAYLOAD:");
-      console.log(payload);
-
-      const res = await axios.post(
+      await axios.post(
         "https://bilkhidmah-api.vercel.app/api/v1/restaurants",
         payload
       );
 
-      console.log("RESPONSE:");
-      console.log(res.data);
-
       router.push(`/${locale}/admin/restaurants`);
     } catch (err: any) {
-      console.log("ERROR:");
       console.log(err.response?.data || err);
     } finally {
       setLoading(false);
@@ -66,57 +60,63 @@ export default function AddRestaurant() {
   };
 
   return (
-    <div className="flex">
+    <div
+      className="flex min-h-screen"
+      dir={locale === "ar" ? "rtl" : "ltr"}
+    >
       <Sidebar />
 
-      <div className="flex-1 p-6">
-        <Header title="Add Restaurant" />
+      {/* Center Container */}
+      <div className="flex-1 flex flex-col p-6">
+        <Header title={t("addRestaurant")} />
 
-        <form
-          onSubmit={handleSubmit}
-          className="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow space-y-4"
-        >
-          <input
-            name="name"
-            placeholder="Restaurant Name"
-            onChange={handleChange}
-            className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition"
-            required
-          />
-
-          <input
-            name="stars"
-            type="number"
-            min="1"
-            max="5"
-            placeholder="Stars (1-5)"
-            onChange={handleChange}
-            className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition"
-            required
-          />
-
-          <input
-            name="address"
-            placeholder="Address"
-            onChange={handleChange}
-            className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition"
-          />
-
-          <input
-            name="thumbnail"
-            placeholder="Thumbnail URL"
-            onChange={handleChange}
-            className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition"
-          />
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-purple-900 hover:bg-purple-950 text-white py-3 rounded transition"
+        <div className="flex flex-1 items-center justify-center">
+          <form
+            onSubmit={handleSubmit}
+            className="w-full max-w-2xl bg-white p-6 rounded-xl shadow space-y-4"
           >
-            {loading ? "Saving..." : "Add Restaurant"}
-          </button>
-        </form>
+            <input
+              name="name"
+              placeholder={t("restaurantName")}
+              onChange={handleChange}
+              className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition text-start"
+              required
+            />
+
+            <input
+              name="stars"
+              type="number"
+              min="1"
+              max="5"
+              placeholder={t("stars")}
+              onChange={handleChange}
+              className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition text-start"
+              required
+            />
+
+            <input
+              name="address"
+              placeholder={t("address")}
+              onChange={handleChange}
+              className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition text-start"
+            />
+
+            <input
+              name="thumbnail"
+              placeholder={t("thumbnail")}
+              onChange={handleChange}
+              className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition text-start"
+            />
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-emerald-700 hover:bg-emerald-800 text-white py-3 rounded transition"
+            >
+              {loading ? t("saving") : t("addRestaurant")}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

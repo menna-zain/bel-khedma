@@ -7,11 +7,12 @@ import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 
 import { useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function AddHotelPage() {
   const router = useRouter();
   const locale = useLocale();
+  const t = useTranslations("dashboard");
 
   const [loading, setLoading] = useState(false);
 
@@ -49,20 +50,13 @@ export default function AddHotelPage() {
           "https://picsum.photos/seed/test/400/300",
       };
 
-      console.log("PAYLOAD SENT TO BACKEND:");
-      console.log(payload);
-
-      const res = await axios.post(
+      await axios.post(
         "https://bilkhidmah-api.vercel.app/api/v1/hotels",
         payload
       );
 
-      console.log("RESPONSE:");
-      console.log(res.data);
-
       router.push(`/${locale}/admin/hotels`);
     } catch (err: any) {
-      console.log("ERROR:");
       console.log(err.response?.data || err);
     } finally {
       setLoading(false);
@@ -70,11 +64,14 @@ export default function AddHotelPage() {
   };
 
   return (
-    <div className="flex">
+    <div
+      className="flex min-h-screen"
+      dir={locale === "ar" ? "rtl" : "ltr"}
+    >
       <Sidebar />
 
       <div className="flex-1 p-6">
-        <Header title="Add Hotel" />
+        <Header title={t("addHotel")} />
 
         <form
           onSubmit={handleSubmit}
@@ -82,9 +79,9 @@ export default function AddHotelPage() {
         >
           <input
             name="name"
-            placeholder="Hotel Name"
+            placeholder={t("hotelName")}
             onChange={handleChange}
-            className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition"
+            className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition text-start"
             required
           />
 
@@ -93,46 +90,46 @@ export default function AddHotelPage() {
             type="number"
             min="1"
             max="5"
-            placeholder="Stars (1-5)"
+            placeholder={t("stars")}
             onChange={handleChange}
-            className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition"
+            className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition text-start"
             required
           />
 
           <input
             name="summary"
-            placeholder="Short Summary"
+            placeholder={t("summary")}
             onChange={handleChange}
-            className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition"
+            className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition text-start"
           />
 
           <textarea
             name="description"
-            placeholder="Description"
+            placeholder={t("description")}
             onChange={handleChange}
-            className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded h-28 transition"
+            className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded h-28 transition text-start"
           />
 
           <input
             name="thumbnail"
-            placeholder="Thumbnail URL"
+            placeholder={t("thumbnail")}
             onChange={handleChange}
-            className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition"
+            className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition text-start"
           />
 
           <input
             name="address"
-            placeholder="Address"
+            placeholder={t("address")}
             onChange={handleChange}
-            className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition"
+            className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition text-start"
           />
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-purple-900 hover:bg-purple-950 text-white py-3 rounded transition"
+            className="w-full bg-emerald-700 hover:bg-emerald-800 text-white py-3 rounded transition"
           >
-            {loading ? "Saving..." : "Add Hotel"}
+            {loading ? t("saving") : t("addHotel")}
           </button>
         </form>
       </div>

@@ -7,10 +7,10 @@ import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import Card from "@/components/Card";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 type Restaurant = {
-  _id: string;
+  id: string;
   name: string;
   stars?: number;
   address?: string;
@@ -19,32 +19,26 @@ type Restaurant = {
 
 export default function RestaurantsPage() {
   const t = useTranslations("dashboard");
+  const locale = useLocale();
 
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // GET ALL RESTAURANTS
   const getRestaurants = async () => {
-  try {
-    const res = await axios.get(
-      "https://bilkhidmah-api.vercel.app/api/v1/restaurants"
-    );
+    try {
+      const res = await axios.get(
+        "https://bilkhidmah-api.vercel.app/api/v1/restaurants"
+      );
 
-    console.log("SUCCESS:", res.data);
+      const data = res.data?.data?.rests;
+      setRestaurants(Array.isArray(data) ? data : Object.values(data || {}));
+    } catch (err: any) {
+      console.log(err.response?.data || err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    const data = res.data?.data?.rests;
-    setRestaurants(Array.isArray(data) ? data : Object.values(data || {}));
-
-  } catch (err: any) {
-    console.log("ERR:");
-    console.log(err.response?.data);
-    console.log(err.message);
-  } finally {
-    setLoading(false);
-  }
-};
-
-  // DELETE RESTAURANT
   const deleteRestaurant = async (id: string) => {
     try {
       await axios.delete(
@@ -52,7 +46,7 @@ export default function RestaurantsPage() {
       );
 
       setRestaurants((prev) =>
-        prev.filter((restaurant) => restaurant._id !== id)
+        prev.filter((restaurant) => restaurant.id !== id)
       );
     } catch (err) {
       console.log(err);
@@ -64,25 +58,34 @@ export default function RestaurantsPage() {
   }, []);
 
   return (
-    <div className="flex">
+    <div
+      className="flex min-h-screen"
+      dir={locale === "ar" ? "rtl" : "ltr"}
+    >
       <Sidebar />
 
-      <div className="flex-1 p-6">
+      <div className="flex-1 p-6 flex flex-col">
         <Header title={t("rest")} />
 
         {loading ? (
-          <p>Loading...</p>
+          <div className="flex flex-1 items-center justify-center">
+            <p className="text-lg">{t("loading")}</p>
+          </div>
         ) : restaurants.length === 0 ? (
-          <p>No Restaurants Found</p>
+          <div className="flex flex-1 items-center justify-center">
+            <p className="text-2xl md:text-3xl font-bold text-gray-500 text-center">
+              {t("noRestaurantsYet")}
+            </p>
+          </div>
         ) : (
           restaurants.map((restaurant) => (
             <Card
-              key={restaurant._id}
+              key={restaurant.id}
               title={restaurant.name}
               stars={restaurant.stars}
               address={restaurant.address}
               image={restaurant.thumbnail}
-              onDelete={() => deleteRestaurant(restaurant._id)}
+              onDelete={() => deleteRestaurant(restaurant.id)}
             />
           ))
         )}

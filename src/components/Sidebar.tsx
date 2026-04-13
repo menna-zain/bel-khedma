@@ -2,13 +2,17 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
-import { LogOut } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { LogOut, Languages } from "lucide-react";
+import { FaHandsHelping } from "react-icons/fa";
 
 export default function Sidebar() {
   const t = useTranslations("dashboard");
   const pathname = usePathname();
   const router = useRouter();
+  const locale = useLocale();
+
+  const isRTL = locale === "ar";
 
   const links = [
     { name: t("hotels"), href: "/admin/hotels" },
@@ -21,11 +25,22 @@ export default function Sidebar() {
     router.push("/login");
   };
 
+  const toggleLanguage = () => {
+    const newLocale = locale === "en" ? "ar" : "en";
+    router.push(`/${newLocale}${pathname.replace(/^\/(en|ar)/, "")}`);
+  };
+
   return (
-    <div className="w-64 bg-white border-r flex flex-col justify-between p-4 min-h-screen border-gray-300">
+    <div
+      className={`w-64 bg-white flex flex-col justify-between p-4 min-h-screen border-gray-300
+        ${isRTL ? "border-l" : "border-r"}
+      `}
+    >
 
       <div>
         <div className="flex items-center gap-2 mb-16">
+          <FaHandsHelping size={30} 
+                  className="text-emerald-700"/>
           <span className="font-bold text-2xl text-black">
             {t("serviceName")}
           </span>
@@ -33,23 +48,35 @@ export default function Sidebar() {
 
         {links.map((link) => (
           <Link key={link.href} href={link.href}>
-            <div
-              className={`p-3 rounded-lg mb-2 cursor-pointer font-semibold hover:bg-gray-100`}
-            >
+            <div className="p-3 rounded-lg mb-2 cursor-pointer font-semibold hover:bg-gray-100">
               {link.name}
             </div>
           </Link>
         ))}
       </div>
 
-      {/* Logout Button */}
-      <button
-        onClick={handleLogout}
-        className="flex items-center gap-2 font-semibold text-red-600 hover:text-red-700 transition p-2 mb-10"
-      >
-        <LogOut className="w-5 h-5" />
-        {t("logout")}
-      </button>
+      {/* أزرار تحت */}
+      <div className="flex flex-col gap-3">
+
+        {/* زر اللغة */}
+        <button
+          onClick={toggleLanguage}
+          className="flex items-center gap-2 font-semibold text-black hover:text-blue-700 transition p-2"
+        >
+          <Languages className="w-5 h-5" />
+          {locale === "en" ? "العربية" : "English"}
+        </button>
+
+        {/* Logout */}
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 font-semibold text-red-600 hover:text-red-700 transition p-2"
+        >
+          <LogOut className="w-5 h-5" />
+          {t("logout")}
+        </button>
+
+      </div>
     </div>
   );
 }

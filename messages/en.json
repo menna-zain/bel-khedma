@@ -175,14 +175,27 @@
   },
   "dashboard": {
     "serviceName": "bilkhidmah",
+    "noHotelsYet": "No hotels available yet",
     "hotels": "Hotels",
     "rest": "Restaurants",
     "addHotel":"Add Hotel",
-    "addReastaurant":"Add Reastaurant",
+    "addRestaurant":"Add Reastaurant",
+    "delete": "Delete",
+  "noRestaurantsYet": "No restaurants available yet",
     "logout": "Logout",
     "search": "Search...",
     "view": "View",
-    "edit": "Edit"
+    "edit": "Edit",
+    "loading": "Loading",
+  "hotelName": "Hotel Name",
+  "stars": "Stars (1-5)",
+  "summary": "Short Summary",
+  "description": "Description",
+  "thumbnail": "Thumbnail URL",
+  "address": "Address",
+  "restaurantName": "Restaurant Name",
+  
+  "saving": "Saving..."
   }
 
 

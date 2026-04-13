@@ -1,6 +1,7 @@
 "use client";
 
 import { X, Star } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 
 type Props = {
   title?: string;
@@ -21,6 +22,10 @@ export default function Card({
   image,
   onDelete,
 }: Props) {
+  const locale = useLocale();
+  const t = useTranslations("dashboard");
+
+  const isRTL = locale === "ar";
 
   const renderStars = (rating: number) => {
     const starsArray = [];
@@ -30,7 +35,9 @@ export default function Card({
         <Star
           key={i}
           className={`w-4 h-4 ${
-            i <= rating ? "text-yellow-500 fill-yellow-500" : "text-gray-300"
+            i <= rating
+              ? "text-yellow-500 fill-yellow-500"
+              : "text-gray-300"
           }`}
         />
       );
@@ -45,12 +52,18 @@ export default function Card({
       {/* Delete Button */}
       <button
         onClick={onDelete}
-        className="absolute top-2 right-2 group w-9 h-9 flex items-center justify-center rounded-full transition"
+        className={`absolute top-2 group w-9 h-9 flex items-center justify-center rounded-full transition
+          ${isRTL ? "left-2" : "right-2"}
+        `}
       >
         <X className="w-5 h-5 text-gray-500 group-hover:text-red-500" />
 
-        <span className="absolute -bottom-7 right-0 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition">
-          Delete
+        <span
+          className={`absolute -bottom-7 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition
+            ${isRTL ? "left-0" : "right-0"}
+          `}
+        >
+          {t("delete")}
         </span>
       </button>
 
@@ -64,7 +77,7 @@ export default function Card({
           />
         )}
 
-        <div className="flex flex-col  justify-center">
+        <div className="flex flex-col justify-center">
 
           <h2 className="text-xl font-bold">{title}</h2>
 

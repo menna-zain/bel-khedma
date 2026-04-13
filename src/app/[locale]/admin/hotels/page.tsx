@@ -7,7 +7,7 @@ import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import Card from "@/components/Card";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 type Hotel = {
   id: string;
@@ -21,6 +21,7 @@ type Hotel = {
 
 export default function HotelsPage() {
   const t = useTranslations("dashboard");
+  const locale = useLocale();
 
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const [loading, setLoading] = useState(true);
@@ -30,8 +31,6 @@ export default function HotelsPage() {
       const res = await axios.get(
         "https://bilkhidmah-api.vercel.app/api/v1/hotels"
       );
-
-      console.log("hotels response:", res.data);
 
       const hotelsData = res.data?.data?.hotels;
 
@@ -64,16 +63,25 @@ export default function HotelsPage() {
   }, []);
 
   return (
-    <div className="flex">
+    <div
+      className="flex min-h-screen"
+      dir={locale === "ar" ? "rtl" : "ltr"}
+    >
       <Sidebar />
 
-      <div className="flex-1 p-6">
+      <div className="flex-1 p-6 flex flex-col">
         <Header title={t("hotels")} />
 
         {loading ? (
-          <p>Loading...</p>
+          <div className="flex flex-1 items-center justify-center">
+            <p className="text-lg">{t("loading")}</p>
+          </div>
         ) : hotels.length === 0 ? (
-          <p>No Hotels Found</p>
+          <div className="flex flex-1 items-center justify-center">
+            <p className="text-2xl md:text-3xl font-bold text-gray-500 text-center">
+              {t("noHotelsYet")}
+            </p>
+          </div>
         ) : (
           hotels.map((hotel) => (
             <Card
