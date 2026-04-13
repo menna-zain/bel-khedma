@@ -1,50 +1,85 @@
 "use client";
 
+import { X, Star } from "lucide-react";
 
 type Props = {
   title?: string;
   subtitle?: string;
-  price?: number;
+  description?: string;
+  address?: string;
+  stars?: number;
   image?: string;
   onDelete?: () => void;
 };
+
 export default function Card({
   title,
   subtitle,
-  price,
+  description,
+  address,
+  stars = 0,
   image,
   onDelete,
 }: Props) {
+
+  const renderStars = (rating: number) => {
+    const starsArray = [];
+
+    for (let i = 1; i <= 5; i++) {
+      starsArray.push(
+        <Star
+          key={i}
+          className={`w-4 h-4 ${
+            i <= rating ? "text-yellow-500 fill-yellow-500" : "text-gray-300"
+          }`}
+        />
+      );
+    }
+
+    return starsArray;
+  };
+
   return (
-    <div className="border p-4 rounded-xl mb-4">
-      <img src={image} className="w-full h-40 object-cover rounded-lg" />
+    <div className="relative border p-4 rounded-xl mb-4 hover:shadow-md transition">
 
-      <h2 className="text-lg font-bold">{title}</h2>
-      <p>{subtitle}</p>
-      <p>{price} EGP</p>
-
+      {/* Delete Button */}
       <button
         onClick={onDelete}
-        className="bg-red-500 text-white px-3 py-1 mt-2 rounded"
+        className="absolute top-2 right-2 group w-9 h-9 flex items-center justify-center rounded-full transition"
       >
-        Delete
+        <X className="w-5 h-5 text-gray-500 group-hover:text-red-500" />
+
+        <span className="absolute -bottom-7 right-0 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition">
+          Delete
+        </span>
       </button>
+
+      <div className="flex gap-5">
+
+        {/* Image */}
+        {image && (
+          <img
+            src={image}
+            className="w-44 h-44 object-cover rounded-lg"
+          />
+        )}
+
+        <div className="flex flex-col  justify-center">
+
+          <h2 className="text-xl font-bold">{title}</h2>
+
+          {/* Stars */}
+          <div className="flex gap-1 mt-1">
+            {renderStars(stars)}
+          </div>
+
+          <p className="text-gray-600 mt-1">{subtitle}</p>
+
+          <p className="text-sm text-gray-500">{description}</p>
+
+          <p className="text-sm font-medium">{address}</p>
+        </div>
+      </div>
     </div>
   );
-
-
-
-  // return (
-  //   <div className="border rounded-xl p-4 flex items-center justify-between mb-4">
-  //     <div className="flex items-center gap-4">
-  //       <div className="w-16 h-12 bg-gray-300 rounded" />
-  //       <div className="w-40 h-3 bg-gray-300 rounded" />
-  //     </div>
-
-  //     <div className="flex gap-2">
-  //       <button className="text-red-500">👁</button>
-  //       <button className="text-blue-500">✏️</button>
-  //     </div>
-  //   </div>
-  // );
 }

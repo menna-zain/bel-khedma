@@ -12,9 +12,9 @@ import { useTranslations } from "next-intl";
 type Restaurant = {
   _id: string;
   name: string;
-  city?: string;
-  price?: number;
-  images?: string[];
+  stars?: number;
+  address?: string;
+  thumbnail?: string;
 };
 
 export default function RestaurantsPage() {
@@ -23,28 +23,28 @@ export default function RestaurantsPage() {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [loading, setLoading] = useState(true);
 
-  //  GET ALL RESTAURANTS
+  // GET ALL RESTAURANTS
   const getRestaurants = async () => {
-    try {
-      const res = await axios.get(
-        "https://bilkhidmah-api.vercel.app/api/v1/restaurants"
-      );
+  try {
+    const res = await axios.get(
+      "https://bilkhidmah-api.vercel.app/api/v1/restaurants"
+    );
 
-      const data = res.data?.data?.restaurants;
+    console.log("SUCCESS:", res.data);
 
-      if (Array.isArray(data)) {
-        setRestaurants(data);
-      } else {
-        setRestaurants(Object.values(data || {}));
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const data = res.data?.data?.rests;
+    setRestaurants(Array.isArray(data) ? data : Object.values(data || {}));
 
-  //  DELETE RESTAURANT
+  } catch (err: any) {
+    console.log("ERR:");
+    console.log(err.response?.data);
+    console.log(err.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
+  // DELETE RESTAURANT
   const deleteRestaurant = async (id: string) => {
     try {
       await axios.delete(
@@ -79,9 +79,9 @@ export default function RestaurantsPage() {
             <Card
               key={restaurant._id}
               title={restaurant.name}
-              subtitle={restaurant.city}
-              price={restaurant.price}
-              image={restaurant.images?.[0]}
+              stars={restaurant.stars}
+              address={restaurant.address}
+              image={restaurant.thumbnail}
               onDelete={() => deleteRestaurant(restaurant._id)}
             />
           ))

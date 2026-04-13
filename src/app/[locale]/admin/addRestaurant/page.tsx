@@ -9,7 +9,7 @@ import Header from "@/components/Header";
 import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 
-export default function AddHotelPage() {
+export default function AddRestaurant() {
   const router = useRouter();
   const locale = useLocale();
 
@@ -18,8 +18,6 @@ export default function AddHotelPage() {
   const [formData, setFormData] = useState({
     name: "",
     stars: "",
-    summary: "",
-    description: "",
     address: "",
     thumbnail: "",
   });
@@ -39,28 +37,26 @@ export default function AddHotelPage() {
 
     try {
       const payload = {
-        name: formData.name || "Test Hotel",
+        name: formData.name || "Test Restaurant",
         stars: Number(formData.stars) || 3,
-        summary: formData.summary || "Test summary",
-        description: formData.description || "Test description",
         address: formData.address || "Madinah, Saudi Arabia",
         thumbnail:
           formData.thumbnail ||
-          "https://picsum.photos/seed/test/400/300",
+          "https://images.unsplash.com/photo-1555992336-cbf7d0c0d6e2",
       };
 
-      console.log("PAYLOAD SENT TO BACKEND:");
+      console.log("RESTAURANT PAYLOAD:");
       console.log(payload);
 
       const res = await axios.post(
-        "https://bilkhidmah-api.vercel.app/api/v1/hotels",
+        "https://bilkhidmah-api.vercel.app/api/v1/restaurants",
         payload
       );
 
       console.log("RESPONSE:");
       console.log(res.data);
 
-      router.push(`/${locale}/admin/hotels`);
+      router.push(`/${locale}/admin/restaurants`);
     } catch (err: any) {
       console.log("ERROR:");
       console.log(err.response?.data || err);
@@ -74,7 +70,7 @@ export default function AddHotelPage() {
       <Sidebar />
 
       <div className="flex-1 p-6">
-        <Header title="Add Hotel" />
+        <Header title="Add Restaurant" />
 
         <form
           onSubmit={handleSubmit}
@@ -82,7 +78,7 @@ export default function AddHotelPage() {
         >
           <input
             name="name"
-            placeholder="Hotel Name"
+            placeholder="Restaurant Name"
             onChange={handleChange}
             className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition"
             required
@@ -100,17 +96,10 @@ export default function AddHotelPage() {
           />
 
           <input
-            name="summary"
-            placeholder="Short Summary"
+            name="address"
+            placeholder="Address"
             onChange={handleChange}
             className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition"
-          />
-
-          <textarea
-            name="description"
-            placeholder="Description"
-            onChange={handleChange}
-            className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded h-28 transition"
           />
 
           <input
@@ -120,19 +109,12 @@ export default function AddHotelPage() {
             className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition"
           />
 
-          <input
-            name="address"
-            placeholder="Address"
-            onChange={handleChange}
-            className="w-full border border-gray-300 focus:border-purple-700 outline-none p-3 rounded transition"
-          />
-
           <button
             type="submit"
             disabled={loading}
             className="w-full bg-purple-900 hover:bg-purple-950 text-white py-3 rounded transition"
           >
-            {loading ? "Saving..." : "Add Hotel"}
+            {loading ? "Saving..." : "Add Restaurant"}
           </button>
         </form>
       </div>
