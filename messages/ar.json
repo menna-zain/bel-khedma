@@ -172,7 +172,16 @@
     "logout": "تسجيل الخروج",
      "delivery": "الاهداف",
     "transportation": "الطلبات"
+  },
+  "dashboard": {
+    "hotels": "الفنادق",
+    "rest": "المطاعم",
+    "logout": "تسجيل الخروج",
+    "search": "ابحث...",
+    "view": "عرض",
+    "edit": "تعديل"
   }
+
 
 
 }

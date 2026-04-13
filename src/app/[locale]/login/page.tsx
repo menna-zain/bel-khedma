@@ -69,7 +69,9 @@ if (role) {
   localStorage.setItem("role", role);
   console.log("Role stored:", role);
 
-  if (role === "customer") {
+  if (role === "admin") {
+    router.push(`/${locale}/admin/hotels`);
+  } else if (role === "customer") {
     router.push(`/${locale}/delivery`);
   } else if (role === "volunteer") {
     router.push(`/${locale}/target`);

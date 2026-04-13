@@ -172,7 +172,16 @@
     "requests": "Requests",
     "profile": "Profile",
     "logout": "Logout"
+  },
+  "dashboard": {
+    "hotels": "Hotels",
+    "rest": "Restaurants",
+    "logout": "Logout",
+    "search": "Search...",
+    "view": "View",
+    "edit": "Edit"
   }
+
 
 
 }
