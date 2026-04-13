@@ -30,6 +30,7 @@ export default function HotelsPage() {
       "https://bilkhidmah-api.vercel.app/api/v1/hotels"
     );
 
+    console.log("resule hotels",res)
     const hotelsData = res.data?.data?.hotels;
 
     if (Array.isArray(hotelsData)) {

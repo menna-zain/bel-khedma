@@ -176,6 +176,8 @@
   "dashboard": {
     "hotels": "Hotels",
     "rest": "Restaurants",
+    "addHotel":"Add Hotel",
+    "addReastaurant":"Add Reastaurant",
     "logout": "Logout",
     "search": "Search...",
     "view": "View",

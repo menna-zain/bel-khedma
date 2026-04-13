@@ -13,6 +13,8 @@ export default function Sidebar() {
   const links = [
     { name: t("hotels"), href: "/admin/hotels" },
     { name: t("rest"), href: "/admin/restaurants" },
+    { name: t("addHotel"), href: "/admin/addHotel" },
+    { name: t("addReastaurant"), href: "/admin/addReastaurant" },
   ];
 
    const handleLogout = () => {
