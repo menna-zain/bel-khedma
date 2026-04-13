@@ -17,68 +17,54 @@ export default function AddHotelPage() {
 
   const [formData, setFormData] = useState({
     name: "",
-    city: "",
-    price: "",
+    stars: "",
+    summary: "",
+    description: "",
+    address: "",
+    thumbnail: "",
   });
 
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
-
-  // handle text inputs
-  const handleChange = (e: any) => {
-    setFormData({
-      ...formData,
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData((prev) => ({
+      ...prev,
       [e.target.name]: e.target.value,
-    });
+    }));
   };
 
-  // handle image
-  const handleImageChange = (e: any) => {
-    const file = e.target.files[0];
-
-    if (file) {
-      setImageFile(file);
-      setPreview(URL.createObjectURL(file));
-    }
-  };
-
-  // remove image
-  const handleRemoveImage = () => {
-    setImageFile(null);
-    setPreview(null);
-  };
-
-  // submit
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const data = new FormData();
+      const payload = {
+        name: formData.name || "Test Hotel",
+        stars: Number(formData.stars) || 3,
+        summary: formData.summary || "Test summary",
+        description: formData.description || "Test description",
+        address: formData.address || "Madinah, Saudi Arabia",
+        thumbnail:
+          formData.thumbnail ||
+          "https://picsum.photos/seed/test/400/300",
+      };
 
-      data.append("name", formData.name);
-      data.append("city", formData.city);
-      data.append("price", formData.price);
+      // 🔥 اطبع البيانات قبل الإرسال
+      console.log("PAYLOAD SENT TO BACKEND:");
+      console.log(payload);
 
-      if (imageFile) {
-        data.append("images", imageFile);
-      }
-
-     const res = await axios.post(
+      const res = await axios.post(
         "https://bilkhidmah-api.vercel.app/api/v1/hotels",
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        payload
       );
- 
 
-      console.log( "result",res)
+      console.log("✅ RESPONSE:");
+      console.log(res.data);
+
       router.push(`/${locale}/admin/hotels`);
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      console.log(" ERROR:");
+      console.log(err.response?.data || err);
     } finally {
       setLoading(false);
     }
@@ -93,11 +79,9 @@ export default function AddHotelPage() {
 
         <form
           onSubmit={handleSubmit}
-          className="max-w-xl mx-auto bg-white p-6 rounded-xl shadow space-y-4"
+          className="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow space-y-4"
         >
-          {/* Name */}
           <input
-            type="text"
             name="name"
             placeholder="Hotel Name"
             onChange={handleChange}
@@ -105,59 +89,51 @@ export default function AddHotelPage() {
             required
           />
 
-          {/* City */}
           <input
-            type="text"
-            name="city"
-            placeholder="City"
-            onChange={handleChange}
-            className="w-full border p-3 rounded"
-          />
-
-          {/* Price */}
-          <input
+            name="stars"
             type="number"
-            name="price"
-            placeholder="Price"
+            min="1"
+            max="5"
+            placeholder="Stars (1-5)"
+            onChange={handleChange}
+            className="w-full border p-3 rounded"
+            required
+          />
+
+          <input
+            name="summary"
+            placeholder="Short Summary"
             onChange={handleChange}
             className="w-full border p-3 rounded"
           />
 
-          {/* Image Upload + Preview */}
-          <div className="space-y-3">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="w-full border p-3 rounded"
-            />
+          <textarea
+            name="description"
+            placeholder="Description"
+            onChange={handleChange}
+            className="w-full border p-3 rounded h-28"
+          />
 
-            {preview && (
-              <div className="relative w-full h-60">
-                <img
-                  src={preview}
-                  alt="preview"
-                  className="w-full h-full object-cover rounded-lg border"
-                />
+          <input
+            name="thumbnail"
+            placeholder="Thumbnail URL"
+            onChange={handleChange}
+            className="w-full border p-3 rounded"
+          />
 
-                <button
-                  type="button"
-                  onClick={handleRemoveImage}
-                  className="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 rounded-full text-sm"
-                >
-                  ✕
-                </button>
-              </div>
-            )}
-          </div>
+          <input
+            name="address"
+            placeholder="Address"
+            onChange={handleChange}
+            className="w-full border p-3 rounded"
+          />
 
-          {/* Submit */}
           <button
             type="submit"
             disabled={loading}
             className="w-full bg-emerald-700 text-white py-3 rounded"
           >
-            {loading ? "Uploading..." : "Add Hotel"}
+            {loading ? "Saving..." : "Add Hotel"}
           </button>
         </form>
       </div>
