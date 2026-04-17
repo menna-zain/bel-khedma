@@ -76,7 +76,7 @@ export default function Register() {
       if (apiErrors && apiErrors.length > 0) {
         setErrMsg(apiErrors[0].msg);
       } else {
-        setErrMsg(err.response?.data?.status || t("somethingWentWrong"));
+        setErrMsg(err.response?.data?.message || t("somethingWentWrong"));
       }
     } finally {
       setIsLoading(false);

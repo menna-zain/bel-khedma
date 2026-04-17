@@ -1,66 +1,37 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { Star } from "lucide-react";
 import ProfileNav from "@/components/ProfileNav";
-import { useLocale } from "next-intl";
-
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
-
-
 type Hotel = {
-  id: number;
+  id: string;
   name: string;
-  location: string;
-  price: number;
-  rating: number;
-  image: string;
-  description: string;
+  stars?: number;
+  address?: string;
+  thumbnail?: string;
+  description?: string;
 };
 
-const hotels: Hotel[] = [
-  {
-    id: 1,
-    name: "Hilton Hotel",
-    location: "Riyadh",
-    price: 450,
-    rating: 4.5,
-    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945",
-    description: "Luxury hotel with amazing city view",
-  },
-  {
-    id: 2,
-    name: "Marriott Hotel",
-    location: "Jeddah",
-    price: 520,
-    rating: 4.8,
-    image: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa",
-    description: "Modern hotel near the sea",
-  },
-  {
-    id: 3,
-    name: "Four Seasons",
-    location: "Cairo",
-    price: 600,
-    rating: 5,
-    image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b",
-    description: "Luxury Nile view hotel",
-  },
-];
-
 export default function HotelsPage() {
-  const locale = useLocale() as "en" | "ar";
+  const locale = useLocale()as "en" | "ar";
+  const t = useTranslations("user");
   const router = useRouter();
 
-  //  states الفلترة
+  const [hotels, setHotels] = useState<Hotel[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // فلترة
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [rating, setRating] = useState("");
   const [city, setCity] = useState("");
 
-  //  النجوم
-  const renderStars = (rating: number) => {
+  // ⭐ النجوم
+  const renderStars = (rating: number = 0) => {
     return (
       <div className="flex gap-1 mt-1">
         {[...Array(5)].map((_, i) => (
@@ -78,13 +49,33 @@ export default function HotelsPage() {
     );
   };
 
-  //  الفلترة
+  // 📡 GET API
+  const getHotels = async () => {
+    try {
+      const res = await axios.get(
+        "https://bilkhidmah-api.vercel.app/api/v1/hotels"
+      );
+
+      const data = res.data?.data?.hotels;
+
+      setHotels(Array.isArray(data) ? data : Object.values(data || {}));
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getHotels();
+  }, []);
+
+  //  فلترة
   const filteredHotels = hotels.filter((hotel) => {
     return (
-      (!minPrice || hotel.price >= Number(minPrice)) &&
-      (!maxPrice || hotel.price <= Number(maxPrice)) &&
-      (!rating || hotel.rating >= Number(rating)) &&
-      (!city || hotel.location.toLowerCase().includes(city.toLowerCase()))
+      (!rating || (hotel.stars || 0) >= Number(rating)) &&
+      (!city ||
+        hotel.address?.toLowerCase().includes(city.toLowerCase()))
     );
   });
 
@@ -92,30 +83,15 @@ export default function HotelsPage() {
     <>
       <ProfileNav locale={locale} />
 
-      <div className="p-4 space-y-4 rtl mb-5">
-
-        {/* 🔍 الفلتر */}
+      <div
+        className="p-4 space-y-4 mb-5"
+        dir={locale === "ar" ? "rtl" : "ltr"}
+      >
+        {/*  الفلتر */}
         <div className="flex flex-wrap justify-center gap-2">
-
           <input
             type="number"
-            placeholder="Min Price"
-            value={minPrice}
-            onChange={(e) => setMinPrice(e.target.value)}
-            className="border border-emerald-200 rounded-md p-2 w-32 outline-none"
-          />
-
-          <input
-            type="number"
-            placeholder="Max Price"
-            value={maxPrice}
-            onChange={(e) => setMaxPrice(e.target.value)}
-            className="border border-emerald-200 rounded-md p-2 w-32 outline-none"
-          />
-
-          <input
-            type="number"
-            placeholder="Rating (e.g 4)"
+            placeholder={t("rating")}
             value={rating}
             onChange={(e) => setRating(e.target.value)}
             className="border border-emerald-200 rounded-md p-2 w-32 outline-none"
@@ -123,58 +99,60 @@ export default function HotelsPage() {
 
           <input
             type="text"
-            placeholder="City"
+            placeholder={t("city")}
             value={city}
             onChange={(e) => setCity(e.target.value)}
             className="border border-emerald-200 rounded-md p-2 w-32 outline-none"
           />
         </div>
 
-        {/*  قائمة الفنادق */}
+        {/*  الهوتيلز */}
         <div className="flex flex-col items-center gap-4">
-
-          {filteredHotels.length > 0 ? (
+          {loading ? (
+            <p>{t("loading")}</p>
+          ) : filteredHotels.length > 0 ? (
             filteredHotels.map((hotel) => (
-              
               <div
                 key={hotel.id}
-                  onClick={() => router.push(`/hotels/${hotel.id}`)}
-                className="w-1/2 border border-emerald-200 rounded-md p-3 shadow-sm hover:shadow-md transition"
+                onClick={() => router.push(`/hotels/${hotel.id}`)}
+                className="w-full md:w-1/2 border border-emerald-200 rounded-md p-3 shadow-sm hover:shadow-md transition cursor-pointer"
               >
+                <div className="flex gap-5 ">
+                <div>
                 <img
-                  src={hotel.image}
+                  src={hotel.thumbnail}
                   alt={hotel.name}
-                  className="w-full h-40 object-cover rounded-md mb-2"
-                />
-
-                <h2 className="text-lg font-bold text-gray-800">
+                  className="w-60 h-60 object-cover rounded-md mb-2"
+                  />
+</div>
+                  <div className="flex flex-col justify-center gap-1">  
+                <h2 className="text-2xl font-bold text-gray-800">
                   {hotel.name}
                 </h2>
 
-                <p className="text-sm text-gray-500">
-                 {hotel.location}
+                <p className="text-lg text-gray-500">
+                  {hotel.address}
                 </p>
 
-                <p className="text-sm text-gray-600 mt-1">
+                <p className="text-lg text-gray-600 mt-1">
                   {hotel.description}
                 </p>
 
-                <div className="flex items-center justify-between mt-2">
-                  {renderStars(hotel.rating)}
+                <div className="flex items-center gap-1 mt-2">
+                  {renderStars(hotel.stars || 0)}
                   <span className="text-sm font-semibold">
-                    {hotel.rating}
+                    {hotel.stars || 0}
                   </span>
                 </div>
-
-                <p className="text-emerald-700 font-bold mt-2">
-                  {hotel.price} SAR / night
-                </p>
+                </div>
+                </div>
               </div>
             ))
           ) : (
-            <p className="text-gray-500">No hotels found</p>
+            <p className="text-gray-500 text-lg">
+              {t("noHotelsYet")}
+            </p>
           )}
-
         </div>
       </div>
     </>

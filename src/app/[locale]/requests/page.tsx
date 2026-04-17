@@ -118,8 +118,8 @@ export default function Requests() {
       <ProfileNav locale={locale} />
 
       <div className="p-4 space-y-4 rtl mb-5 justify-center flex">
-        <div className="flex flex-col items-center gap-4 w-1/2">
-        <h2>Your Requests</h2>
+        <div className="flex flex-col items-center gap-4 w-1/2 mt-10">
+        {/* <h2>Your Requests</h2> */}
           {loading ? (
             <p className="text-gray-500">Loading...</p>
           ) : requests.length > 0 ? (

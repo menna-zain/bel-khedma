@@ -86,8 +86,8 @@ if (role) {
       if (apiErrors && apiErrors.length > 0) {
         setErrMsg(apiErrors[0].msg);
       } else {
-        setErrMsg(err.response?.data?.data.status || "Something went wrong");
-        setErrMsg(err.response?.data?.status || "Something went wrong");
+        setErrMsg(err.response?.data?.data.message || "Something went wrong");
+        setErrMsg(err.response?.data?.message || "Something went wrong");
       }
     } finally {
       setIsLoading(false);

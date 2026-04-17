@@ -169,6 +169,12 @@
     "delivery": "الاهداف",
     "transportation": "الطلبات"
   },
+  "user": {
+    "rating": "التقييم",
+    "city": "المدينة",
+    "loading": "جاري التحميل...",
+    "noHotels": "لا يوجد فنادق"
+  },
   "dashboard": {
     "serviceName": "بالخدمة",
     "noHotelsYet": "لا يوجد فنادق حتى الآن",
@@ -180,9 +186,8 @@
     "edit": "تعديل",
     "addHotel": "اضافة فندق",
     "delete": "حذف",
-    
     "addRestaurant": " اضافة مطعم",
-"restaurantName": "اسم المطعم",
+    "restaurantName": "اسم المطعم",
     "hotelName": "اسم الفندق",
     "stars": "عدد النجوم (1-5)",
     "summary": "ملخص قصير",
@@ -191,6 +196,6 @@
     "address": "العنوان",
     "saving": "جاري الحفظ...",
     "loading": "جاري التحميل...",
-  "noRestaurantsYet": "لا يوجد مطاعم حتى الآن"
+    "noRestaurantsYet": "لا يوجد مطاعم حتى الآن"
   }
 }

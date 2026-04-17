@@ -48,7 +48,7 @@ export default function Transportation() {
     setSelectedType(type);
   };
 
-  // 🔥 تحويل النص لإحداثيات لو المستخدم ما اختارش
+  //  تحويل النص لإحداثيات لو المستخدم ما اختارش
   const getCoordsFromText = async (query: string): Promise<Position | null> => {
     try {
       const res = await axios.get(
