@@ -23,13 +23,42 @@ export default function Requests() {
   const [requests, setRequests] = useState<Request[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // دالة لتحويل الاحداثيات لعنوان حقيقي
+  // ✅ Cache لتخزين العناوين
+  const addressCache = new Map<string, string>();
+
+  // ✅ دالة تحويل الاحداثيات لعنوان
   const getAddressFromCoords = async (lat: string, lon: string) => {
+    const key = `${lat},${lon}`;
+
+    // لو موجود في الكاش
+    if (addressCache.has(key)) {
+      return addressCache.get(key)!;
+    }
+
     try {
+      // ⏳ تأخير لتجنب rate limit
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       const res = await axios.get(
-        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
+        "https://nominatim.openstreetmap.org/reverse",
+        {
+          params: {
+            lat,
+            lon,
+            format: "json",
+          },
+          headers: {
+            "Accept-Language": "en",
+          },
+        }
       );
-      return res.data.display_name || "Unknown location";
+
+      const address = res.data.display_name || "Unknown location";
+
+      // خزنه
+      addressCache.set(key, address);
+
+      return address;
     } catch (error) {
       console.log("Error fetching address:", error);
       return "Unknown location";
@@ -53,47 +82,58 @@ export default function Requests() {
           }
         );
 
-        console.log("res :",res)
+        console.log("res :", res);
+
         const data = res.data.data;
 
-        // تحويل الـ delivery
-        const deliveryRequests: Request[] = await Promise.all(
-          (data.delivery || []).map(async (req: any) => ({
+        const allRequests: Request[] = [];
+
+        // ✅ delivery (بدون Promise.all)
+        for (const req of data.delivery || []) {
+          const start =
+            req.PLat && req.PLong
+              ? await getAddressFromCoords(req.PLat, req.PLong)
+              : "N/A";
+
+          const end =
+            req.DLat && req.DLong
+              ? await getAddressFromCoords(req.DLat, req.DLong)
+              : "N/A";
+
+          allRequests.push({
             id: req.id,
             serviceType: req.serviceType,
             status: req.status,
-            startLocation:
-              req.PLat && req.PLong
-                ? await getAddressFromCoords(req.PLat, req.PLong)
-                : "N/A",
-            endLocation:
-              req.DLat && req.DLong
-                ? await getAddressFromCoords(req.DLat, req.DLong)
-                : "N/A",
+            startLocation: start,
+            endLocation: end,
             averageTime: req.averageTime || null,
-          }))
-        );
+          });
+        }
 
-        // تحويل الـ transportation
-        const transportationRequests: Request[] = await Promise.all(
-          (data.transportation || []).map(async (req: any) => ({
+        // ✅ transportation
+        for (const req of data.transportation || []) {
+          const start =
+            req.SLat && req.SLong
+              ? await getAddressFromCoords(req.SLat, req.SLong)
+              : "N/A";
+
+          const end =
+            req.DLat && req.DLong
+              ? await getAddressFromCoords(req.DLat, req.DLong)
+              : "N/A";
+
+          allRequests.push({
             id: req.id,
             serviceType: req.serviceType,
             status: req.status,
-            startLocation:
-              req.SLat && req.SLong
-                ? await getAddressFromCoords(req.SLat, req.SLong)
-                : "N/A",
-            endLocation:
-              req.DLat && req.DLong
-                ? await getAddressFromCoords(req.DLat, req.DLong)
-                : "N/A",
-                averageTime: req.averageTime || null,
+            startLocation: start,
+            endLocation: end,
+            averageTime: req.averageTime || null,
             carType: req.carType || "N/A",
-          }))
-        );
+          });
+        }
 
-        setRequests([...deliveryRequests, ...transportationRequests]);
+        setRequests(allRequests);
       } catch (error) {
         console.log("Error fetching requests:", error);
       } finally {
@@ -104,22 +144,21 @@ export default function Requests() {
     getRequests();
   }, []);
 
-  const formatTime = (minutes: number) => {
-    if (minutes < 60) return `${minutes} min`;
-    const hrs = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    return mins === 0
-      ? `${hrs} hr${hrs > 1 ? "s" : ""}`
-      : `${hrs} hr${hrs > 1 ? "s" : ""} ${mins} min`;
-  };
+const formatTime = (decimalTime: number) => {
+  const hours = Math.floor(decimalTime);
+  const minutes = Math.round((decimalTime - hours) * 60);
 
+  const paddedHours = hours.toString().padStart(2, "0");
+  const paddedMinutes = minutes.toString().padStart(2, "0");
+
+  return `${paddedHours}:${paddedMinutes}`;
+};
   return (
     <>
       <ProfileNav locale={locale} />
 
       <div className="p-4 space-y-4 rtl mb-5 justify-center flex">
         <div className="flex flex-col items-center gap-4 w-1/2 mt-10">
-        {/* <h2>Your Requests</h2> */}
           {loading ? (
             <p className="text-gray-500">Loading...</p>
           ) : requests.length > 0 ? (
@@ -133,23 +172,30 @@ export default function Requests() {
                   <h2 className="text-lg font-bold text-gray-800">
                     {request.serviceType}
                   </h2>
-                  <span className="text-sm font-medium">{request.status}</span>
+                  <span className="text-sm font-medium">
+                    {request.status}
+                  </span>
                 </div>
 
                 <div className="text-sm text-gray-700 flex flex-col gap-1">
                   <p>
-                    <span className="font-bold ">From:</span>{" "}
+                    <span className="font-bold">From:</span>{" "}
                     {request.startLocation}
                   </p>
                   <p>
-                    <span className="font-bold">To:</span> {request.endLocation}
+                    <span className="font-bold">To:</span>{" "}
+                    {request.endLocation}
                   </p>
+
                   {request.averageTime && (
                     <p>
-                      <span className="font-bold">Arrival Time:</span>{" "}
+                      <span className="font-bold">
+                        Arrival Time:
+                      </span>{" "}
                       {formatTime(request.averageTime)}
                     </p>
                   )}
+
                   {request.carType && (
                     <p>
                       <span className="font-bold">Car Type:</span>{" "}
@@ -167,5 +213,3 @@ export default function Requests() {
     </>
   );
 }
-
-

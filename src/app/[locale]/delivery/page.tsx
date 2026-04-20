@@ -29,7 +29,6 @@ export default function delivery() {
   const [loading, setLoading] = useState(false);
   const [estimatedTime, setEstimatedTime] = useState<number | null>(null);
 
-  // 🔥 تحويل النص لإحداثيات
   const getCoordsFromText = async (query: string): Promise<Position | null> => {
     try {
       const res = await axios.get(
@@ -57,7 +56,6 @@ export default function delivery() {
     }
   };
 
-  // 🔥 suggestions
   const getSuggestions = async (
     value: string,
     setter: React.Dispatch<React.SetStateAction<any[]>>
@@ -98,7 +96,6 @@ export default function delivery() {
     []
   );
 
-  // 🔥 main function
   const handleRoute = async () => {
     setLoading(true);
 
@@ -106,7 +103,6 @@ export default function delivery() {
       let finalStart = startPos;
       let finalEnd = endPos;
 
-      // لو المستخدم ما اختارش من القائمة
       if (!finalStart && startQuery) {
         finalStart = await getCoordsFromText(startQuery);
       }
@@ -124,11 +120,12 @@ export default function delivery() {
       setEndPos(finalEnd);
       setPosition(finalStart);
 
-      // 🔥 حساب الوقت
       const toRad = (x: number) => (x * Math.PI) / 180;
       const R = 6371;
+
       const dLat = toRad(finalEnd[0] - finalStart[0]);
       const dLon = toRad(finalEnd[1] - finalStart[1]);
+
       const lat1 = toRad(finalStart[0]);
       const lat2 = toRad(finalEnd[0]);
 
@@ -138,11 +135,14 @@ export default function delivery() {
           Math.sin(dLon / 2) *
           Math.cos(lat1) *
           Math.cos(lat2);
+
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
       const distanceKm = R * c;
 
       const averageSpeed = 40;
       const timeMinutes = Math.round((distanceKm / averageSpeed) * 60);
+      
+const formattedTime = Number((timeMinutes / 60).toFixed(2));
 
       setEstimatedTime(timeMinutes);
 
@@ -151,7 +151,7 @@ export default function delivery() {
         PLong: finalStart[1],
         DLat: finalEnd[0],
         DLong: finalEnd[1],
-        averageTime: timeMinutes,
+        averageTime: formattedTime ,
       };
 
       const token = localStorage.getItem("token");
@@ -166,6 +166,8 @@ export default function delivery() {
         }
       );
 
+      
+      console.log("data to send",dataToSend);
       console.log(res.data);
 
       toast.success("تم تحديد المسار");
@@ -257,7 +259,6 @@ export default function delivery() {
             )}
           </div>
 
-          {/* Button */}
           <button
             onClick={handleRoute}
             disabled={loading}
@@ -268,18 +269,14 @@ export default function delivery() {
         </div>
 
         {/* Time */}
-        {estimatedTime !== null && (
+       {estimatedTime !== null && (
           <div className="text-center mt-2 text-gray-700">
             Time:{" "}
             {estimatedTime < 60
               ? `${estimatedTime} min`
               : `${Math.floor(estimatedTime / 60)} hr${
                   Math.floor(estimatedTime / 60) > 1 ? "s" : ""
-                }${
-                  estimatedTime % 60 !== 0
-                    ? ` ${estimatedTime % 60} min`
-                    : ""
-                }`}
+                }${estimatedTime % 60 !== 0 ? ` ${estimatedTime % 60} min` : ""}`}
           </div>
         )}
 
@@ -288,3 +285,4 @@ export default function delivery() {
     </div>
   );
 }
+

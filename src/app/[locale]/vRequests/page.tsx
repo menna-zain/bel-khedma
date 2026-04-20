@@ -3,12 +3,12 @@
 import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
-
 import axios from "axios";
 import Link from "next/link";
 import { MdAccountCircle } from "react-icons/md";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { FaHandsHelping } from "react-icons/fa";
+import { Toaster, toast } from "react-hot-toast";
 
 type Request = {
   id: string;
@@ -33,6 +33,11 @@ export default function Requests() {
   ];
 
   const [open, setOpen] = useState(false);
+  const [requests, setRequests] = useState<Request[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // ✅ حالة تحميل لكل زرار
+  const [acceptingId, setAcceptingId] = useState<string | null>(null);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -40,16 +45,15 @@ export default function Requests() {
     router.push("/login");
   };
 
-  const [requests, setRequests] = useState<Request[]>([]);
-  const [loading, setLoading] = useState(true);
-
   // ✅ Accept request
   const handleAccept = async (id: string, type: string) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) return;
 
-      const res = await axios.post(
+      setAcceptingId(id);
+
+      await axios.post(
         `https://bilkhidmah-api.vercel.app/api/v1/requests/${type}/${id}/accept`,
         {},
         {
@@ -57,11 +61,14 @@ export default function Requests() {
         },
       );
 
-      console.log("accept:", res);
-
       setRequests((prev) => prev.filter((req) => req.id !== id));
+
+      toast.success("Request accepted successfully");
     } catch (error) {
       console.log("Error accepting request:", error);
+      toast.error("Something went wrong");
+    } finally {
+      setAcceptingId(null);
     }
   };
 
@@ -99,7 +106,6 @@ export default function Requests() {
 
         const data = res.data.data;
 
-        // ✅ Delivery Requests
         const deliveryRequests: Request[] = [];
 
         for (const req of data.deliveries || []) {
@@ -125,7 +131,6 @@ export default function Requests() {
           });
         }
 
-        // ✅ Transportation Requests
         const transportationRequests: Request[] = [];
 
         for (const req of data.rides || []) {
@@ -163,17 +168,21 @@ export default function Requests() {
     getRequests();
   }, []);
 
-  const formatTime = (minutes: number) => {
-    if (minutes < 60) return `${minutes} min`;
-    const hrs = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    return mins === 0
-      ? `${hrs} hr${hrs > 1 ? "s" : ""}`
-      : `${hrs} hr${hrs > 1 ? "s" : ""} ${mins} min`;
+  const formatTime = (decimalTime: number) => {
+    const hours = Math.floor(decimalTime);
+    const minutes = Math.round((decimalTime - hours) * 60);
+
+    const paddedHours = hours.toString().padStart(2, "0");
+    const paddedMinutes = minutes.toString().padStart(2, "0");
+
+    return `${paddedHours}:${paddedMinutes}`;
   };
 
   return (
     <>
+      {/* ✅ Toast container */}
+      <Toaster position="top-center" />
+
       <nav
         className="flex items-center justify-between p-4 bg-white border-b border-gray-300 sticky top-0 left-0 w-full shadow-md z-50"
         dir={direction}
@@ -274,9 +283,12 @@ export default function Requests() {
                         e.stopPropagation();
                         handleAccept(request.id, request.serviceType);
                       }}
-                      className="bg-emerald-600 text-white px-3 py-1 rounded-md text-sm hover:bg-emerald-700 transition"
+                      disabled={acceptingId === request.id}
+                      className="bg-emerald-600 text-white px-3 py-1 rounded-md text-sm hover:bg-emerald-700 transition disabled:opacity-50"
                     >
-                      Accept
+                      {acceptingId === request.id
+                        ? "Loading..."
+                        : "Accept"}
                     </button>
                   </div>
                 </div>

@@ -176,6 +176,14 @@ export default function Transportation() {
       const averageSpeed = 40;
       const timeMinutes = Math.round((distanceKm / averageSpeed) * 60);
 
+      const hours = Math.floor(timeMinutes / 60);
+const minutes = timeMinutes % 60;
+
+// يحولها لشكل 1.30 أو 1.05
+const decimalTime = parseFloat(
+  `${hours}.${minutes.toString().padStart(2, "0")}`
+);
+
       setEta(timeMinutes);
 
       const dataToSend = {
@@ -184,8 +192,10 @@ export default function Transportation() {
         DLat: finalEnd[0],
         DLong: finalEnd[1],
         carType: selectedType,
-        averageTime: timeMinutes,
+        averageTime: decimalTime,
       };
+
+      console.log(dataToSend)
 
       const token = localStorage.getItem("token");
 
