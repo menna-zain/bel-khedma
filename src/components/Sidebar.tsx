@@ -17,6 +17,7 @@ export default function Sidebar() {
   const links = [
     { name: t("hotels"), href: "/admin/hotels" },
     { name: t("rest"), href: "/admin/restaurants" },
+    { name: t("land"), href: "/admin/landmarks" },
   ];
 
   const handleLogout = () => {
@@ -70,7 +71,7 @@ export default function Sidebar() {
         {/* Logout */}
         <button
           onClick={handleLogout}
-          className="flex items-center gap-2 font-semibold text-red-600 hover:text-red-700 transition p-2"
+          className="flex items-center gap-2 font-semibold text-red-600 hover:text-red-800 transition p-2"
         >
           <LogOut className="w-5 h-5" />
           {t("logout")}

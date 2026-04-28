@@ -1,71 +1,121 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import ProfileNav from "@/components/ProfileNav";
+import axios from "axios";
 import { Star } from "lucide-react";
-import { useLocale } from "next-intl";
+import ProfileNav from "@/components/ProfileNav";
+import { useLocale, useTranslations } from "next-intl";
 
-
-const restaurants = [
-  {
-    id: 1,
-    name: "Al Malaz Restaurant",
-    description: "Traditional Saudi cuisine",
-    rating: 4,
-    price: "SAR 50-150",
-    image: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
-  },
-  {
-    id: 2,
-    name: "Seafood Palace",
-    description: "Fresh seafood with ocean view",
-    rating: 5,
-    price: "SAR 120-300",
-    image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38",
-  },
-];
+type Restaurant = {
+  id: string;
+  name: string;
+  stars?: number;
+  address?: string;
+  thumbnail?: string;
+  description?: string;
+};
 
 export default function RestaurantDetails() {
   const { id } = useParams();
   const locale = useLocale() as "en" | "ar";
+  const t = useTranslations("user");
 
-  const restaurant = restaurants.find((r) => r.id === Number(id));
- 
+  const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  if (!restaurant) return <p>Restaurant not found</p>;
+  const renderStars = (rating: number = 0) => {
+    return (
+      <div className="flex gap-1">
+        {[...Array(5)].map((_, i) => (
+          <Star
+            key={i}
+            size={16}
+            className={
+              i < Math.floor(rating)
+                ? "fill-yellow-400 text-yellow-400"
+                : "text-gray-300"
+            }
+          />
+        ))}
+      </div>
+    );
+  };
 
-  const renderStars = (rating: number) => (
-    <div className="flex gap-1">
-      {[...Array(5)].map((_, i) => (
-        <Star
-          key={i}
-          size={16}
-          className={i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}
-        />
-      ))}
-    </div>
-  );
+  const getRestaurant = async () => {
+    try {
+      const res = await axios.get(
+        `https://bilkhidmah-api.vercel.app/api/v1/restaurants/${id}`
+      );
 
+      console.log(res)
+      setRestaurant(res.data?.data?.rest || null);
+    } catch (err) {
+      console.log(err);
+      setRestaurant(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getRestaurant();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p>{t("loading")}</p>
+      </div>
+    );
+  }
+
+  if (!restaurant) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p className="text-lg text-gray-500">
+          {t("restaurantNotFound")}
+        </p>
+      </div>
+    );
+  }
 
   return (
     <>
       <ProfileNav locale={locale} />
-<div className="flex justify-center"> 
-      <div className="p-4 space-y-4 rtl w-1/2">
-        <img
-          src={restaurant.image}
-          className="w-full object-cover rounded-md"
-        />
 
-        <h1 className="text-xl font-bold">{restaurant.name}</h1>
-        <p className="text-gray-600">{restaurant.description}</p>
-        {renderStars(Math.floor(restaurant.rating))}
-        <p className="text-emerald-700 font-bold">{restaurant.price}</p>
+      <div
+        className="flex justify-center min-h-screen"
+        dir={locale === "ar" ? "rtl" : "ltr"}
+      >
+        <div className="p-4 space-y-4 w-full md:w-1/2">
 
-        <button className="bg-emerald-700 text-white px-4 py-2 rounded w-full">
-          Book Table
-        </button>
-      </div>
+          {/* صورة */}
+          <img
+            src={restaurant.thumbnail}
+            className="w-full object-cover rounded-md"
+          />
+
+          {/* بيانات */}
+          <h1 className="text-xl font-bold">{restaurant.name}</h1>
+
+          <p className="text-gray-500">{restaurant.address}</p>
+
+          <p className="text-gray-600">{restaurant.description}</p>
+
+          {/* stars */}
+          <div className="flex items-center gap-2">
+            {renderStars(restaurant.stars || 0)}
+            <span>{restaurant.stars || 0}</span>
+          </div>
+
+          {/* زر */}
+          {/* 
+          <button className="bg-emerald-700 text-white px-4 py-2 rounded w-full">
+            {t("orderNow")}
+          </button> 
+          */}
+        </div>
       </div>
     </>
   );

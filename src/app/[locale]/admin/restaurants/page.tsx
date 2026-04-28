@@ -85,6 +85,7 @@ export default function RestaurantsPage() {
               stars={restaurant.stars}
               address={restaurant.address}
               image={restaurant.thumbnail}
+              type="restaurant"
               onDelete={() => deleteRestaurant(restaurant.id)}
             />
           ))

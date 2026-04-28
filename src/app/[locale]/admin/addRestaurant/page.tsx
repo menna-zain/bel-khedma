@@ -48,7 +48,12 @@ export default function AddRestaurant() {
 
       await axios.post(
         "https://bilkhidmah-api.vercel.app/api/v1/restaurants",
-        payload
+        payload,
+        {
+    headers: {
+      Authorization: `Bearer YOUR_TOKEN_HERE`,
+    },
+  }
       );
 
       router.push(`/${locale}/admin/restaurants`);

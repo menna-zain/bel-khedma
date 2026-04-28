@@ -33,6 +33,7 @@ export default function HotelsPage() {
       );
 
       const hotelsData = res.data?.data?.hotels;
+      console.log("hotelsData",hotelsData)
 
       if (Array.isArray(hotelsData)) {
         setHotels(hotelsData);
@@ -92,6 +93,7 @@ export default function HotelsPage() {
               address={hotel.address}
               stars={hotel.stars}
               image={hotel.thumbnail}
+               type="hotel"
               onDelete={() => deleteHotel(hotel.id)}
             />
           ))

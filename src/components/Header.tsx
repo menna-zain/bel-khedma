@@ -12,23 +12,26 @@ export default function Header({ title }: { title: string }) {
 
   const isHotelPage = pathname.includes("/admin/hotels");
   const isRestaurantPage = pathname.includes("/admin/restaurants");
+  const isLandmarkPage = pathname.includes("/admin/landmarks"); // 👈 جديد
 
   const handleClick = () => {
     if (isHotelPage) {
       router.push("/admin/addHotel");
     } else if (isRestaurantPage) {
       router.push("/admin/addRestaurant");
+    } else if (isLandmarkPage) {
+      router.push("/admin/addLandmark"); //  جديد
     }
   };
 
-  const showButton = isHotelPage || isRestaurantPage;
+  const showButton = isHotelPage || isRestaurantPage || isLandmarkPage; //  مهم
 
   return (
     <div
       className="flex items-center justify-between mb-6 p-5"
       dir={locale === "ar" ? "rtl" : "ltr"}
     >
-      <h1 className="text-3xl font-bold">{title}</h1>
+      <h1 className="text-3xl font-bold text-emerald-900">{title}</h1>
 
       {showButton && (
         <button
@@ -39,7 +42,9 @@ export default function Header({ title }: { title: string }) {
 
           {isHotelPage
             ? t("addHotel")
-            : t("addRestaurant")}
+            : isRestaurantPage
+            ? t("addRestaurant")
+            : t("addLandmark")} {/* جديد */}
         </button>
       )}
     </div>

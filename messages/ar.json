@@ -160,8 +160,10 @@
   },
   "volunteer": {
     "serviceName": "بالخدمة",
-    "welcome": "مرحبا بعودتك",
+    "welcome":  ",مرحبا بعودتك",
+    "hours": " عدد ساعاتك هو ",
     "progress": "الهدف",
+    "cong":"🎉 مبروك! لقد وصلت إلى هدفك",
     "requests": "الطلبات",
     "profile": "بيانات المستخدم",
     "from": "من",
@@ -178,8 +180,10 @@
   "dashboard": {
     "serviceName": "بالخدمة",
     "noHotelsYet": "لا يوجد فنادق حتى الآن",
+    "noLandmarksYet": "لا يوجد معالم حتى الآن",
     "hotels": "الفنادق",
     "rest": "المطاعم",
+    "land":"المعالم",
     "logout": "تسجيل الخروج",
     "search": "ابحث...",
     "view": "عرض",
@@ -196,6 +200,9 @@
     "address": "العنوان",
     "saving": "جاري الحفظ...",
     "loading": "جاري التحميل...",
-    "noRestaurantsYet": "لا يوجد مطاعم حتى الآن"
+    "noRestaurantsYet": "لا يوجد مطاعم حتى الآن",
+    "addLandmark": "إضافة معلم",
+    
+"landmarkName": "اسم المعلم"
   }
 }

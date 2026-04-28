@@ -11,6 +11,8 @@ type Props = {
   stars?: number;
   image?: string;
   onDelete?: () => void;
+
+  type?: "restaurant" | "hotel" | "landmark";
 };
 
 export default function Card({
@@ -21,6 +23,7 @@ export default function Card({
   stars = 0,
   image,
   onDelete,
+  type,
 }: Props) {
   const locale = useLocale();
   const t = useTranslations("dashboard");
@@ -35,9 +38,7 @@ export default function Card({
         <Star
           key={i}
           className={`w-4 h-4 ${
-            i <= rating
-              ? "text-yellow-500 fill-yellow-500"
-              : "text-gray-300"
+            i <= rating ? "text-yellow-500 fill-yellow-500" : "text-gray-300"
           }`}
         />
       );
@@ -45,6 +46,8 @@ export default function Card({
 
     return starsArray;
   };
+
+  const showStars = type === "restaurant" || type === "hotel";
 
   return (
     <div className="relative border p-4 rounded-xl mb-4 hover:shadow-md transition">
@@ -81,10 +84,12 @@ export default function Card({
 
           <h2 className="text-xl font-bold">{title}</h2>
 
-          {/* Stars */}
-          <div className="flex gap-1 mt-1">
-            {renderStars(stars)}
-          </div>
+          {/* Stars - only for restaurant & hotel */}
+          {showStars && (
+            <div className="flex gap-1 mt-1">
+              {renderStars(stars)}
+            </div>
+          )}
 
           <p className="text-gray-600 mt-1">{subtitle}</p>
 

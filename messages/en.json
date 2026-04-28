@@ -151,7 +151,9 @@
   },
   "volunteer": {
     "serviceName": "bilkhidmah",
-    "welcome": "Welcome back",
+    "welcome": "Welcome back, ",
+    "hours": "your hours is",
+    "cong": "🎉 Congratulations! You have reached your goal",
     "progress": " Your Target",
     "from": "From",
     "requests": "Requests",
@@ -180,8 +182,10 @@
   "dashboard": {
     "serviceName": "bilkhidmah",
     "noHotelsYet": "No hotels available yet",
+    "noLandmarksYet": "No landmarks available yet",
     "hotels": "Hotels",
     "rest": "Restaurants",
+    "land":"Landmarks",
     "addHotel": "Add Hotel",
     "addRestaurant": "Add Restaurant",
     "delete": "Delete",
@@ -198,6 +202,8 @@
     "thumbnail": "Thumbnail URL",
     "address": "Address",
     "restaurantName": "Restaurant Name",
+    "addLandmark": "Add Landmark",
+"landmarkName": "Landmark Name",
 
     "saving": "Saving..."
   }

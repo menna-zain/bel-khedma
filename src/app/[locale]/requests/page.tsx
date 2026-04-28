@@ -50,7 +50,7 @@ export default function Requests() {
           headers: {
             "Accept-Language": "en",
           },
-        }
+        },
       );
 
       const address = res.data.display_name || "Unknown location";
@@ -79,7 +79,7 @@ export default function Requests() {
           "https://bilkhidmah-api.vercel.app/api/v1/users/history",
           {
             headers: { Authorization: `Bearer ${token}` },
-          }
+          },
         );
 
         console.log("res :", res);
@@ -144,15 +144,15 @@ export default function Requests() {
     getRequests();
   }, []);
 
-const formatTime = (decimalTime: number) => {
-  const hours = Math.floor(decimalTime);
-  const minutes = Math.round((decimalTime - hours) * 60);
+  const formatTime = (decimalTime: number) => {
+    const hours = Math.floor(decimalTime);
+    const minutes = Math.round((decimalTime - hours) * 60);
 
-  const paddedHours = hours.toString().padStart(2, "0");
-  const paddedMinutes = minutes.toString().padStart(2, "0");
+    const paddedHours = hours.toString().padStart(2, "0");
+    const paddedMinutes = minutes.toString().padStart(2, "0");
 
-  return `${paddedHours}:${paddedMinutes}`;
-};
+    return `${paddedHours}:${paddedMinutes}`;
+  };
   return (
     <>
       <ProfileNav locale={locale} />
@@ -172,7 +172,13 @@ const formatTime = (decimalTime: number) => {
                   <h2 className="text-lg font-bold text-gray-800">
                     {request.serviceType}
                   </h2>
-                  <span className="text-sm font-medium">
+                  <span
+                    className={`text-sm font-medium px-3 py-1 rounded-full ${
+                      request.status === "pending"
+                        ? "bg-yellow-100 text-yellow-700"
+                        : "bg-green-100 text-green-700"
+                    }`}
+                  >
                     {request.status}
                   </span>
                 </div>
@@ -183,15 +189,12 @@ const formatTime = (decimalTime: number) => {
                     {request.startLocation}
                   </p>
                   <p>
-                    <span className="font-bold">To:</span>{" "}
-                    {request.endLocation}
+                    <span className="font-bold">To:</span> {request.endLocation}
                   </p>
 
                   {request.averageTime && (
                     <p>
-                      <span className="font-bold">
-                        Arrival Time:
-                      </span>{" "}
+                      <span className="font-bold">Arrival Time:</span>{" "}
                       {formatTime(request.averageTime)}
                     </p>
                   )}
