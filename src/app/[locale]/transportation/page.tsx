@@ -282,7 +282,6 @@ const decimalTime = parseFloat(
             )}
           </div>
 
-          {/* End */}
           <div className="relative border border-emerald-200 rounded-md p-3 w-full sm:w-1/3">
             <input
               type="text"
