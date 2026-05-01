@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from "react";
 import { toPng } from "html-to-image";
 import jsPDF from "jspdf";
 import { FaHandsHelping } from "react-icons/fa";
+import { useLocale, useTranslations } from "next-intl";
 import axios from "axios";
 
 const G = "#007A55";
@@ -27,6 +28,8 @@ type HoursData = {
 export default function BilkhidmahCertificate({
   hours = 120,
 }: CertificateProps) {
+    const locale = useLocale() as "en" | "ar";
+    const t = useTranslations("profileNav");
   const certRef = useRef<HTMLDivElement | null>(null);
   const [namee, setName] = useState("اسم المتطوع");
   const today = new Date().toLocaleDateString("ar-SA-u-ca-islamic", {
@@ -104,17 +107,18 @@ export default function BilkhidmahCertificate({
     <>
       <nav
         className={`flex items-center justify-between p-4 bg-white border-b border-gray-300 sticky top-0 left-0 w-full  shadow-md z-50`}
-        // dir={direction}
+        dir={locale === "ar" ? "rtl" : "ltr"}
       >
         {/* اللوجو واسم الخدمة */}
         <div className="flex items-center gap-2">
           <FaHandsHelping size={30} className="text-emerald-700" />
           <span className="font-bold text-2xl text-black">
-            {/* {t("serviceName")} */}
-            بالخدمة
+            {t("serviceName")}
+           
           </span>
         </div>
       </nav>
+
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap');
         .bk-page { min-height:100vh; background:linear-gradient(160deg,#e8f2ee,#f5f9f7,#eaf3ef); display:flex; flex-direction:column; align-items:center; padding:40px 20px; gap:32px; direction:rtl; font-family:'Tajawal',sans-serif; }
