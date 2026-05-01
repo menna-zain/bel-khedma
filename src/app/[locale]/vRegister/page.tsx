@@ -264,7 +264,7 @@ export default function vRegister() {
                   <input
                     type="text"
                     name="ssn"
-                    placeholder="SSN"
+                    placeholder={t("ssn")}
                     value={values.ssn}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -470,13 +470,23 @@ export default function vRegister() {
             </div>
 
             <button className="w-full py-3 bg-emerald-700 text-white rounded-md">
-              {isLoading ? "Loading..." : "Register"}
+              {isLoading ? t("loading") : t("register")}
             </button>
             {errMsg && (
   <p className="mt-2 text-sm text-red-500 text-center">
     {errMsg}
   </p>
 )}
+ {/* Login Link */}
+            <p className=" text-center text-gray-600">
+              {t("haveAccount")}{" "}
+              <span
+                onClick={() => router.push(`/${locale}/login`)}
+                className="text-yellow-600 font-semibold cursor-pointer hover:underline"
+              >
+                {t("login")}
+              </span>
+            </p>
           </form>
         </div>
       </div>

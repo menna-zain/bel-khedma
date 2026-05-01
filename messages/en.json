@@ -89,6 +89,7 @@
     "personaltyDetails": "Personality Details",
     "fname": "First Name",
     "lname": "Last Name",
+    "ssn":"National ID Number",
     "email": "Email Address",
     "password": "Password",
     "passwordConfirm": "Confirm Password",
@@ -179,6 +180,13 @@
     "profile": "Profile",
     "logout": "Logout"
   },
+   "Vnavbar" :{
+    "serviceName": "bilkhidmah",
+    "Target": "Target",
+    "Requests": "Requests",
+    "profile": "Profile",
+    "logout": "Log Out"
+  },
   "dashboard": {
     "serviceName": "bilkhidmah",
     "noHotelsYet": "No hotels available yet",
@@ -206,5 +214,25 @@
 "landmarkName": "Landmark Name",
 
     "saving": "Saving..."
+  },
+   "landmarks": {
+    "title": "Enter Your Trip Details",
+    "date": "Date's tuor",
+    "location": "Enter meeting location",
+    "startTime": "The start time of the tour",
+    "endTime": "The end time of the tour",
+    "locationPlaceholder": "Enter meeting location",
+    "selected": "Selected Places",
+    "create": "Create Tour",
+    "creating": "Creating...",
+    "choosePlaces": "Choose the places you want to include in your tour",
+    "loading": "Loading...",
+    "success": "Tour created successfully ✅",
+
+    "errors": {
+      "fillAll": "Please fill all fields",
+      "invalidLocation": "Invalid location",
+      "failed": "Error creating tour"
+    }
   }
 }

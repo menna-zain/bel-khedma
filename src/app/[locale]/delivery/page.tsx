@@ -183,7 +183,8 @@ const formattedTime = Number((timeMinutes / 60).toFixed(2));
     <div>
       <ProfileNav locale={locale} />
 
-      <div className="p-4 space-y-4 rtl mb-5">
+      <div className="p-4 space-y-4 rtl mb-5"
+       dir={locale === "ar" ? "rtl" : "ltr"}>
         <Toaster position="top-right" />
 
         <div className="flex gap-2 items-center justify-center mt-5 flex-wrap">

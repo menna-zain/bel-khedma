@@ -4,10 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import Link from "next/link";
-import { MdAccountCircle } from "react-icons/md";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
-import { FaHandsHelping } from "react-icons/fa";
+import Vnavbar from "@/components/Vnavbar";
 import { Toaster, toast } from "react-hot-toast";
 
 type Request = {
@@ -27,25 +24,16 @@ export default function Requests() {
   const direction = locale === "ar" ? "rtl" : "ltr";
   const router = useRouter();
 
-  const navLinks = [
-    { name: "delivery", href: "/target" },
-    { name: "transportation", href: "/vRequests" },
-  ];
 
-  const [open, setOpen] = useState(false);
   const [requests, setRequests] = useState<Request[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ حالة تحميل لكل زرار
+  //  حالة تحميل لكل زرار
   const [acceptingId, setAcceptingId] = useState<string | null>(null);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
-    router.push("/login");
-  };
 
-  // ✅ Accept request
+
+  //  Accept request
   const handleAccept = async (id: string, type: string) => {
     try {
       const token = localStorage.getItem("token");
@@ -72,7 +60,7 @@ export default function Requests() {
     }
   };
 
-  // ✅ تحويل الاحداثيات لعنوان
+  //  تحويل الاحداثيات لعنوان
   const getAddressFromCoords = async (lat: string, lon: string) => {
     try {
       const res = await axios.get(
@@ -180,65 +168,10 @@ export default function Requests() {
 
   return (
     <>
-      {/* ✅ Toast container */}
+      {/*  Toast container */}
       <Toaster position="top-center" />
 
-      <nav
-        className="flex items-center justify-between p-4 bg-white border-b border-gray-300 sticky top-0 left-0 w-full shadow-md z-50"
-        dir={direction}
-      >
-        <div className="flex items-center gap-2">
-          <FaHandsHelping size={30} className="text-emerald-700" />
-          <span className="font-bold text-2xl text-black">
-            {t("serviceName")}
-          </span>
-        </div>
-
-        <div className="flex items-center gap-6">
-          <div className="flex gap-4">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="text-gray-800 hover:text-emerald-700 font-semibold text-lg transition"
-              >
-                {t(link.name)}
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex items-center">
-          <LanguageSwitcher />
-          <div className="relative">
-            <button
-              onClick={() => setOpen(!open)}
-              className="flex items-center px-2 py-1 rounded-lg hover:bg-gray-200 transition"
-            >
-              <MdAccountCircle size={32} />
-            </button>
-
-            {open && (
-              <div
-                className={`absolute mt-2 bg-white shadow-lg rounded-xl border border-gray-300 z-[5000] p-2 ${
-                  locale === "ar" ? "left-0 w-38" : "right-0 w-28"
-                }`}
-              >
-                <button className="w-full px-4 py-2 hover:bg-gray-100 text-sm">
-                  {t("profile")}
-                </button>
-                <button
-                  onClick={handleLogout}
-                  className="text-red-600 hover:text-red-800 font-semibold w-full px-4 py-2 hover:bg-gray-100 text-sm"
-                >
-                  {t("logout")}
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      </nav>
-
+     <Vnavbar locale={locale}/>
       <div className="p-4 space-y-4 mb-5 flex justify-center">
         <div className="flex flex-col items-center gap-4 w-1/2 mt-10">
           {loading ? (

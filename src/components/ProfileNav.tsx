@@ -1,14 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useTranslations } from "next-intl";
-import { FaHandsHelping, FaSignOutAlt } from "react-icons/fa";
-import { usePathname } from "next/navigation";
+import { FaHandsHelping } from "react-icons/fa";
 import { useState } from "react";
-import { FiCheck, FiGlobe } from "react-icons/fi";
-import { RiArrowDropDownLine } from "react-icons/ri";
 import { MdAccountCircle } from "react-icons/md";
 
 type NavbarProps = {
@@ -18,10 +15,10 @@ type NavbarProps = {
 export default function ProfileNav({ locale }: NavbarProps) {
   const t = useTranslations("profileNav");
   const router = useRouter();
+  const pathname = usePathname();
 
   const direction = locale === "ar" ? "rtl" : "ltr";
 
-  // profile
   const [open, setOpen] = useState(false);
 
   const navLinks = [
@@ -32,19 +29,23 @@ export default function ProfileNav({ locale }: NavbarProps) {
     { name: "restaurants", href: "/restaurants" },
   ];
 
-  // دالة تسجيل الخروج
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     router.push("/login");
   };
 
+const isActive = (href: string) => {
+  const cleanPath = pathname.replace(`/${locale}`, "") || "/";
+  return cleanPath === href || cleanPath.startsWith(href + "/");
+};
+
   return (
     <nav
       className="flex items-center justify-between p-4 bg-gray-100 border-b border-gray-300 sticky top-0 left-0 w-full shadow-md z-50"
       dir={direction}
     >
-      {/* اللوجو واسم الخدمة */}
+      {/* Logo */}
       <div className="flex items-center gap-2">
         <FaHandsHelping size={30} className="text-emerald-700" />
         <span className="font-bold text-2xl text-black">
@@ -52,59 +53,60 @@ export default function ProfileNav({ locale }: NavbarProps) {
         </span>
       </div>
 
-      {/* روابط الصفحات */}
-      <div className="flex items-center gap-6">
-        <div className="flex gap-4">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              className="text-gray-800 hover:text-emerald-700 font-semibold text-lg transition"
-            >
-              {t(link.name)}
-            </Link>
-          ))}
-        </div>
+      {/* Links */}
+      <div className="flex gap-3">
+        {navLinks.map((link) => (
+          <Link
+            key={link.name}
+            href={link.href}
+            className={`text-lg font-semibold transition px-2 py-1 rounded-md
+              ${
+                isActive(link.href)
+                  ? "text-emerald-700 "
+                  : "text-gray-800 hover:text-emerald-700"
+              }`}
+          >
+            {t(link.name)}
+          </Link>
+        ))}
       </div>
 
-      {/* أيقونات اللغة والخروج */}
-      <div className="flex items-center ">
+      {/* Right side */}
+      <div className="flex items-center gap-3">
         <LanguageSwitcher />
 
-        {/* profile */}
-        <div className="relative ">
-          {/* Button */}
+        <div className="relative">
           <button
             onClick={() => setOpen(!open)}
-            className="flex items-center  px-2 py-1 rounded-lg hover:bg-gray-200 transition"
+            className="flex items-center px-2 py-1 rounded-lg hover:bg-gray-200 transition"
           >
             <MdAccountCircle size={32} />
           </button>
 
-          {/* Dropdown */}
           {open && (
             <div
-              className={`absolute mt-2  bg-white shadow-lg rounded-xl border border-gray-300 z-50000 p-2 
-  ${locale === "ar" ? "left-0 w-38" : "right-0 w-28"}`}
+              className={`absolute mt-2 bg-white shadow-lg rounded-xl border border-gray-300 z-50 p-2 
+              ${locale === "ar" ? "left-0 w-38" : "right-0 w-28"}`}
             >
               <button
-                onClick={() => {router.push("/requests"); setOpen(false); }}
-                className="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 transition text-sm"
+                onClick={() => {
+                  router.push("/requests");
+                  setOpen(false);
+                }}
+                className="w-full px-4 py-2 hover:bg-gray-100 text-sm text-left"
               >
                 {t("requests")}
               </button>
 
-              <button
-                // onClick={() =>}
-                className="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 transition text-sm"
-              >
+              <button className="w-full px-4 py-2 hover:bg-gray-100 text-sm text-left">
                 {t("profile")}
               </button>
+
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-1 text-red-600 hover:text-red-800 font-semibold justify-between w-full px-4 py-2 hover:bg-gray-100 transition text-sm"
+                className="w-full px-4 py-2 hover:bg-gray-100 text-sm text-red-600 text-left"
               >
-                <span>{t("logout")}</span>
+                {t("logout")}
               </button>
             </div>
           )}

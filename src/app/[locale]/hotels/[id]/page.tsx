@@ -83,20 +83,22 @@ export default function HotelDetails() {
     <>
       <ProfileNav locale={locale} />
 
+      <h2 className="text-5xl font-bold text-emerald-900 text-center my-5">Hotel's Details</h2>
       <div
-        className="flex justify-center min-h-screen"
+        className="flex"
         dir={locale === "ar" ? "rtl" : "ltr"}
       >
-        <div className="p-4 space-y-4 w-full md:w-1/2">
+        <div className="p-4 space-y-4 w-full  flex gap-1">
 
           {/* صورة */}
           <img
             src={hotel.thumbnail}
-            className="w-full object-cover rounded-md"
+            className="w-1/2 h-96  object-cover rounded-md"
           />
 
           {/* بيانات */}
-          <h1 className="text-xl font-bold">{hotel.name}</h1>
+          <div className="p-8 m-3 w-1/2">
+            <h1 className="text-xl font-bold">{hotel.name}</h1>
 
           <p className="text-gray-500">{hotel.address}</p>
 
@@ -107,6 +109,8 @@ export default function HotelDetails() {
             {renderStars(hotel.stars || 0)}
             <span>{hotel.stars || 0}</span>
           </div>
+          </div>
+          
 
           {/* زر */}
           {/* <button className="bg-emerald-700 text-white px-4 py-2 rounded w-full">

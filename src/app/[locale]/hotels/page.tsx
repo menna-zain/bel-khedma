@@ -17,7 +17,7 @@ type Hotel = {
 };
 
 export default function HotelsPage() {
-  const locale = useLocale()as "en" | "ar";
+  const locale = useLocale() as "en" | "ar";
   const t = useTranslations("user");
   const router = useRouter();
 
@@ -25,10 +25,7 @@ export default function HotelsPage() {
   const [loading, setLoading] = useState(true);
 
   // فلترة
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
   const [rating, setRating] = useState("");
-  const [city, setCity] = useState("");
 
   // ⭐ النجوم
   const renderStars = (rating: number = 0) => {
@@ -53,10 +50,11 @@ export default function HotelsPage() {
   const getHotels = async () => {
     try {
       const res = await axios.get(
-        "https://bilkhidmah-api.vercel.app/api/v1/hotels"
+        "https://bilkhidmah-api.vercel.app/api/v1/hotels",
       );
 
       const data = res.data?.data?.hotels;
+      console.log("hotels",data)
 
       setHotels(Array.isArray(data) ? data : Object.values(data || {}));
     } catch (err) {
@@ -72,23 +70,16 @@ export default function HotelsPage() {
 
   //  فلترة
   const filteredHotels = hotels.filter((hotel) => {
-    return (
-      (!rating || (hotel.stars || 0) >= Number(rating)) &&
-      (!city ||
-        hotel.address?.toLowerCase().includes(city.toLowerCase()))
-    );
+    return !rating || (hotel.stars || 0) >= Number(rating);
   });
 
   return (
     <>
       <ProfileNav locale={locale} />
 
-      <div
-        className="p-4 space-y-4 mb-5"
-        dir={locale === "ar" ? "rtl" : "ltr"}
-      >
+      <div className="p-4 space-y-4 mb-5" dir={locale === "ar" ? "rtl" : "ltr"}>
         {/*  الفلتر */}
-        <div className="flex flex-wrap justify-center gap-2">
+        {/* <div className="flex flex-wrap justify-center gap-2">
           <input
             type="number"
             placeholder={t("rating")}
@@ -96,15 +87,7 @@ export default function HotelsPage() {
             onChange={(e) => setRating(e.target.value)}
             className="border border-emerald-200 rounded-md p-2 w-32 outline-none"
           />
-
-          <input
-            type="text"
-            placeholder={t("city")}
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            className="border border-emerald-200 rounded-md p-2 w-32 outline-none"
-          />
-        </div>
+        </div> */}
 
         {/*  الهوتيلز */}
         <div className="flex flex-col items-center gap-4">
@@ -118,40 +101,36 @@ export default function HotelsPage() {
                 className="w-full md:w-1/2 border border-emerald-200 rounded-md p-3 shadow-sm hover:shadow-md transition cursor-pointer"
               >
                 <div className="flex gap-5 ">
-                <div>
-                <img
-                  src={hotel.thumbnail}
-                  alt={hotel.name}
-                  className="w-60 h-60 object-cover rounded-md mb-2"
-                  />
-</div>
-                  <div className="flex flex-col justify-center gap-1">  
-                <h2 className="text-2xl font-bold text-gray-800">
-                  {hotel.name}
-                </h2>
+                  <div>
+                    <img
+                      src={hotel.thumbnail}
+                      alt={hotel.name}
+                      className="w-full h-60 object-cover rounded-md mb-2"
+                    />
+                  </div>
+                  <div className="flex flex-col justify-center gap-1">
+                    <h2 className="text-2xl font-bold text-gray-800">
+                      {hotel.name}
+                    </h2>
 
-                <p className="text-lg text-gray-500">
-                  {hotel.address}
-                </p>
+                    <p className="text-lg text-gray-500">{hotel.address}</p>
 
-                <p className="text-lg text-gray-600 mt-1">
-                  {hotel.description}
-                </p>
+                    <p className="text-lg text-gray-600 mt-1">
+                      {hotel.description}
+                    </p>
 
-                <div className="flex items-center gap-1 mt-2">
-                  {renderStars(hotel.stars || 0)}
-                  <span className="text-sm font-semibold">
-                    {hotel.stars || 0}
-                  </span>
-                </div>
-                </div>
+                    <div className="flex items-center gap-1 mt-2">
+                      {renderStars(hotel.stars || 0)}
+                      <span className="text-sm font-semibold">
+                        {hotel.stars || 0}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             ))
           ) : (
-            <p className="text-gray-500 text-lg">
-              {t("noHotelsYet")}
-            </p>
+            <p className="text-gray-500 text-lg">{t("noHotelsYet")}</p>
           )}
         </div>
       </div>

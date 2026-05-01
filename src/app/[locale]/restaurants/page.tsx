@@ -31,7 +31,7 @@ export default function RestaurantsPage() {
 
         console.log("API Response:", res.data);
 
-        // ✅ الصح حسب الداتا بتاعتك
+        //  الصح حسب الداتا بتاعتك
         setRestaurants(res.data.data.rests);
       } catch (error) {
         console.error("Error fetching restaurants:", error);
@@ -69,9 +69,9 @@ export default function RestaurantsPage() {
     <>
       <ProfileNav locale={locale} />
       <div className="p-4 space-y-4 rtl">
-        <h1 className="text-xl font-bold text-center text-emerald-700 mx-10">
+        {/* <h1 className="text-xl font-bold text-center text-emerald-700 mx-10">
           Book your fave Restaurants
-        </h1>
+        </h1> */}
 
         <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
           {restaurants.map((r) => (
