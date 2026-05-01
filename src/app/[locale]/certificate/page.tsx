@@ -22,10 +22,24 @@ type HoursData = {
 };
 
 
+
+
+export default function BilkhidmahCertificate({
+  hours = 120,
+}: CertificateProps) {
+  const certRef = useRef<HTMLDivElement | null>(null);
+  const [namee, setName] = useState("اسم المتطوع");
+  const today = new Date().toLocaleDateString("ar-SA-u-ca-islamic", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  
  const [hoursData, setHoursData] = useState<HoursData | null>(null);
    const [loading, setLoading] = useState(true);
 
- useEffect(() => {
+    useEffect(() => {
     const fetchHours = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -53,17 +67,6 @@ type HoursData = {
 
     fetchHours();
   }, []);
-
-export default function BilkhidmahCertificate({
-  hours = 120,
-}: CertificateProps) {
-  const certRef = useRef<HTMLDivElement | null>(null);
-  const [namee, setName] = useState("اسم المتطوع");
-  const today = new Date().toLocaleDateString("ar-SA-u-ca-islamic", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
 
   const [downloading, setDownloading] = useState(false);
 
@@ -494,7 +497,7 @@ export default function BilkhidmahCertificate({
                       lineHeight: 1,
                     }}
                   >
-                    {hours || "0"}
+                    {hoursData?.goal || "0"}
                   </div>
                   <div
                     style={{
