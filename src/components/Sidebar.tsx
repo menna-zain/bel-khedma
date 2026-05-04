@@ -20,6 +20,12 @@ export default function Sidebar() {
     { name: t("land"), href: "/admin/landmarks" },
   ];
 
+const cleanPath = pathname.replace(`/${locale}`, "") || "/";
+
+const isActive = (href: string) => {
+  return cleanPath === href || cleanPath.startsWith(href + "/");
+};
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
@@ -49,7 +55,14 @@ export default function Sidebar() {
 
         {links.map((link) => (
           <Link key={link.href} href={link.href}>
-            <div className="p-3 rounded-lg mb-2 cursor-pointer font-semibold hover:bg-gray-100">
+            <div className={`p-3 rounded-lg mb-2 cursor-pointer font-semibold hover:bg-gray-100
+              ${
+         isActive(link.href)
+
+            ? "bg-emerald-100 text-emerald-700"
+            : "hover:bg-gray-100 text-black"
+        }`
+            }>
               {link.name}
             </div>
           </Link>

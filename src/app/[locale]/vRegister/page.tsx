@@ -84,11 +84,10 @@ export default function vRegister() {
     };
 
     try {
-      const res = await axios.post(
+       await axios.post(
         "https://bilkhidmah-api.vercel.app/api/v1/auth/signup",
         payload,
       );
-      console.log(res);
       router.push(`/${locale}/login`);
     } catch (err: any) {
       const apiErrors = err.response?.data?.errors;

@@ -67,8 +67,6 @@ export default function Register() {
         "https://bilkhidmah-api.vercel.app/api/v1/auth/signup",
         values,
       );
-
-      console.log(res);
       router.push(`/${locale}/login`);
     } catch (err: any) {
       const apiErrors = err.response?.data?.errors;

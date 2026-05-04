@@ -49,11 +49,6 @@ export default function Login() {
         "https://bilkhidmah-api.vercel.app/api/v1/auth/login",
         values,
       );
-
-      console.log("the res", res);
-      console.log("the data", res.data);
-      
-      // خزن التوكن
       const token = res.data.token; 
       const fName = res.data.data.FName; 
       const lName = res.data.data.LName; 
@@ -61,9 +56,6 @@ export default function Login() {
         localStorage.setItem("token", token);
         localStorage.setItem("fName", fName);
         localStorage.setItem("lName", lName);
-        console.log("Token stored:", localStorage.getItem("token"));
-        console.log("fName:", localStorage.getItem("fName"));
-        console.log("lName:", localStorage.getItem("lName"));
       }
 
       // خزن الرول

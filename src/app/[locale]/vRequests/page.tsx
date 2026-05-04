@@ -88,7 +88,6 @@ export default function Requests() {
           setLoading(false);
           return;
         }
-
         const res = await axios.get(
           "https://bilkhidmah-api.vercel.app/api/v1/requests/pending",
           {
@@ -98,7 +97,7 @@ export default function Requests() {
 
         const data = res.data.data;
 
-        console.log("requests", res);
+
 
         const deliveryRequests: Request[] = [];
 
