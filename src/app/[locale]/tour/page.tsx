@@ -71,56 +71,10 @@ export default function LandmarksPage() {
     getLandmarks();
   }, []);
 
-  // useEffect(() => {
-  //   const delay = setTimeout(() => {
-  //     if (location) {
-  //       getSuggestions(location);
-  //     } else {
-  //       setSuggestions([]);
-  //     }
-  //   }, 500);
 
-  //   return () => clearTimeout(delay);
-  // }, [location]);
-
-  // دالة جلت الاقتراحات للاماكن
-  // const getSuggestions = async (value: string) => {
-  //   if (!value.trim()) {
-  //     setSuggestions([]);
-  //     return;
-  //   }
-
-  //   try {
-  //     setLoadingSuggestions(true);
-
-  //     const res = await axios.get(
-  //       "https://nominatim.openstreetmap.org/search",
-  //       {
-  //         params: {
-  //           q: value,
-  //           format: "json",
-  //           addressdetails: 1,
-  //           limit: 5,
-  //         },
-  //         headers: {
-  //           "Accept-Language": locale,
-  //         },
-  //       },
-  //     );
-
-  //     setSuggestions(res.data || []);
-  //   } catch (err) {
-  //     console.log(err);
-  //   } finally {
-  //     setLoadingSuggestions(false);
-  //   }
-  // };
-
-
-  
   const getSuggestions = async (
     value: string,
-    setter: React.Dispatch<React.SetStateAction<any[]>>
+    setter: React.Dispatch<React.SetStateAction<any[]>>,
   ) => {
     if (!value || value.length < 3) {
       setter([]);
@@ -140,7 +94,7 @@ export default function LandmarksPage() {
           headers: {
             "Accept-Language": locale,
           },
-        }
+        },
       );
       setter(res.data);
     } catch (err) {
@@ -148,11 +102,17 @@ export default function LandmarksPage() {
     }
   };
 
-  const debounced = useMemo(
-    () => debounce((value: string) => getSuggestions(value, setSuggestions), 500),
-    []
-  );
+ const debounced = useMemo(
+  () =>
+    debounce((value: string) => getSuggestions(value, setSuggestions), 500),
+  [locale]
+);
 
+  useEffect(() => {
+    return () => {
+      debounced.cancel();
+    };
+  }, [debounced]);
 
   // تحديد مكان الالتقاء
   const getCoordinates = async (address: string) => {
@@ -252,7 +212,7 @@ export default function LandmarksPage() {
   return (
     <>
       <ProfileNav locale={locale} />
-      <Toaster position="top-right" />
+      <Toaster position="top-center" />
 
       {loading ? (
         <div className="min-h-screen flex items-center justify-center bg-white ">
@@ -317,17 +277,28 @@ export default function LandmarksPage() {
                     type="text"
                     placeholder={t("location")}
                     value={location}
-                    
-                    onChange={(e) =>{
+                    onFocus={() => {
+                      if (location.length >= 3) {
+                        setShowSuggestions(true);
+                      }
+                    }}
+                    onChange={(e) => {
                       const value = e.target.value;
-                      debounced(value);
-                       setLocation(value);
-                      }}
+                      setLocation(value);
+
+                      if (value.length >= 3) {
+                        setShowSuggestions(true); 
+                        debounced(value);
+                      } else {
+                        setShowSuggestions(false);
+                      }
+                    }}
+                    
                     className="border border-gray-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 p-2 rounded-xl outline-none"
                   />
                   {/* suggestions box */}
                   {showSuggestions && suggestions.length > 0 && (
-                    <div className="absolute top-full left-0 right-0 bg-white border mt-1 rounded-xl shadow-lg max-h-60 overflow-y-auto z-50">
+                    <div className="absolute top-full left-0 right-0 bg-white border border-gray-300 p-1  rounded-xl shadow-lg max-h-60 overflow-y-auto z-50">
                       {suggestions.map((item, idx) => (
                         <div
                           key={idx}
