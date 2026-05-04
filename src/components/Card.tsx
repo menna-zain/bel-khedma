@@ -50,7 +50,7 @@ export default function Card({
   const showStars = type === "restaurant" || type === "hotel";
 
   return (
-    <div className="relative border p-4 rounded-xl mb-4 hover:shadow-md transition">
+    <div className="relative border border-emerald-400 p-4 rounded-xl mb-4 hover:shadow-md transition">
 
       {/* Delete Button */}
       <button
