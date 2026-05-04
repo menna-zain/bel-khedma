@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import ProfileNav from "@/components/ProfileNav";
 import { Star } from "lucide-react";
 import { useLocale } from "next-intl";
+import { ClipLoader } from "react-spinners";
 import axios from "axios";
 
 type Restaurant = {
@@ -61,14 +62,17 @@ export default function RestaurantsPage() {
     );
   };
 
-  if (loading) {
-    return <p className="text-center mt-10">Loading...</p>;
-  }
-
+ 
   return (
     <>
       <ProfileNav locale={locale} />
-      <div className="p-4 space-y-4 rtl">
+
+         {loading ? (
+  <div className="min-h-screen flex items-center justify-center bg-white ">
+    <ClipLoader color="#007A55" size={50}  />
+  </div>
+): (
+    <div className="p-4 space-y-4 rtl">
         {/* <h1 className="text-xl font-bold text-center text-emerald-700 mx-10">
           Book your fave Restaurants
         </h1> */}
@@ -95,6 +99,8 @@ export default function RestaurantsPage() {
           ))}
         </div>
       </div>
+) }
+     
     </>
   );
 }

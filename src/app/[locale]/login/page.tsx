@@ -55,9 +55,15 @@ export default function Login() {
       
       // خزن التوكن
       const token = res.data.token; 
+      const fName = res.data.data.FName; 
+      const lName = res.data.data.LName; 
       if (token) {
         localStorage.setItem("token", token);
+        localStorage.setItem("fName", fName);
+        localStorage.setItem("lName", lName);
         console.log("Token stored:", localStorage.getItem("token"));
+        console.log("fName:", localStorage.getItem("fName"));
+        console.log("lName:", localStorage.getItem("lName"));
       }
 
       // خزن الرول
@@ -112,8 +118,12 @@ if (role) {
 
   return (
     <>
+        <div
+          dir={direction}
+          className="flex flex-col min-h-screen bg-emerald-50"
+        >
       <nav
-        className={`flex items-center justify-between p-4 bg-white border-b border-gray-300 sticky top-0 left-0 w-full  shadow-md z-50`}
+        className={`flex items-center justify-between p-4 bg-white border-b border-gray-300  top-0 left-0 w-full  shadow-md z-50`}
         dir={direction}
       >
         {/* اللوجو واسم الخدمة */}
@@ -124,10 +134,7 @@ if (role) {
           </span>
         </div>
       </nav>
-      <div
-        dir={direction}
-        className="flex items-center justify-center min-h-screen bg-emerald-50"
-      >
+      <div className="flex justify-center items-center my-auto">
         <div className="flex flex-col justify-center w-full sm:w-3/4 md:w-1/2 lg:w-1/3 p-8 bg-white shadow-xl rounded-2xl border border-emerald-100">
           <h2 className="text-3xl font-bold mb-6 text-center text-emerald-800">
             {t("title")}
@@ -223,6 +230,8 @@ if (role) {
             </button>
           </div>
         </div>
+      </div>
+        
       </div>
     </>
   );

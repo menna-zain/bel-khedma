@@ -36,7 +36,12 @@ export default function ProfileNav({ locale }: NavbarProps) {
 
 const isActive = (href: string) => {
   const cleanPath = pathname.replace(`/${locale}`, "") || "/";
-  return cleanPath === href || cleanPath.startsWith(href + "/");
+
+  return (
+    cleanPath === href ||
+    cleanPath === href + "/" ||
+    cleanPath.startsWith(href + "/")
+  );
 };
 
   return (
@@ -56,7 +61,12 @@ const isActive = (href: string) => {
             <Link
               key={link.name}
               href={link.href}
-              className="text-gray-800 hover:text-emerald-700 font-semibold text-lg transition"
+              className={`  font-semibold text-lg transition
+               ${
+                isActive(link.href)
+                  ? "text-emerald-700 underline underline-offset-8 "
+                  : "text-gray-800 hover:text-emerald-700"
+              }`}
             >
               {t(link.name)}
             </Link>
@@ -80,9 +90,9 @@ const isActive = (href: string) => {
                   locale === "ar" ? "left-0 w-38" : "right-0 w-28"
                 }`}
               >
-                <button className="w-full px-4 py-2 hover:bg-gray-100 text-sm text-left">
+                {/* <button className="w-full px-4 py-2 hover:bg-gray-100 text-sm text-left">
                   {t("profile")}
-                </button>
+                </button> */}
 
                 <button
                   onClick={handleLogout}

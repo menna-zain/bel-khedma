@@ -127,18 +127,18 @@ export default function Register() {
       </nav>
       <div
         dir={direction}
-        className="flex items-center justify-center min-h-screen bg-emerald-50 p-4"
+        className="flex items-center justify-center min-h-screen bg-emerald-50 p-4 "
       >
-        <div className="flex flex-col w-full sm:w-3/4 md:w-3/4 lg:w-2/3 p-8 bg-white shadow-xl rounded-2xl border border-emerald-100">
+        <div className="flex flex-col w-full mt-8 sm:w-3/4 md:w-3/4 lg:w-2/3 p-8 bg-white shadow-xl rounded-2xl border border-emerald-100">
           <h2 className="text-3xl font-bold  text-emerald-800">{t("title")}</h2>
 
           {/* Form */}
           <form className="space-y-6" onSubmit={handleSubmit}>
             {/* Container for Personal + Address Details */}
-            <div className="flex flex-col md:flex-row gap-2 p-3">
+            <div className="flex flex-col md:flex-row gap-2 p-3 mt-2">
               {/* ---------------- Personal Details ---------------- */}
               <div className="flex-1 flex flex-col w-1/2 gap-2 p-3 ">
-                <h3 className="text-xl font-semibold mb-4 text-emerald-800">
+                <h3 className="text-xl font-semibold mb-1 text-emerald-800">
                   {t("personaltyDetails")}
                 </h3>
 
@@ -222,7 +222,7 @@ export default function Register() {
 
               {/* ---------------- Address Details ---------------- */}
               <div className="flex-1 flex flex-col w-1/2 gap-2 p-3">
-                <h3 className="text-xl font-semibold mb-4 text-emerald-800">
+                <h3 className="text-xl font-semibold mb-1 text-emerald-800">
                   {t("addressDetails")}
                 </h3>
 
@@ -339,7 +339,7 @@ export default function Register() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 bg-emerald-700 text-white rounded-md hover:bg-emerald-800 transition font-medium shadow-md mt-4"
+              className="w-full py-3 bg-emerald-700 text-white rounded-md hover:bg-emerald-800 transition font-medium shadow-md "
             >
               {isLoading ? t("loading") : t("register")}
             </button>
@@ -349,7 +349,7 @@ export default function Register() {
             )}
 
             {/* Login Link */}
-            <p className="mt-6 text-center text-gray-600">
+            <p className="text-center text-gray-600">
               {t("haveAccount")}{" "}
               <span
                 onClick={() => router.push(`/${locale}/login`)}

@@ -113,7 +113,7 @@ export default function delivery() {
 
       if (!finalStart || !finalEnd) {
         setLoading(false);
-        return toast.error("مش قادر أحدد المكان، حاول تكتب بشكل أوضح");
+        return toast.error(t("toastError"));
       }
 
       setStartPos(finalStart);
@@ -170,10 +170,10 @@ const formattedTime = Number((timeMinutes / 60).toFixed(2));
       console.log("data to send",dataToSend);
       console.log(res.data);
 
-      toast.success("تم تحديد المسار");
+      toast.success(t("routeSuccess"));
     } catch (err) {
       console.error(err);
-      toast.error("حدث خطأ أثناء إرسال البيانات");
+      toast.error(t("routeError"));
     } finally {
       setLoading(false);
     }
@@ -185,7 +185,7 @@ const formattedTime = Number((timeMinutes / 60).toFixed(2));
 
       <div className="p-4 space-y-4 rtl mb-5"
        dir={locale === "ar" ? "rtl" : "ltr"}>
-        <Toaster position="top-right" />
+        <Toaster position="top-center" />
 
         <div className="flex gap-2 items-center justify-center mt-5 flex-wrap">
           {/* Start */}

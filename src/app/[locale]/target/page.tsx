@@ -17,6 +17,8 @@ export default function VolunteerHome() {
   const locale = useLocale() as "en" | "ar";
   const direction = locale === "ar" ? "rtl" : "ltr";
 
+  const router = useRouter();
+
   const [hoursData, setHoursData] = useState<HoursData | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -82,11 +84,11 @@ export default function VolunteerHome() {
       <Vnavbar locale={locale}/>
       {/* CONTENT */}
       <div className="p-6 space-y-6 flex flex-col items-center justify-center">
-        <div className="p-4 w-1/2 mt-14">
-          <h1 className="text-6xl text-center font-bold text-emerald-700">
+        <div className="p-4 w-1/2 ">
+          <h1 className="text-5xl text-center font-bold text-emerald-700">
             {t("welcome")}
           </h1>
-          <h2 className="text-4xl text-center font-bold text-emerald-700">
+          <h2 className="text-3xl text-center font-bold text-emerald-700 mt-3">
             {t("hours")}
           </h2>
         </div>
@@ -101,7 +103,7 @@ export default function VolunteerHome() {
               </div>
             ) : (
               <div className="flex flex-col gap-4 items-center">
-                <span className="text-9xl font-bold text-gray-800">
+                <span className="text-8xl font-bold text-gray-800">
                   {formatHours(completedHours)}
                 </span>
 
@@ -129,11 +131,16 @@ export default function VolunteerHome() {
                   </p>
 
                   {/* رسالة التهنئة */}
-                  {isCompleted && (
+                  {/* {isCompleted && ( */}
+                  
                     <p className="text-emerald-600 font-bold mt-3 text-lg">
                      {t("cong")}
                     </p>
-                  )}
+                    <span className="text-emerald-600 font-medium cursor-pointer hover:text-emerald-800 underline underline-offset-4 transition"
+                    onClick={() => router.push("/certificate")}
+                    >{t("certify")}</span>
+                   
+                  {/* )} */}
                 </div>
               </div>
             )}

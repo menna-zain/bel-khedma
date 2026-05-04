@@ -6,6 +6,7 @@ import axios from "axios";
 import { Star } from "lucide-react";
 import ProfileNav from "@/components/ProfileNav";
 import { useLocale, useTranslations } from "next-intl";
+import { ClipLoader } from "react-spinners";
 
 type Hotel = {
   id: string;
@@ -61,29 +62,29 @@ export default function HotelDetails() {
     getHotel();
   }, [id]);
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <p>{t("loading")}</p>
-      </div>
-    );
-  }
 
-  if (!hotel) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <p className="text-lg text-gray-500">
-          {t("hotelNotFound")}
-        </p>
-      </div>
-    );
-  }
+  // if (!hotel) {
+  //   return (
+  //     <div className="flex justify-center items-center min-h-screen">
+  //       <p className="text-lg text-gray-500">
+  //         {t("hotelNotFound")}
+  //       </p>
+  //     </div>
+  //   );
+  // }
 
   return (
     <>
       <ProfileNav locale={locale} />
 
-      <h2 className="text-5xl font-bold text-emerald-900 text-center my-5">Hotel's Details</h2>
+
+    {loading ? (
+        <div className="min-h-screen flex items-center justify-center bg-white ">
+          <ClipLoader color="#007A55" size={50} />
+        </div>
+      ) : hotel ? (
+        <>
+         <h2 className="text-5xl font-bold text-emerald-900 text-center my-5">Hotel's Details</h2>
       <div
         className="flex"
         dir={locale === "ar" ? "rtl" : "ltr"}
@@ -110,14 +111,18 @@ export default function HotelDetails() {
             <span>{hotel.stars || 0}</span>
           </div>
           </div>
-          
-
-          {/* زر */}
-          {/* <button className="bg-emerald-700 text-white px-4 py-2 rounded w-full">
-            {t("bookNow")}
-          </button> */}
+        
         </div>
       </div>
+
+      </>
+      ) : (
+        <div className="flex justify-center items-center min-h-screen">
+          <p className="text-lg text-gray-500">{t("hotelNotFound")}</p>
+        </div>
+      )}
+
+     
     </>
   );
 }

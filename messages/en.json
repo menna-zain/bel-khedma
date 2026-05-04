@@ -6,14 +6,17 @@
     "benefits": {
       "title": "Why Choose Us?",
       "description": "Because we believe that service is not just delivery or a tour, but a complete experience built on trust and commitment.At “Bilkhidmah”, we provide you with the following",
-      "item1_title": "Easy & Fast",
-      "item1_description": "Book any service in minutes with a tap.",
-      "item2_title": "Safe & Trusted",
-      "item2_description": "All providers are verified and reliable.",
-      "item3_title": "Multiple Services",
-      "item3_description": "Everything you need in one app.",
-      "item4_title": "Secure Payment",
-      "item4_description": "Convenient and safe."
+      "item1_title": "Spirit of Cooperation",
+  "item1_description": "We believe in the importance of teamwork and promote it through our platform",
+
+  "item2_title": "Rewards for Volunteers",
+  "item2_description": "Every hour of volunteering is counted, and over time you earn a certificate",
+
+  "item3_title": "Multiple Services",
+  "item3_description": "Everything you need in one application",
+
+  "item4_title": "Electronic Payment",
+  "item4_description": "Secure and reliable — book any service in minutes with just one click"
     },
     "about": {
       "title": "BilKhidmah – Connecting the Community with Exceptional Services",
@@ -86,6 +89,9 @@
   "vRegisterPage": {
     "serviceName": "bilkhidmah",
     "title": "Welcome to Our community",
+      "nameHint_title": "Important Notice",
+  "nameHint_message": "Dear volunteer, please note that the name you enter will appear on your certificate, so make sure it is written correctly.",
+  "nameHint_button": "Continue Registration",
     "personaltyDetails": "Personality Details",
     "fname": "First Name",
     "lname": "Last Name",
@@ -111,9 +117,9 @@
     "user": "To log in as a user",
     "addressDetails": "Your Address Details",
     "street": "Street Name",
-    "unitNum": "Unit Number",
+    "unitNum": "Apartment Number",
     "city": "City",
-    "additionalAddress": "Additional Address",
+    "additionalAddress": "National Address",
     "languages": "Language You Speak",
     "arabic": "Arabic",
     "english": "English",
@@ -121,11 +127,11 @@
     "spanish": "Spanish",
     "german": "German",
     "volunteer info": "volunteer info",
-    "Goal": "Goal",
-    "car color": "car color",
+    "Goal": "Number of Volunteer Hours",
+    "car color": "Car color",
     "mobile": "Mobile",
     "age": "Age",
-    "car plate": "car plate"
+    "car plate": "Car plate"
   },
 
   "map": {
@@ -141,7 +147,12 @@
     "startPoint": "From",
     "endPoint": "To",
     "btnRoute": "Order",
-    "btnRouteLoading": "Determining the destination..."
+    "toastError": "Please enter valid locations",
+    "btnRouteLoading": "Determining the destination...",
+    
+  "routeSuccess": "Route selected successfully",
+  "routeError": "An error occurred while sending data"
+
   },
   "transportation": {
     "selectCar": "Select Car Type",
@@ -154,7 +165,8 @@
     "serviceName": "bilkhidmah",
     "welcome": "Welcome back, ",
     "hours": "your hours is",
-    "cong": "🎉 Congratulations! You have reached your goal",
+    "cong": "Congratulations, you have completed the required hours to receive your certificate",
+"certify": "Click here",
     "progress": " Your Target",
     "from": "From",
     "requests": "Requests",
@@ -216,8 +228,8 @@
     "saving": "Saving..."
   },
    "landmarks": {
-    "title": "Enter Your Trip Details",
-    "date": "Date's tuor",
+    "title": "Enter Your Tour Details",
+    "date": "Date's tour",
     "location": "Enter meeting location",
     "startTime": "The start time of the tour",
     "endTime": "The end time of the tour",
@@ -227,12 +239,14 @@
     "creating": "Creating...",
     "choosePlaces": "Choose the places you want to include in your tour",
     "loading": "Loading...",
-    "success": "Tour created successfully ✅",
-
     "errors": {
-      "fillAll": "Please fill all fields",
-      "invalidLocation": "Invalid location",
-      "failed": "Error creating tour"
-    }
+    "fillAllFields": "Please fill all fields",
+    "invalidLocation": "Invalid location",
+    "noToken": "No token found",
+    "createError": "Error creating tour"
+  },
+  "success": {
+    "created": "Tour created successfully"
+  }
   }
 }

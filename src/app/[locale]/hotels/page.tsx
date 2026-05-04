@@ -6,6 +6,7 @@ import { Star } from "lucide-react";
 import ProfileNav from "@/components/ProfileNav";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import { ClipLoader } from "react-spinners";
 
 type Hotel = {
   id: string;
@@ -77,17 +78,12 @@ export default function HotelsPage() {
     <>
       <ProfileNav locale={locale} />
 
-      <div className="p-4 space-y-4 mb-5" dir={locale === "ar" ? "rtl" : "ltr"}>
-        {/*  الفلتر */}
-        {/* <div className="flex flex-wrap justify-center gap-2">
-          <input
-            type="number"
-            placeholder={t("rating")}
-            value={rating}
-            onChange={(e) => setRating(e.target.value)}
-            className="border border-emerald-200 rounded-md p-2 w-32 outline-none"
-          />
-        </div> */}
+       {loading ? (
+  <div className="min-h-screen flex items-center justify-center bg-white ">
+    <ClipLoader color="#007A55" size={50}  />
+  </div>
+): (
+   <div className="p-4 space-y-4 mb-5" dir={locale === "ar" ? "rtl" : "ltr"}>
 
         {/*  الهوتيلز */}
         <div className="flex flex-col items-center gap-4">
@@ -134,6 +130,9 @@ export default function HotelsPage() {
           )}
         </div>
       </div>
+) }
+
+     
     </>
   );
 }

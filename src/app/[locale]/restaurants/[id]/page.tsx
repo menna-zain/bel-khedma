@@ -6,6 +6,7 @@ import axios from "axios";
 import { Star } from "lucide-react";
 import ProfileNav from "@/components/ProfileNav";
 import { useLocale, useTranslations } from "next-intl";
+import { ClipLoader } from "react-spinners";
 
 type Restaurant = {
   id: string;
@@ -45,10 +46,10 @@ export default function RestaurantDetails() {
   const getRestaurant = async () => {
     try {
       const res = await axios.get(
-        `https://bilkhidmah-api.vercel.app/api/v1/restaurants/${id}`
+        `https://bilkhidmah-api.vercel.app/api/v1/restaurants/${id}`,
       );
 
-      console.log(res)
+      console.log(res);
       setRestaurant(res.data?.data?.rest || null);
     } catch (err) {
       console.log(err);
@@ -62,61 +63,44 @@ export default function RestaurantDetails() {
     getRestaurant();
   }, [id]);
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <p>{t("loading")}</p>
-      </div>
-    );
-  }
-
-  if (!restaurant) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <p className="text-lg text-gray-500">
-          {t("restaurantNotFound")}
-        </p>
-      </div>
-    );
-  }
-
   return (
     <>
       <ProfileNav locale={locale} />
-
-      <div
-        className="flex justify-center min-h-screen"
-        dir={locale === "ar" ? "rtl" : "ltr"}
-      >
-        <div className="p-4 space-y-4 w-full md:w-1/2">
-
-          {/* صورة */}
-          <img
-            src={restaurant.thumbnail}
-            className="w-full object-cover rounded-md"
-          />
-
-          {/* بيانات */}
-          <h1 className="text-xl font-bold">{restaurant.name}</h1>
-
-          <p className="text-gray-500">{restaurant.address}</p>
-
-          <p className="text-gray-600">{restaurant.description}</p>
-
-          {/* stars */}
-          <div className="flex items-center gap-2">
-            {renderStars(restaurant.stars || 0)}
-            <span>{restaurant.stars || 0}</span>
-          </div>
-
-          {/* زر */}
-          {/* 
-          <button className="bg-emerald-700 text-white px-4 py-2 rounded w-full">
-            {t("orderNow")}
-          </button> 
-          */}
+      {loading ? (
+        <div className="min-h-screen flex items-center justify-center bg-white ">
+          <ClipLoader color="#007A55" size={50} />
         </div>
-      </div>
+      ) : restaurant ? (
+        <div
+          className="flex justify-center min-h-screen"
+          dir={locale === "ar" ? "rtl" : "ltr"}
+        >
+          <div className="p-4 space-y-4 w-full md:w-1/2">
+            {/* صورة */}
+            <img
+              src={restaurant.thumbnail}
+              className="w-full object-cover rounded-md"
+            />
+
+            {/* بيانات */}
+            <h1 className="text-xl font-bold">{restaurant.name}</h1>
+
+            <p className="text-gray-500">{restaurant.address}</p>
+
+            <p className="text-gray-600">{restaurant.description}</p>
+
+            {/* stars */}
+            <div className="flex items-center gap-2">
+              {renderStars(restaurant.stars || 0)}
+              <span>{restaurant.stars || 0}</span>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="flex justify-center items-center min-h-screen">
+          <p className="text-lg text-gray-500">{t("restaurantNotFound")}</p>
+        </div>
+      )}
     </>
   );
 }

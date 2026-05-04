@@ -43,6 +43,9 @@ export default function vRegister() {
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState("");
 
+  const [showNameHint, setShowNameHint] = useState(false);
+  const [hasSeenHint, setHasSeenHint] = useState(false);
+
   const initialValues: FormValues = {
     email: "",
     password: "",
@@ -152,14 +155,14 @@ export default function vRegister() {
         dir={direction}
         className="flex items-center justify-center min-h-screen bg-emerald-50 p-4"
       >
-        <div className="flex flex-col w-full md:w-3/4 lg:w-2/3 p-8 bg-white shadow-xl rounded-2xl border border-emerald-100">
-          <h2 className="text-3xl font-bold text-emerald-800">{t("title")}</h2>
+        <div className="flex flex-col w-full mt-8 md:w-3/4 lg:w-2/3 p-8 bg-white shadow-xl rounded-2xl border border-emerald-100">
+          <h2 className="text-3xl  mb-1 font-bold text-emerald-800">{t("title")}</h2>
 
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            <div className="flex flex-col md:flex-row gap-2 p-3">
+          <form className="space-y-2" onSubmit={handleSubmit}>
+            <div className="flex flex-col md:flex-row  p-3">
               {/* PERSONAL */}
               <div className="flex-1 flex flex-col gap-2 p-3">
-                <h3 className="text-xl font-semibold mb-4 text-emerald-800">
+                <h3 className="text-xl font-semibold mb-1 text-emerald-800">
                   {t("personaltyDetails")}
                 </h3>
 
@@ -169,6 +172,7 @@ export default function vRegister() {
                   <FaUser
                     className={`${direction === "rtl" ? "ml-2" : "mr-2"} text-emerald-700`}
                   />
+
                   <input
                     type="text"
                     name="FName"
@@ -176,6 +180,12 @@ export default function vRegister() {
                     value={values.FName}
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    onFocus={() => {
+                      if (!hasSeenHint) {
+                        setShowNameHint(true);
+                        setHasSeenHint(true);
+                      }
+                    }}
                     className="w-full outline-none bg-transparent text-gray-700"
                   />
                 </div>
@@ -290,7 +300,7 @@ export default function vRegister() {
               </div>
               {/* ---------------- Address Details ---------------- */}
               <div className="flex-1 flex flex-col w-1/2 gap-2 p-3">
-                <h3 className="text-xl font-semibold mb-4 text-emerald-800">
+                <h3 className="text-xl font-semibold mb-1 text-emerald-800">
                   {t("addressDetails")}
                 </h3>
 
@@ -367,8 +377,8 @@ export default function vRegister() {
 
             {/* Volunteer */}
             {values.role === "volunteer" && (
-              <div className="p-3  rounded-lg ">
-                <h3 className="text-lg font-semibold mb-2 text-emerald-800">
+              <div className="p-7 rounded-lg ">
+                <h3 className="text-lg font-semibold mb-1 text-emerald-800">
                   {t("volunteer info")}
                 </h3>
 
@@ -434,7 +444,10 @@ export default function vRegister() {
                             values.languages.filter((l) => l !== lang),
                           );
                         } else {
-                          setFieldValue("languages", [...values.languages, lang]);
+                          setFieldValue("languages", [
+                            ...values.languages,
+                            lang,
+                          ]);
                         }
                       }}
                     />
@@ -473,11 +486,9 @@ export default function vRegister() {
               {isLoading ? t("loading") : t("register")}
             </button>
             {errMsg && (
-  <p className="mt-2 text-sm text-red-500 text-center">
-    {errMsg}
-  </p>
-)}
- {/* Login Link */}
+              <p className="mt-2 text-sm text-red-500 text-center">{errMsg}</p>
+            )}
+            {/* Login Link */}
             <p className=" text-center text-gray-600">
               {t("haveAccount")}{" "}
               <span
@@ -490,6 +501,22 @@ export default function vRegister() {
           </form>
         </div>
       </div>
+      {showNameHint && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
+          <div className="bg-white p-6 rounded-xl shadow-xl max-w-md w-full text-center">
+            <h3 className="text-lg font-bold text-emerald-700 mb-3">
+              {t("nameHint_title")}
+            </h3>
+            <p className="text-gray-700 mb-4">{t("nameHint_message")}</p>
+            <button
+              onClick={() => setShowNameHint(false)}
+              className="px-4 py-2 bg-emerald-700 text-white rounded-md"
+            >
+              {t("nameHint_button")}
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }

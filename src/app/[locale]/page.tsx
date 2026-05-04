@@ -6,8 +6,11 @@ import Image from "next/image";
 import aboutIllustration from "@/../public/imgs/aboutPic.jpg";
 import whyIllustration from "@/../public/imgs/why-us.jpg";
 import { useLocale, useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Home() {
+  const router = useRouter();
   const t = useTranslations("LandingPage");
   const locale = useLocale() as "en" | "ar";
 
@@ -54,9 +57,13 @@ export default function Home() {
             {t("title")}
           </h1>
           <p className="text-4xl mb-6">{t("description")}</p>
-          <button className="px-6 py-2 text-xl bg-emerald-700 rounded hover:bg-emerald-800 transition">
+          <Link
+          href="/register"
+          >
+          <button className="px-6 py-2 text-xl bg-emerald-700 rounded hover:bg-emerald-800 transition cursor-pointer">
             {t("btn")}
           </button>
+          </Link>
         </div>
       </main>
 
@@ -173,9 +180,6 @@ export default function Home() {
           <p className="text-lg md:text-xl mb-6 max-w-2xl">
             {t("join.description")}
           </p>
-          <button className="px-6 py-3 bg-white text-emerald-600 font-semibold rounded hover:bg-gray-00 transition">
-            {t("join.btn")}
-          </button>
         </div>
       </section>
     </>

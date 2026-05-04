@@ -62,7 +62,7 @@ const isActive = (href: string) => {
             className={`text-lg font-semibold transition px-2 py-1 rounded-md
               ${
                 isActive(link.href)
-                  ? "text-emerald-700 "
+                  ? "text-emerald-700 underline underline-offset-8 "
                   : "text-gray-800 hover:text-emerald-700"
               }`}
           >
@@ -98,9 +98,9 @@ const isActive = (href: string) => {
                 {t("requests")}
               </button>
 
-              <button className="w-full px-4 py-2 hover:bg-gray-100 text-sm text-left">
+              {/* <button className="w-full px-4 py-2 hover:bg-gray-100 text-sm text-left">
                 {t("profile")}
-              </button>
+              </button> */}
 
               <button
                 onClick={handleLogout}

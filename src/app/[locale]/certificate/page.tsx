@@ -22,27 +22,26 @@ type HoursData = {
   progress: string;
 };
 
-
-
-
 export default function BilkhidmahCertificate({
   hours = 120,
 }: CertificateProps) {
-    const locale = useLocale() as "en" | "ar";
-    const t = useTranslations("profileNav");
+  const locale = useLocale() as "en" | "ar";
+  const t = useTranslations("profileNav");
   const certRef = useRef<HTMLDivElement | null>(null);
   const [namee, setName] = useState("اسم المتطوع");
+  const fName = localStorage.getItem("fName");
+  const lName = localStorage.getItem("lName");
+
   const today = new Date().toLocaleDateString("ar-SA-u-ca-islamic", {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
 
-  
- const [hoursData, setHoursData] = useState<HoursData | null>(null);
-   const [loading, setLoading] = useState(true);
+  const [hoursData, setHoursData] = useState<HoursData | null>(null);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
+  useEffect(() => {
     const fetchHours = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -56,11 +55,11 @@ export default function BilkhidmahCertificate({
           "https://bilkhidmah-api.vercel.app/api/v1/volunteers/hours",
           {
             headers: { Authorization: `Bearer ${token}` },
-          }
+          },
         );
 
         setHoursData(res.data.data);
-        console.log(hoursData)
+        console.log(hoursData);
       } catch (err: any) {
         console.error("ERROR:", err.response?.data || err.message);
       } finally {
@@ -114,7 +113,6 @@ export default function BilkhidmahCertificate({
           <FaHandsHelping size={30} className="text-emerald-700" />
           <span className="font-bold text-2xl text-black">
             {t("serviceName")}
-           
           </span>
         </div>
       </nav>
@@ -148,10 +146,11 @@ export default function BilkhidmahCertificate({
           className="bk-panel"
           style={{ gridTemplateColumns: "1fr auto", alignItems: "end" }}
         >
-          <div className="bk-field">
+          {/* ادخال اسم المتطوع */}
+          {/* <div className="bk-field">
             {/* <label>اسم المتطوع</label> */}
-            <input value={namee} onChange={(e) => setName(e.target.value)} />
-          </div>
+          {/* <input value={namee} onChange={(e) => setName(e.target.value)} /> */}
+          {/* </div> */}
 
           <button
             className="bk-btn bk-btn-p"
@@ -229,7 +228,7 @@ export default function BilkhidmahCertificate({
                 </div>
               </div>
               {/* Emblem */}
-              <svg
+              {/* <svg
                 width="70"
                 height="70"
                 viewBox="0 0 70 70"
@@ -303,7 +302,7 @@ export default function BilkhidmahCertificate({
                   strokeWidth="1"
                   strokeDasharray="4 3"
                 />
-              </svg>
+              </svg> */}
             </div>
 
             {/* Gold band */}
@@ -437,17 +436,18 @@ export default function BilkhidmahCertificate({
               </p>
 
               <h2
-                style={{
-                  fontFamily: "'Amiri',serif",
-                  fontSize: "clamp(1.3rem,4.2vw,3rem)",
-                  color: G,
-                  fontWeight: 700,
-                  textAlign: "center",
-                  lineHeight: 1.15,
-                  marginBottom: "clamp(2px,.4%,6px)",
-                }}
+                className="
+  font-[Amiri] 
+ text-[clamp(1.1rem,3.8vw,2.6rem)] 
+ 
+  text-emerald-700 
+  font-bold 
+  text-center 
+  leading-[1.15] 
+  mb-[clamp(2px,0.4%,6px)]
+"
               >
-                {namee || "اسم المتطوع"}
+                {fName} {lName}
               </h2>
               <div
                 style={{
@@ -473,25 +473,18 @@ export default function BilkhidmahCertificate({
               </p>
 
               {/* Hours badge */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "stretch",
-                  border: `2px solid ${G}`,
-                  marginBottom: "clamp(6px,1.2%,14px)",
-                  overflow: "hidden",
-                }}
-              >
+              <div>
                 <div
-                  style={{
-                    background: G,
-                    color: "white",
-                    padding: "clamp(6px,1.5%,12px) clamp(10px,2.5%,24px)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                  }}
+                  className="
+  bg-emerald-700 
+  text-white 
+ py-2
+ px-4
+  flex 
+  items-center 
+  justify-center 
+  flex-col
+"
                 >
                   <div
                     style={{
