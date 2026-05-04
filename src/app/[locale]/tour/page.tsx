@@ -40,6 +40,8 @@ export default function LandmarksPage() {
 
   const [loadingSubmit, setLoadingSubmit] = useState(false);
 
+
+
   // اختيار المكان
   const toggleSelect = (name: string) => {
     setSelectedLandmarks((prev) =>
@@ -71,7 +73,6 @@ export default function LandmarksPage() {
     getLandmarks();
   }, []);
 
-
   const getSuggestions = async (
     value: string,
     setter: React.Dispatch<React.SetStateAction<any[]>>,
@@ -102,11 +103,11 @@ export default function LandmarksPage() {
     }
   };
 
- const debounced = useMemo(
-  () =>
-    debounce((value: string) => getSuggestions(value, setSuggestions), 500),
-  [locale]
-);
+  const debounced = useMemo(
+    () =>
+      debounce((value: string) => getSuggestions(value, setSuggestions), 500),
+    [locale],
+  );
 
   useEffect(() => {
     return () => {
@@ -144,6 +145,10 @@ export default function LandmarksPage() {
     }
   };
 
+  const timeToDecimal = (time: string) => {
+    const [hours, minutes] = time.split(":").map(Number);
+    return hours + minutes / 60;
+  };
   // ارسال بيانات الرحلة
   const handleSubmit = async () => {
     if (
@@ -156,6 +161,23 @@ export default function LandmarksPage() {
       toast.error(t("errors.fillAllFields"));
       return;
     }
+
+
+     const startDecimal = timeToDecimal(startAt);
+  const endDecimal = timeToDecimal(endAt);
+
+   if (isNaN(startDecimal) || isNaN(endDecimal)) {
+    toast.error("Invalid time format");
+    return;
+  }
+
+  if (startDecimal >= endDecimal) {
+    toast.error("Start time must be before end time");
+    return;
+  }
+
+  console.log("startDecimal:", startDecimal);
+  console.log("endDecimal:", endDecimal);
     console.log(date);
     console.log(startAt);
     console.log(endAt);
@@ -179,14 +201,15 @@ export default function LandmarksPage() {
         return;
       }
 
+     
       const res = await axios.post(
         "https://bilkhidmah-api.vercel.app/api/v1/tours",
         {
           MLat: coords.lat,
           MLong: coords.lng,
           MTime: date,
-          startAt,
-          endAt,
+          startAt: startDecimal,
+          endAt: endDecimal,
           landmarks: selectedLandmarks,
         },
         {
@@ -287,13 +310,12 @@ export default function LandmarksPage() {
                       setLocation(value);
 
                       if (value.length >= 3) {
-                        setShowSuggestions(true); 
+                        setShowSuggestions(true);
                         debounced(value);
                       } else {
                         setShowSuggestions(false);
                       }
                     }}
-                    
                     className="border border-gray-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 p-2 rounded-xl outline-none"
                   />
                   {/* suggestions box */}

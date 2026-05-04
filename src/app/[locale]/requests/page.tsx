@@ -5,6 +5,7 @@ import ProfileNav from "@/components/ProfileNav";
 import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { ClipLoader } from "react-spinners";
 
 type Request = {
   id: string;
@@ -14,6 +15,11 @@ type Request = {
   endLocation?: string;
   averageTime?: number;
   carType?: string;
+  meetingLocation?: string;
+  startAt?: string;
+  endAt?: string;
+ MTime?: string;
+  landmarks?: string[];
 };
 
 export default function Requests() {
@@ -23,10 +29,10 @@ export default function Requests() {
   const [requests, setRequests] = useState<Request[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Cache لتخزين العناوين
+  //  Cache لتخزين العناوين
   const addressCache = new Map<string, string>();
 
-  // ✅ دالة تحويل الاحداثيات لعنوان
+  //  دالة تحويل الاحداثيات لعنوان
   const getAddressFromCoords = async (lat: string, lon: string) => {
     const key = `${lat},${lon}`;
 
@@ -82,13 +88,13 @@ export default function Requests() {
           },
         );
 
-        console.log("res :", res);
+        console.log("res of request :", res);
 
         const data = res.data.data;
 
         const allRequests: Request[] = [];
 
-        // ✅ delivery (بدون Promise.all)
+        //  delivery (بدون Promise.all)
         for (const req of data.delivery || []) {
           const start =
             req.PLat && req.PLong
@@ -110,7 +116,7 @@ export default function Requests() {
           });
         }
 
-        // ✅ transportation
+        // transportation
         for (const req of data.transportation || []) {
           const start =
             req.SLat && req.SLong
@@ -130,6 +136,25 @@ export default function Requests() {
             endLocation: end,
             averageTime: req.averageTime || null,
             carType: req.carType || "N/A",
+          });
+        }
+
+        // tours
+        for (const req of data.tours || []) {
+          const meeting =
+            req.MLat && req.MLong
+              ? await getAddressFromCoords(req.MLat, req.MLong)
+              : "N/A";
+
+          allRequests.push({
+            id: req.id,
+            serviceType: req.serviceType,
+            status: req.status,
+            meetingLocation: meeting,
+            startAt: req.startAt,
+            endAt: req.endAt,
+             MTime: req.MTime,
+            landmarks: req.landmarks?.map((l: any) => l.landmark.name) || [],
           });
         }
 
@@ -153,11 +178,49 @@ export default function Requests() {
 
     return `${paddedHours}:${paddedMinutes}`;
   };
+
+
+
+  
+  const decimalToTime = (value: number) => {
+  const hours = Math.floor(value);
+  const minutes = Math.round((value - hours) * 60);
+
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+};
+
+
+const getDuration = (start: number, end: number) => {
+  const diff = end - start;
+
+  const hours = Math.floor(diff);
+  const minutes = Math.round((diff - hours) * 60);
+
+  return `${hours}h ${minutes}m`;
+};
+
+
+
+const formatDate = (date?: string) => {
+  if (!date) return "N/A";
+
+  const parsed = new Date(date);
+
+  if (isNaN(parsed.getTime())) return "Invalid date";
+
+  return parsed.toLocaleDateString("en-GB");
+};
+
   return (
     <>
       <ProfileNav locale={locale} />
 
-      <div className="p-4 space-y-4 rtl mb-5 justify-center flex">
+       {loading ? (
+        <div className="min-h-screen flex items-center justify-center bg-white ">
+          <ClipLoader color="#007A55" size={50} />
+        </div>
+      ) : (
+        <div className="p-4 space-y-4 rtl mb-5 justify-center flex">
         <div className="flex flex-col items-center gap-4 w-1/2 mt-10">
           {loading ? (
             <p className="text-gray-500">Loading...</p>
@@ -184,13 +247,54 @@ export default function Requests() {
                 </div>
 
                 <div className="text-sm text-gray-700 flex flex-col gap-1">
-                  <p>
-                    <span className="font-bold">From:</span>{" "}
-                    {request.startLocation}
-                  </p>
-                  <p>
-                    <span className="font-bold">To:</span> {request.endLocation}
-                  </p>
+                  {request.startLocation && request.endLocation && (
+                    <div>
+                      <p>
+                        <span className="font-bold">From:</span>{" "}
+                        {request.startLocation}
+                      </p>
+                      <p>
+                        <span className="font-bold">To:</span>{" "}
+                        {request.endLocation}
+                      </p>
+                    </div>
+                  )}
+
+                  {request.serviceType === "Tour Guidance" && (
+                    <>
+                      <p>
+                        <span className="font-bold">Meeting Point:</span>{" "}
+                        {request.meetingLocation}
+                      </p>
+
+                      <p>
+                        <span className="font-bold">Date: </span>{" "}
+                       
+                       {formatDate(request.MTime)}
+                      </p>
+                      <p>
+                        <span className="font-bold">Start: </span>{" "}
+                       {decimalToTime(Number(request.startAt))}
+                      </p>
+
+                      <p>
+                        <span className="font-bold">End:</span>{" "}
+                        {decimalToTime(Number(request.endAt))}
+                      </p>
+
+                      <p>
+                        <span className="font-bold">Duration:</span>{" "}
+   {getDuration(Number(request.startAt), Number(request.endAt))}
+</p>
+                    </>
+                  )}
+
+                  {request.landmarks && request.landmarks.length > 0 && (
+                    <p>
+                      <span className="font-bold">Landmarks:</span>{" "}
+                      {request.landmarks.join(", ")}
+                    </p>
+                  )}
 
                   {request.averageTime && (
                     <p>
@@ -213,6 +317,9 @@ export default function Requests() {
           )}
         </div>
       </div>
+      )}
+
+     
     </>
   );
 }
