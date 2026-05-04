@@ -259,7 +259,7 @@ const decimalTime = parseFloat(
                 setStartQuery(value);
                 debouncedStart(value);
               }}
-              onBlur={() => setTimeout(() => setStartSuggestions([]), 100)}
+              onBlur={() => setTimeout(() => setStartSuggestions([]), 300)}
               className="w-full outline-none bg-transparent text-gray-700"
             />
 
@@ -268,7 +268,7 @@ const decimalTime = parseFloat(
                 {startSuggestions.map((item, index) => (
                   <div
                     key={index}
-                    className="p-2 hover:bg-gray-100 cursor-pointer text-sm"
+                    className="p-2 hover:bg-emerald-50 cursor-pointer text-sm"
                     onClick={() => {
                       setStartQuery(item.display_name);
                       setStartPos([parseFloat(item.lat), parseFloat(item.lon)]);
@@ -292,7 +292,7 @@ const decimalTime = parseFloat(
                 setEndQuery(value);
                 debouncedEnd(value);
               }}
-              onBlur={() => setTimeout(() => setEndSuggestions([]), 100)}
+              onBlur={() => setTimeout(() => setEndSuggestions([]), 300)}
               className="w-full outline-none bg-transparent text-gray-700"
             />
 
@@ -301,7 +301,7 @@ const decimalTime = parseFloat(
                 {endSuggestions.map((item, index) => (
                   <div
                     key={index}
-                    className="p-2 hover:bg-gray-100 cursor-pointer text-sm"
+                    className="p-2 hover:bg-emerald-50 cursor-pointer text-sm"
                     onClick={() => {
                       setEndQuery(item.display_name);
                       setEndPos([parseFloat(item.lat), parseFloat(item.lon)]);
