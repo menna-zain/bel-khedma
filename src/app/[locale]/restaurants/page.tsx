@@ -29,10 +29,6 @@ export default function RestaurantsPage() {
         const res = await axios.get(
           "https://bilkhidmah-api.vercel.app/api/v1/restaurants"
         );
-
-        console.log("API Response:", res.data);
-
-        //  الصح حسب الداتا بتاعتك
         setRestaurants(res.data.data.rests);
       } catch (error) {
         console.error("Error fetching restaurants:", error);

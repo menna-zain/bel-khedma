@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import Vnavbar from "@/components/Vnavbar";
 import { Toaster, toast } from "react-hot-toast";
+import { ClipLoader } from "react-spinners";
 
 type Request = {
   id: string;
@@ -15,6 +16,11 @@ type Request = {
   endLocation?: string;
   averageTime?: number;
   carType?: string;
+  meetingLocation?: string;
+  startAt?: string;
+  endAt?: string;
+  MTime?: string;
+  landmarks?: string[];
 };
 
 export default function Requests() {
@@ -24,14 +30,11 @@ export default function Requests() {
   const direction = locale === "ar" ? "rtl" : "ltr";
   const router = useRouter();
 
-
   const [requests, setRequests] = useState<Request[]>([]);
   const [loading, setLoading] = useState(true);
 
   //  حالة تحميل لكل زرار
   const [acceptingId, setAcceptingId] = useState<string | null>(null);
-
-
 
   //  Accept request
   const handleAccept = async (id: string, type: string) => {
@@ -41,7 +44,7 @@ export default function Requests() {
 
       setAcceptingId(id);
 
-      await axios.post(
+      const res = await axios.post(
         `https://bilkhidmah-api.vercel.app/api/v1/requests/${type}/${id}/accept`,
         {},
         {
@@ -49,6 +52,7 @@ export default function Requests() {
         },
       );
 
+      console.log(res);
       setRequests((prev) => prev.filter((req) => req.id !== id));
 
       toast.success("Request accepted successfully");
@@ -93,6 +97,8 @@ export default function Requests() {
         );
 
         const data = res.data.data;
+
+        console.log("requests", res);
 
         const deliveryRequests: Request[] = [];
 
@@ -145,7 +151,31 @@ export default function Requests() {
           });
         }
 
-        setRequests([...deliveryRequests, ...transportationRequests]);
+        // tours
+        const toursRequests: Request[] = [];
+        for (const req of data.tours || []) {
+          const meeting =
+            req.MLat && req.MLong
+              ? await getAddressFromCoords(req.MLat, req.MLong)
+              : "N/A";
+
+          toursRequests.push({
+            id: req.id,
+            serviceType: req.serviceType,
+            status: req.status,
+            meetingLocation: meeting,
+            startAt: req.startAt,
+            endAt: req.endAt,
+            MTime: req.MTime,
+            landmarks: req.landmarks?.map((l: any) => l.landmark.name) || [],
+          });
+        }
+
+        setRequests([
+          ...deliveryRequests,
+          ...transportationRequests,
+          ...toursRequests,
+        ]);
       } catch (error) {
         console.log("Error fetching requests:", error);
       } finally {
@@ -166,13 +196,46 @@ export default function Requests() {
     return `${paddedHours}:${paddedMinutes}`;
   };
 
+  // tours
+
+  const decimalToTime = (value: number) => {
+    const hours = Math.floor(value);
+    const minutes = Math.round((value - hours) * 60);
+
+    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+  };
+
+  const getDuration = (start: number, end: number) => {
+    const diff = end - start;
+
+    const hours = Math.floor(diff);
+    const minutes = Math.round((diff - hours) * 60);
+
+    return `${hours}h ${minutes}m`;
+  };
+
+  const formatDate = (date?: string) => {
+    if (!date) return "N/A";
+
+    const parsed = new Date(date);
+
+    if (isNaN(parsed.getTime())) return "Invalid date";
+
+    return parsed.toLocaleDateString("en-GB");
+  };
+
   return (
     <>
       {/*  Toast container */}
       <Toaster position="top-center" />
 
-     <Vnavbar locale={locale}/>
-      <div className="p-4 space-y-4 mb-5 flex justify-center">
+      <Vnavbar locale={locale} />
+        {loading ? (
+        <div className="min-h-screen flex items-center justify-center bg-white ">
+          <ClipLoader color="#007A55" size={50} />
+        </div>
+      ) : (
+        <div className="p-4 space-y-4 mb-5 flex justify-center">
         <div className="flex flex-col items-center gap-4 w-1/2 mt-10">
           {loading ? (
             <p className="text-gray-500">Loading...</p>
@@ -184,17 +247,62 @@ export default function Requests() {
                 className="w-full sm:w-3/4 border border-emerald-200 rounded-md p-4 shadow-sm hover:shadow-md transition cursor-pointer"
               >
                 <h2 className="text-lg font-bold text-gray-800 mb-2">
-                  {request.serviceType}
+                  {request.serviceType === "tour"
+                    ? "Tour Guidance"
+                    : request.serviceType}
                 </h2>
 
                 <div className="text-sm text-gray-700 flex flex-col gap-1">
-                  <p>
-                    <span className="font-bold">From:</span>{" "}
-                    {request.startLocation}
-                  </p>
-                  <p>
-                    <span className="font-bold">To:</span> {request.endLocation}
-                  </p>
+                  {request.startLocation && request.endLocation && (
+                    <div>
+                      <p>
+                        <span className="font-bold">From:</span>{" "}
+                        {request.startLocation}
+                      </p>
+                      <p>
+                        <span className="font-bold">To:</span>{" "}
+                        {request.endLocation}
+                      </p>
+                    </div>
+                  )}
+
+                  {request.serviceType === "tour" && (
+                    <>
+                      <p>
+                        <span className="font-bold">Meeting Point:</span>{" "}
+                        {request.meetingLocation}
+                      </p>
+
+                      <p>
+                        <span className="font-bold">Date: </span>{" "}
+                        {formatDate(request.MTime)}
+                      </p>
+                      <p>
+                        <span className="font-bold">Start: </span>{" "}
+                        {decimalToTime(Number(request.startAt))}
+                      </p>
+
+                      <p>
+                        <span className="font-bold">End:</span>{" "}
+                        {decimalToTime(Number(request.endAt))}
+                      </p>
+
+                      <p>
+                        <span className="font-bold">Duration:</span>{" "}
+                        {getDuration(
+                          Number(request.startAt),
+                          Number(request.endAt),
+                        )}
+                      </p>
+                    </>
+                  )}
+
+                  {request.landmarks && request.landmarks.length > 0 && (
+                    <p>
+                      <span className="font-bold">Landmarks:</span>{" "}
+                      {request.landmarks.join(", ")}
+                    </p>
+                  )}
 
                   {request.averageTime && (
                     <p>
@@ -219,19 +327,19 @@ export default function Requests() {
                       disabled={acceptingId === request.id}
                       className="bg-emerald-600 text-white px-3 py-1 rounded-md text-sm hover:bg-emerald-700 transition disabled:opacity-50"
                     >
-                      {acceptingId === request.id
-                        ? "Loading..."
-                        : "Accept"}
+                      {acceptingId === request.id ? "Loading..." : "Accept"}
                     </button>
                   </div>
                 </div>
               </div>
             ))
           ) : (
-            <p className="text-gray-500">No requests found</p>
+            <p className="text-gray-500 text-lg">No requests found</p>
           )}
         </div>
       </div>
+      )}
+     
     </>
   );
 }
