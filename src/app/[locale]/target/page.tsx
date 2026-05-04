@@ -131,16 +131,16 @@ export default function VolunteerHome() {
                   </p>
 
                   {/* رسالة التهنئة */}
-                  {/* {isCompleted && ( */}
-                  
+                  {isCompleted && (
+                  <div>
                     <p className="text-emerald-600 font-bold mt-3 text-lg">
                      {t("cong")}
                     </p>
                     <span className="text-emerald-600 font-medium cursor-pointer hover:text-emerald-800 underline underline-offset-4 transition"
                     onClick={() => router.push("/certificate")}
                     >{t("certify")}</span>
-                   
-                  {/* )} */}
+                   </div>
+                   )} 
                 </div>
               </div>
             )}

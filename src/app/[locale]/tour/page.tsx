@@ -149,7 +149,7 @@ export default function LandmarksPage() {
   };
 
   const debounced = useMemo(
-    () => debounce((value: string) => getSuggestions(value, setStartSuggestions), 500),
+    () => debounce((value: string) => getSuggestions(value, setSuggestions), 500),
     []
   );
 
