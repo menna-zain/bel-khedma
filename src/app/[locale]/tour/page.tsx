@@ -51,16 +51,12 @@ export default function LandmarksPage() {
     );
   };
 
-  //  GET API
   const getLandmarks = async () => {
     try {
       const res = await axios.get(
         "https://bilkhidmah-api.vercel.app/api/v1/landmarks",
       );
-
-      console.log(res);
       const data = res.data?.data;
-
       setLandmarks(Array.isArray(data) ? data : Object.values(data || {}));
     } catch (err) {
       console.log(err);
@@ -201,8 +197,7 @@ export default function LandmarksPage() {
         return;
       }
 
-     
-      const res = await axios.post(
+      await axios.post(
         "https://bilkhidmah-api.vercel.app/api/v1/tours",
         {
           MLat: coords.lat,
@@ -216,10 +211,7 @@ export default function LandmarksPage() {
           headers: { Authorization: `Bearer ${token}` },
         },
       );
-
-      console.log("res of create tour:", res);
       toast.success(t("success.created"));
-
       setSelectedLandmarks([]);
       setDate("");
       setStartAt("");
@@ -260,6 +252,7 @@ export default function LandmarksPage() {
                   </label>
                   <input
                     type="date"
+                      dir="ltr"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                     className="border border-gray-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 p-2 rounded-xl outline-none"

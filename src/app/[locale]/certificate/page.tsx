@@ -146,11 +146,6 @@ export default function BilkhidmahCertificate({
           className="bk-panel"
           style={{ gridTemplateColumns: "1fr auto", alignItems: "end" }}
         >
-          {/* ادخال اسم المتطوع */}
-          {/* <div className="bk-field">
-            {/* <label>اسم المتطوع</label> */}
-          {/* <input value={namee} onChange={(e) => setName(e.target.value)} /> */}
-          {/* </div> */}
 
           <button
             className="bk-btn bk-btn-p"
