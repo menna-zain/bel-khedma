@@ -158,7 +158,7 @@ export default function Requests() {
           });
         }
 
-        setRequests(allRequests);
+        setRequests(allRequests.reverse());
       } catch (error) {
         console.log("Error fetching requests:", error);
       } finally {
@@ -225,9 +225,11 @@ export default function Requests() {
                   className="w-full sm:w-3/4 border border-emerald-200 rounded-md p-4 shadow-sm hover:shadow-md transition cursor-pointer"
                 >
                   <div className="flex justify-between items-center mb-2">
-                    <h2 className="text-lg font-bold text-gray-800">
-                      {request.serviceType}
-                    </h2>
+                    <h2 className="text-lg font-bold text-gray-800 mb-2">
+                  {request.serviceType === "tour"
+                    ? "Tour Guidance"
+                    : request.serviceType}
+                </h2>
                     <span
                       className={`text-sm font-medium px-3 py-1 rounded-full ${
                         request.status === "pending"
@@ -308,7 +310,13 @@ export default function Requests() {
                 </div>
               ))
             ) : (
-              <p className="text-gray-500">No requests found</p>
+              <div className="flex items-center justify-center my-auto h-96">
+                <div className="text-center bg-white shadow-md rounded-2xl px-8 py-6">
+                  <p className="text-2xl font-semibold text-gray-700">
+                    No requests found
+                  </p>
+                </div>
+              </div>
             )}
           </div>
         </div>

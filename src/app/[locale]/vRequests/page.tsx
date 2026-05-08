@@ -53,7 +53,13 @@ export default function Requests() {
       );
 
       console.log(res);
-      setRequests((prev) => prev.filter((req) => req.id !== id));
+     setRequests((prev) =>
+  prev.map((req) =>
+    req.id === id
+      ? { ...req, status: "accepted" }
+      : req
+  )
+);
 
       toast.success("Request accepted successfully");
     } catch (error) {
@@ -174,7 +180,7 @@ export default function Requests() {
           ...deliveryRequests,
           ...transportationRequests,
           ...toursRequests,
-        ]);
+        ].reverse());
       } catch (error) {
         console.log("Error fetching requests:", error);
       } finally {
@@ -318,16 +324,29 @@ export default function Requests() {
                   )}
 
                   <div className="flex justify-end">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleAccept(request.id, request.serviceType);
-                      }}
-                      disabled={acceptingId === request.id}
-                      className="bg-emerald-600 text-white px-3 py-1 rounded-md text-sm hover:bg-emerald-700 transition disabled:opacity-50"
-                    >
-                      {acceptingId === request.id ? "Loading..." : "Accept"}
-                    </button>
+                   <button
+  onClick={(e) => {
+    e.stopPropagation();
+    handleAccept(request.id, request.serviceType);
+  }}
+  disabled={
+    acceptingId === request.id ||
+    request.status === "accepted"
+  }
+  className={`px-3 py-1 rounded-md text-sm transition text-white
+    ${
+      request.status === "accepted"
+        ? "bg-gray-400 cursor-not-allowed"
+        : "bg-emerald-600 hover:bg-emerald-700"
+    }
+  `}
+>
+  {acceptingId === request.id
+    ? "Loading..."
+    : request.status === "accepted"
+      ? "Accepted"
+      : "Accept"}
+</button>
                   </div>
                 </div>
               </div>

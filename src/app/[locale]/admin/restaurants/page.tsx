@@ -30,6 +30,7 @@ export default function RestaurantsPage() {
         "https://bilkhidmah-api.vercel.app/api/v1/restaurants"
       );
 
+      console.log(res)
       const data = res.data?.data?.rests;
       setRestaurants(Array.isArray(data) ? data : Object.values(data || {}));
     } catch (err: any) {
