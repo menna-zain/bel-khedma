@@ -25,10 +25,8 @@ export default function HotelsPage() {
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // فلترة
-  const [rating, setRating] = useState("");
 
-  // ⭐ النجوم
+  //  النجوم
   const renderStars = (rating: number = 0) => {
     return (
       <div className="flex gap-1 mt-1">
@@ -69,10 +67,7 @@ export default function HotelsPage() {
     getHotels();
   }, []);
 
-  //  فلترة
-  const filteredHotels = hotels.filter((hotel) => {
-    return !rating || (hotel.stars || 0) >= Number(rating);
-  });
+
 
   return (
     <>
@@ -89,8 +84,8 @@ export default function HotelsPage() {
         <div className="flex flex-col items-center gap-4">
           {loading ? (
             <p>{t("loading")}</p>
-          ) : filteredHotels.length > 0 ? (
-            filteredHotels.map((hotel) => (
+          ) : hotels.length > 0 ? (
+            hotels.map((hotel) => (
               <div
                 key={hotel.id}
                 onClick={() => router.push(`/hotels/${hotel.id}`)}

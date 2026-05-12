@@ -63,16 +63,6 @@ export default function HotelDetails() {
   }, [id]);
 
 
-  // if (!hotel) {
-  //   return (
-  //     <div className="flex justify-center items-center min-h-screen">
-  //       <p className="text-lg text-gray-500">
-  //         {t("hotelNotFound")}
-  //       </p>
-  //     </div>
-  //   );
-  // }
-
   return (
     <>
       <ProfileNav locale={locale} />

@@ -38,11 +38,11 @@ const isActive = (href: string) => {
   };
 
   return (
-    <div
-      className={`w-64 bg-white flex flex-col justify-between p-4 min-h-screen border-gray-300
-        ${isRTL ? "border-l" : "border-r"}
-      `}
-    >
+   <div
+  className={`w-64 bg-white flex flex-col justify-between p-4 h-screen sticky top-0 border-gray-300
+    ${isRTL ? "border-l" : "border-r"}
+  `}
+>
 
       <div>
         <div className="flex items-center gap-2 mb-16">

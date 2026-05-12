@@ -90,9 +90,6 @@ const isActive = (href: string) => {
                   locale === "ar" ? "left-0 w-38" : "right-0 w-28"
                 }`}
               >
-                {/* <button className="w-full px-4 py-2 hover:bg-gray-100 text-sm text-left">
-                  {t("profile")}
-                </button> */}
 
                 <button
                   onClick={handleLogout}
